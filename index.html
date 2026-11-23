@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SAP CODE 멘토링</title>
+<style>
+  html,
+  body {
+    height: 100%;
+    margin: 0;
+  }
+  body {
+    display: flex;
+    flex-direction: column;
+    font-family: "Noto Sans KR", "Malgun Gothic", sans-serif;
+    background: #fbfcfd;
+    color: #1b2330;
+  }
+  .pager {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .4rem;
+    align-items: center;
+    justify-content: center;
+    padding: .55rem 1rem;
+    background: #fff;
+    border-bottom: 1px solid #dde3ea;
+    font-size: .9rem;
+  }
+  .pager .title {
+    margin-right: auto;
+    font-weight: 700;
+  }
+  .pager button {
+    padding: .3rem .75rem;
+    border: 1px solid #dde3ea;
+    border-radius: 999px;
+    background: #fff;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+  }
+  .pager button:hover:not(:disabled) {
+    background: #e9f0fb;
+  }
+  .pager button.on {
+    background: #2357a8;
+    border-color: #2357a8;
+    color: #fff;
+    font-weight: 700;
+  }
+  .pager button:disabled {
+    opacity: .35;
+    cursor: default;
+  }
+  iframe {
+    flex: 1;
+    width: 100%;
+    border: 0;
+  }
+  .pager .mentor {
+    padding: .25rem .7rem;
+    border: 1px solid #e0b84c;
+    border-radius: 999px;
+    background: #fff6dc;
+    color: #7a5a00;
+    font-size: .8rem;
+  }
+  #msg {
+    padding: 3rem 1rem;
+    text-align: center;
+    color: #5a6574;
+  }
+</style>
+</head>
+<body>
+<nav class="pager">
+  <span class="title">SAP CODE 멘토링</span>
+  <button id="prev" type="button">‹ 이전</button>
+  <span id="pages"></span>
+  <button id="next" type="button">다음 ›</button>
+</nav>
+<p id="msg">주차를 찾는 중…</p>
+<iframe id="view" title="주차별 멘토링" hidden></iframe>
+<script src="weeks.js"></script>
+<script>
+  (function () {
+    var M = window.MENTORING;
+    var PREFIX = M.prefix;
+    var MAX_WEEK = M.maxWeek;
+
+    var view = document.getElementById('view');
+    var msg = document.getElementById('msg');
+    var pages = document.getElementById('pages');
+    var prevBtn = document.getElementById('prev');
+    var nextBtn = document.getElementById('next');
+
+    var available = []; // 올라와 있는 주차 번호 (오름차순)
+    var current = 0;
+
+    function exists(n) {
+      if (!M.isOpen(n)) {
+        return Promise.resolve(false); // 공개 전 주차는 파일이 있어도 잠금
+      }
+      return fetch(PREFIX + n + '.html', { method: 'HEAD', cache: 'no-store' })
+        .then(function (r) {
+          return r.ok;
+        })
+        .catch(function () {
+          return false;
+        });
+    }
+
+    function render() {
+      var html = '';
+      for (var n = 1; n <= MAX_WEEK; n++) {
+        var has = available.indexOf(n) !== -1;
+        var text = M.isOpen(n) ? n + '주차' : '🔒 ' + n + '주차';
+        html += '<button type="button" data-week="' + n + '"' +
+          (n === current ? ' class="on"' : '') +
+          (has ? '' : ' disabled') +
+          (M.isOpen(n) ? '' : ' title="' + M.openLabel(n) + ' 공개"') +
+          '>' + text + '</button> ';
+      }
+      pages.innerHTML = html;
+
+      var idx = available.indexOf(current);
+      prevBtn.disabled = idx <= 0;
+      nextBtn.disabled = idx === -1 || idx >= available.length - 1;
+    }
+
+    function go(n, push) {
+      if (available.indexOf(n) === -1) return;
+      current = n;
+      view.src = PREFIX + n + '.html';
+      document.title = n + '주차 · SAP CODE 멘토링';
+      if (push) history.pushState({ week: n }, '', location.search + '#' + n);
+      render();
+    }
+
+    pages.addEventListener('click', function (e) {
+      var w = e.target.getAttribute('data-week');
+      if (w) go(parseInt(w, 10), true);
+    });
+    prevBtn.addEventListener('click', function () {
+      go(available[available.indexOf(current) - 1], true);
+    });
+    nextBtn.addEventListener('click', function () {
+      go(available[available.indexOf(current) + 1], true);
+    });
+    window.addEventListener('popstate', function () {
+      var h = parseInt(location.hash.slice(1), 10);
+      go(h || available[available.length - 1], false);
+    });
+
+    if (M.isPreview()) {
+      var badge = document.createElement('span');
+      badge.className = 'mentor';
+      badge.title = '공개 전 주차도 보이는 상태 · ?preview=off 로 해제';
+      badge.textContent = '멘토 모드';
+      document.querySelector('.pager').appendChild(badge);
+    }
+
+    var checks = [];
+    for (var i = 1; i <= MAX_WEEK; i++) {
+      checks.push(exists(i));
+    }
+
+    Promise.all(checks).then(function (ok) {
+      for (var n = 1; n <= MAX_WEEK; n++) {
+        if (ok[n - 1]) available.push(n);
+      }
+      if (!available.length) {
+        msg.textContent = '아직 올라온 주차가 없어요.';
+        render();
+        return;
+      }
+      msg.hidden = true;
+      view.hidden = false;
+
+      // 주소에 #3 처럼 주차가 있으면 그 주차, 없으면 최신 주차
+      var fromHash = parseInt(location.hash.slice(1), 10);
+      go(available.indexOf(fromHash) !== -1 ? fromHash : available[available.length - 1], false);
+    });
+  })();
+</script>
+</body>
+</html>

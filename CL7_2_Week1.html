@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1주차 복습 문제 · SAP CODE 멘토링</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<style>/* 레이아웃: 넓은 화면은 왼쪽 목차 + 본문 한 단(약 48rem), 좁은 화면은 한 단. ABAP 입문 교재(abap-basic)와 같은 색·글꼴 토큰. */
+:root {
+  --bg: #fbfcfd; --paper: #ffffff; --fg: #1b2330; --muted: #5a6574; --line: #dde3ea;
+  --accent: #2357a8; --accent-soft: #e9f0fb;
+  --try: #0d7a68;  --try-soft: #e6f5f1;
+  --note: #4c5b70; --note-soft: #f0f3f7;
+  --warn: #a8610a; --warn-soft: #fdf3e3;
+  --quiz: #b0336b; --quiz-soft: #fcedf3;
+  --mark: #fff2a8; --mark-fg: #3a3000;
+  --code-bg: #f4f6f9; --code-fg: #1d2633;
+  --kw: #1f4fbf; --str: #12805c; --cmt: #7b8594; --num: #a14d00;
+  --gui-frame: #c9d3df; --gui-bar: #e7edf4; --gui-bg: #f6f8fb; --gui-field: #ffffff;
+  --gui-head: #355377; --gui-head-fg: #ffffff; --gui-sel: #dbe8f8;
+  --ok: #1b7f3b; --err: #c2352b; --badge: #e0453a; --badge-fg: #ffffff;
+  --db: #6a4bb0; --db-soft: #f1ecfb;
+  --font-head: "IBM Plex Sans KR", "Noto Sans KR", "Malgun Gothic", sans-serif;
+  --font-body: "Noto Sans KR", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+  --font-code: "D2Coding", "D2 Coding", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #12161c; --paper: #181d25; --fg: #e3e8ef; --muted: #9aa5b4; --line: #2c3440;
+    --accent: #7fa8ff; --accent-soft: #1c2740;
+    --try: #4fd1b6; --try-soft: #14302b; --note: #a9b6c8; --note-soft: #1d232c;
+    --warn: #f2b45c; --warn-soft: #34270f; --quiz: #f28cb8; --quiz-soft: #3a1c2a;
+    --mark: #5c4f00; --mark-fg: #fff6c2;
+    --code-bg: #0f1319; --code-fg: #dbe2ec; --kw: #8fb4ff; --str: #6fd3a5; --cmt: #7d8796; --num: #f0a868;
+    --gui-frame: #3a4555; --gui-bar: #232b36; --gui-bg: #1b222c; --gui-field: #0f1319;
+    --gui-head: #2c4466; --gui-head-fg: #eef3fa; --gui-sel: #24395a;
+    --ok: #5cd187; --err: #ff7b70; --badge: #e8584d; --badge-fg: #ffffff;
+    --db: #b9a2f2; --db-soft: #251d3a;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #12161c; --paper: #181d25; --fg: #e3e8ef; --muted: #9aa5b4; --line: #2c3440;
+  --accent: #7fa8ff; --accent-soft: #1c2740;
+  --try: #4fd1b6; --try-soft: #14302b; --note: #a9b6c8; --note-soft: #1d232c;
+  --warn: #f2b45c; --warn-soft: #34270f; --quiz: #f28cb8; --quiz-soft: #3a1c2a;
+  --mark: #5c4f00; --mark-fg: #fff6c2;
+  --code-bg: #0f1319; --code-fg: #dbe2ec; --kw: #8fb4ff; --str: #6fd3a5; --cmt: #7d8796; --num: #f0a868;
+  --gui-frame: #3a4555; --gui-bar: #232b36; --gui-bg: #1b222c; --gui-field: #0f1319;
+  --gui-head: #2c4466; --gui-head-fg: #eef3fa; --gui-sel: #24395a;
+  --ok: #5cd187; --err: #ff7b70; --badge: #e8584d; --badge-fg: #ffffff;
+  --db: #b9a2f2; --db-soft: #251d3a;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  margin: 0; background: var(--bg); color: var(--fg);
+  font-family: var(--font-body); font-size: 16px; line-height: 1.75;
+  word-break: keep-all; overflow-wrap: break-word;
+}
+.page {
+  max-width: 50rem; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 2rem 4rem;
+}
+main { min-width: 0; display: grid; gap: 2.25rem; }
+
+/* 목차 */
+nav.toc { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 1.5rem); align-self: start; font-size: 0.875rem; line-height: 1.5; }
+.toc-title { font-family: var(--font-head); font-weight: 700; font-size: 0.78rem; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 0.6rem; }
+nav.toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.1rem; }
+nav.toc a { color: var(--fg); text-decoration: none; display: block; padding: 0.3rem 0.5rem; border-radius: 6px; }
+nav.toc a:hover, nav.toc a:focus-visible { background: var(--accent-soft); color: var(--accent); outline: none; }
+nav.toc li.sub a { padding-left: 1.3rem; color: var(--muted); font-size: 0.82rem; }
+.no-box { margin-top: 1.2rem; padding: 0.8rem; border: 1px solid var(--line); border-radius: 10px; background: var(--paper); display: grid; gap: 0.4rem; }
+.no-box label { font-family: var(--font-head); font-size: 0.8rem; font-weight: 600; color: var(--muted); }
+.no-row { display: flex; gap: 0.4rem; }
+.no-row input { width: 4.2rem; font: inherit; font-family: var(--font-code); font-size: 1.05rem; text-align: center; letter-spacing: 0.1em; padding: 0.25rem; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--fg); }
+.no-row input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.no-box p { margin: 0; font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
+.btn { appearance: none; font: inherit; font-family: var(--font-head); font-size: 0.82rem; font-weight: 600; color: var(--accent); background: var(--paper); border: 1px solid var(--line); border-radius: 8px; padding: 0.3rem 0.7rem; cursor: pointer; }
+.btn:hover, .btn:focus-visible { border-color: var(--accent); outline: none; }
+
+/* 머리 */
+.cover { padding-bottom: 1.6rem; border-bottom: 1px solid var(--line); }
+.eyebrow { font-family: var(--font-head); font-weight: 600; font-size: 0.85rem; letter-spacing: 0.06em; color: var(--accent); }
+.cover h1 { font-family: var(--font-head); font-size: clamp(1.9rem, 5vw, 2.6rem); line-height: 1.25; margin: 0.3rem 0 0.3rem; text-wrap: balance; }
+.cover .en { font-family: var(--font-head); color: var(--muted); font-size: 1.05rem; margin: 0 0 1rem; }
+.cover .lead { margin: 0.4rem 0; }
+.legend { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; margin-top: 1rem; font-size: 0.84rem; color: var(--muted); }
+.legend span { display: inline-flex; align-items: center; gap: 0.35rem; }
+.legend i { width: 0.8rem; height: 0.8rem; border-radius: 3px; display: inline-block; }
+.legend .l-book { background: var(--paper); border: 2px solid var(--accent); }
+.legend .l-help { background: var(--try-soft); border: 1px solid var(--try); }
+.legend .l-warn { background: var(--warn-soft); border: 1px solid var(--warn); }
+
+/* 제목·본문 */
+h2 { font-family: var(--font-head); font-size: 1.45rem; line-height: 1.35; margin: 3rem 0 0.9rem; padding-bottom: 0.35rem; border-bottom: 2px solid var(--accent-soft); text-wrap: balance; scroll-margin-top: 1rem; }
+h3 { font-family: var(--font-head); font-size: 1.12rem; margin: 2rem 0 0.6rem; text-wrap: balance; scroll-margin-top: 1rem; }
+h4 { font-family: var(--font-head); font-size: 1rem; margin: 1.3rem 0 0.4rem; }
+p { margin: 0.7rem 0; }
+ul, ol { padding-left: 1.4rem; margin: 0.6rem 0; }
+li { margin: 0.25rem 0; }
+a { color: var(--accent); }
+strong { font-weight: 700; }
+mark { background: var(--mark); color: var(--mark-fg); padding: 0 0.12em; border-radius: 3px; }
+code { font-family: var(--font-code); font-size: 0.92em; background: var(--code-bg); color: var(--code-fg); padding: 0.06em 0.35em; border-radius: 4px; border: 1px solid var(--line); white-space: nowrap; }
+kbd { font-family: var(--font-code); font-size: 0.85em; background: var(--paper); border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 4px; padding: 0.02em 0.4em; white-space: nowrap; }
+.muted { color: var(--muted); }
+code.long { white-space: normal; overflow-wrap: anywhere; }
+
+/* 표 */
+.table-wrap { overflow-x: auto; margin: 1rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: 0.93rem; line-height: 1.55; }
+th, td { border-bottom: 1px solid var(--line); padding: 0.5rem 0.65rem; text-align: left; vertical-align: top; }
+th { font-family: var(--font-head); font-weight: 600; background: var(--accent-soft); border-bottom: 2px solid color-mix(in srgb, var(--accent) 30%, transparent); white-space: nowrap; }
+td.num { font-variant-numeric: tabular-nums; }
+
+/* 교재 내용(번역) */
+.book { margin: 1.2rem 0; border: 2px solid var(--accent); border-radius: 12px; background: var(--paper); overflow: hidden; }
+.book-h { display: flex; align-items: baseline; gap: 0.6rem; flex-wrap: wrap; padding: 0.55rem 1rem; background: var(--accent-soft); font-family: var(--font-head); }
+.book-h b { color: var(--accent); font-size: 1.05rem; }
+.book-h span { color: var(--muted); font-size: 0.82rem; }
+.book-b { padding: 0.4rem 1.1rem 0.8rem; }
+.book-b > p:first-child { margin-top: 0.6rem; }
+.book ol.steps { padding-left: 0; list-style: none; counter-reset: st; display: grid; gap: 0.55rem; margin: 0.8rem 0 0.2rem; }
+.book ol.steps > li { counter-increment: st; display: grid; grid-template-columns: 2rem minmax(0, 1fr); gap: 0.5rem; margin: 0; }
+.book ol.steps > li::before { content: counter(st); font-family: var(--font-head); font-weight: 700; color: var(--accent); background: var(--accent-soft); width: 1.7rem; height: 1.7rem; border-radius: 50%; display: grid; place-items: center; font-size: 0.85rem; margin-top: 0.1rem; }
+.book ol.steps > li > div { min-width: 0; }
+.opt { font-family: var(--font-head); font-size: 0.75rem; font-weight: 700; color: var(--quiz); background: var(--quiz-soft); border-radius: 4px; padding: 0.05rem 0.35rem; margin-right: 0.25rem; }
+.sugg { color: var(--muted); font-size: 0.92em; }
+.hint-book { margin: 0.6rem 0 0.2rem; padding: 0.6rem 0.9rem; border-radius: 8px; border: 1px solid var(--line); background: var(--note-soft); font-size: 0.94rem; }
+.hint-book b { font-family: var(--font-head); color: var(--note); }
+
+/* 도움말(덧붙인 설명) */
+details.help { margin: 0.8rem 0 1.2rem; border: 1px solid color-mix(in srgb, var(--try) 40%, transparent); border-radius: 10px; background: var(--try-soft); }
+details.help > summary { cursor: pointer; list-style: none; padding: 0.55rem 0.9rem; font-family: var(--font-head); font-weight: 700; font-size: 0.93rem; color: var(--try); display: flex; align-items: center; gap: 0.5rem; }
+details.help > summary::-webkit-details-marker { display: none; }
+details.help > summary::before { content: "+"; display: grid; place-items: center; width: 1.25rem; height: 1.25rem; border-radius: 4px; border: 1.5px solid currentColor; font-size: 0.95rem; line-height: 1; flex: none; }
+details.help[open] > summary::before { content: "−"; }
+details.help > summary:focus-visible { outline: 2px solid var(--try); outline-offset: -2px; border-radius: 10px; }
+.help-b { padding: 0 1rem 0.8rem; background: var(--paper); border-radius: 0 0 10px 10px; border-top: 1px solid color-mix(in srgb, var(--try) 25%, transparent); }
+.help-b > :first-child { margin-top: 0.8rem; }
+
+/* 상자 */
+.box { margin: 1.3rem 0; border-radius: 10px; padding: 0.85rem 1.1rem 0.75rem; background: var(--note-soft); border: 1px solid color-mix(in srgb, var(--note) 25%, transparent); }
+.box > .box-t { font-family: var(--font-head); font-weight: 700; font-size: 0.92rem; display: flex; align-items: center; gap: 0.45rem; color: var(--note); margin-bottom: 0.15rem; }
+.box > .box-t::before { content: ""; width: 0.55rem; height: 0.55rem; border-radius: 2px; background: currentColor; flex: none; }
+.box > :last-child { margin-bottom: 0.1rem; }
+.box.goal { background: var(--accent-soft); border-color: color-mix(in srgb, var(--accent) 30%, transparent); }
+.box.goal > .box-t { color: var(--accent); }
+.box.warn { background: var(--warn-soft); border-color: color-mix(in srgb, var(--warn) 35%, transparent); }
+.box.warn > .box-t { color: var(--warn); }
+.box.try { background: var(--try-soft); border-color: color-mix(in srgb, var(--try) 35%, transparent); }
+.box.try > .box-t { color: var(--try); }
+.box.todo { background: var(--paper); border: 2px dashed var(--warn); }
+.box.todo > .box-t { color: var(--warn); }
+
+/* 새로 만들기 카드 */
+.make { margin: 1rem 0; border: 1.5px solid var(--accent); border-radius: 10px; background: var(--paper); overflow: hidden; }
+.make-t { display: flex; align-items: baseline; gap: 0.55rem; padding: 0.38rem 0.9rem; background: var(--accent-soft); font-family: var(--font-head); font-size: 0.9rem; }
+.make-k { font-weight: 700; color: var(--accent); font-size: 0.8rem; }
+.make-tc { margin-left: auto; font-family: var(--font-code); font-size: 0.82rem; color: var(--muted); }
+.make dl { margin: 0; padding: 0.55rem 0.9rem 0.6rem; display: grid; grid-template-columns: fit-content(44%) minmax(0, 1fr); gap: 0.28rem 1rem; align-items: baseline; }
+.make dt { font-family: var(--font-head); font-size: 0.84rem; font-weight: 600; color: var(--muted); }
+.make dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+
+/* 코드 */
+.code { position: relative; margin: 1rem 0; }
+.code pre { margin: 0; background: var(--code-bg); color: var(--code-fg); border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 8px; padding: 0.9rem 1rem; overflow-x: auto; font-family: var(--font-code); font-size: 0.9rem; line-height: 1.6; tab-size: 2; }
+.code pre code { background: none; border: 0; padding: 0; font-size: inherit; white-space: pre; }
+.code .cap { font-family: var(--font-head); font-size: 0.8rem; font-weight: 600; color: var(--muted); margin-bottom: 0.3rem; }
+.code .copy { position: absolute; top: 2rem; right: 0.45rem; font-family: var(--font-body); font-size: 0.75rem; color: var(--muted); background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 0.15rem 0.55rem; cursor: pointer; }
+.code .copy:hover, .code .copy:focus-visible { color: var(--accent); border-color: var(--accent); outline: none; }
+.code.nocap .copy { top: 0.45rem; }
+.tk-kw { color: var(--kw); font-weight: 700; }
+.tk-str { color: var(--str); }
+.tk-cmt { color: var(--cmt); font-style: normal; }
+.tk-num { color: var(--num); }
+.code mark.gno, code mark.gno { padding: 0; }
+
+/* 그림 공통 */
+figure.fig { margin: 1.6rem 0; }
+.fig-body { overflow-x: auto; padding: 0.2rem 0.1rem 0.4rem; }
+figure.fig figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 0.45rem; text-align: center; }
+figure.fig figcaption b { font-family: var(--font-head); color: var(--fg); margin-right: 0.35rem; }
+.badge { display: inline-grid; place-items: center; width: 1.4em; height: 1.4em; border-radius: 50%; background: var(--badge); color: var(--badge-fg); font-family: var(--font-head); font-weight: 700; font-size: 0.78em; line-height: 1; vertical-align: 0.1em; flex: none; }
+.chip { display: inline-block; font-family: var(--font-code); font-size: 0.85rem; padding: 0.15rem 0.5rem; border-radius: 6px; border: 1px solid var(--line); background: var(--paper); white-space: nowrap; }
+
+/* 그림 1: 만들 것 한눈에 */
+.nest { border: 1.5px dashed var(--line); border-radius: 12px; padding: 0.5rem 0.8rem 0.8rem; min-width: 34rem; background: var(--paper); }
+.nest-t { font-family: var(--font-head); font-size: 0.78rem; font-weight: 700; color: var(--muted); }
+.nest-t code { font-size: 0.85rem; }
+.nest .nest { min-width: 0; border-style: solid; border-color: var(--gui-frame); background: var(--gui-bg); margin-top: 0.4rem; }
+.iface { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1.25fr) auto minmax(0, 1fr); align-items: center; gap: 0.5rem; margin-top: 0.6rem; }
+.io { display: grid; gap: 0.4rem; justify-items: start; }
+.io-t { font-family: var(--font-head); font-size: 0.75rem; font-weight: 700; color: var(--muted); }
+.io .chip.in { border-color: var(--accent); color: var(--accent); }
+.io .chip.out { border-color: var(--try); color: var(--try); }
+.io small { font-size: 0.75rem; color: var(--muted); line-height: 1.4; }
+.arrow { color: var(--muted); font-size: 1.3rem; font-family: var(--font-head); }
+.fm { border: 2px solid var(--accent); border-radius: 10px; background: var(--paper); padding: 0.55rem 0.7rem; text-align: center; }
+.fm .fm-n { font-family: var(--font-code); font-size: 0.82rem; font-weight: 700; color: var(--accent); overflow-wrap: anywhere; }
+.fm .fm-in { margin-top: 0.4rem; font-size: 0.8rem; border-radius: 6px; background: var(--db-soft); color: var(--db); padding: 0.25rem 0.4rem; font-weight: 600; }
+.exc { margin-top: 0.7rem; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; font-size: 0.82rem; color: var(--warn); }
+.exc .chip { border-color: var(--warn); color: var(--warn); background: var(--warn-soft); }
+
+/* 진행 순서 띠 */
+.road { list-style: none; padding: 0; margin: 1rem 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.5rem; counter-reset: rd; }
+.road li { margin: 0; counter-increment: rd; border: 1px solid var(--line); border-radius: 10px; background: var(--paper); padding: 0.55rem 0.7rem; font-size: 0.86rem; line-height: 1.45; }
+.road li b { display: block; font-family: var(--font-head); color: var(--accent); font-size: 0.8rem; }
+.road li a { text-decoration: none; color: inherit; display: block; }
+
+/* 그림 2: Structure 와 Table Type */
+.st-wrap { display: grid; grid-template-columns: max-content; justify-content: center; gap: 0.4rem; }
+.st-card { border: 1px solid var(--gui-frame); border-radius: 10px; background: var(--paper); padding: 0.6rem 0.7rem; }
+.st-card h5 { margin: 0 0 0.1rem; font-family: var(--font-code); font-size: 0.88rem; color: var(--accent); }
+.st-card p { margin: 0 0 0.5rem; font-size: 0.78rem; color: var(--muted); line-height: 1.45; }
+.cells { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(max-content, 1fr); border: 1px solid var(--gui-frame); border-radius: 5px; overflow: hidden; }
+.cells span { font-family: var(--font-code); font-size: 0.7rem; padding: 0.3rem 0.35rem; text-align: center; border-right: 1px solid var(--gui-frame); background: var(--gui-bg); white-space: nowrap; overflow: hidden; text-overflow: clip; }
+.cells span:last-child { border-right: 0; }
+.cells span.q { color: var(--muted); }
+.cells span.calc { background: var(--warn-soft); color: var(--warn); font-weight: 700; }
+.cells + .cells { margin-top: 0.25rem; }
+.rows .cells { border-radius: 0; border-bottom: 0; margin: 0; }
+.rows .cells:first-child { border-radius: 5px 5px 0 0; }
+.rows .cells:last-child { border-radius: 0 0 5px 5px; border-bottom: 1px solid var(--gui-frame); }
+.rows .cells span { background: var(--gui-field); }
+.st-mid { text-align: center; font-size: 0.75rem; color: var(--muted); font-family: var(--font-head); line-height: 1.35; }
+.st-mid .arrow { display: block; }
+
+/* 그림 3: SELECT loop 흐름 (SVG) */
+svg.flow { display: block; width: 100%; max-width: 40rem; min-width: 30rem; margin: 0 auto; height: auto; }
+svg.flow .n { fill: var(--paper); stroke: var(--gui-frame); stroke-width: 1.5; }
+svg.flow .n-s { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.5; }
+svg.flow .n-q { fill: var(--warn-soft); stroke: var(--warn); stroke-width: 1.5; }
+svg.flow .n-b { fill: var(--try-soft); stroke: var(--try); stroke-width: 1.5; }
+svg.flow .n-e { fill: var(--note-soft); stroke: var(--note); stroke-width: 1.5; }
+svg.flow text { fill: var(--fg); font-family: var(--font-body); font-size: 13px; }
+svg.flow text.code { font-family: var(--font-code); font-size: 12.5px; fill: var(--kw); font-weight: 700; }
+svg.flow text.sm { font-size: 11.5px; fill: var(--muted); }
+svg.flow text.lab { font-size: 12px; font-weight: 700; fill: var(--muted); font-family: var(--font-head); }
+svg.flow .ln { stroke: var(--muted); stroke-width: 1.6; fill: none; }
+svg.flow .ln-loop { stroke: var(--try); stroke-width: 1.8; fill: none; stroke-dasharray: 5 4; }
+svg.flow .ah { fill: var(--muted); }
+svg.flow .ah-loop { fill: var(--try); }
+svg.flow text.loop { fill: var(--try); font-weight: 700; font-size: 12px; font-family: var(--font-head); }
+
+/* 그림 4: SFLIGHT → ls_flight → ET_FLIGHTS (위: DB, 아래: Work Area → Internal Table) */
+.pipe { display: grid; gap: 0.4rem; min-width: 32rem; }
+.pipe-top { display: flex; justify-content: center; }
+.pipe-top .pane { width: min(100%, 30rem); }
+.pipe-down { text-align: center; font-size: 0.78rem; color: var(--muted); font-family: var(--font-head); display: flex; justify-content: center; align-items: center; gap: 0.35rem; flex-wrap: wrap; }
+.pipe-bot { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 0.5rem; align-items: center; }
+.pane { border-radius: 10px; border: 1.5px solid var(--gui-frame); background: var(--paper); padding: 0.5rem 0.55rem 0.6rem; min-width: 0; }
+.pane.db { border-color: var(--db); }
+.pane.wa { border-color: var(--warn); }
+.pane.it { border-color: var(--try); }
+.pane-t { font-family: var(--font-head); font-size: 0.78rem; font-weight: 700; margin-bottom: 0.35rem; display: flex; justify-content: space-between; gap: 0.4rem; flex-wrap: wrap; }
+.pane.db .pane-t { color: var(--db); }
+.pane.wa .pane-t { color: var(--warn); }
+.pane.it .pane-t { color: var(--try); }
+.pane-t small { font-weight: 400; color: var(--muted); font-family: var(--font-body); }
+.mini { width: 100%; border-collapse: collapse; font-family: var(--font-code); font-size: 0.72rem; line-height: 1.3; }
+.mini th, .mini td { padding: 0.22rem 0.3rem; border-bottom: 1px solid var(--line); white-space: nowrap; text-align: left; font-variant-numeric: tabular-nums; }
+.mini th { background: var(--gui-bar); font-family: var(--font-code); font-weight: 700; border-bottom: 1px solid var(--gui-frame); }
+.mini tr.off td { color: var(--muted); opacity: 0.55; }
+.mini tr.now td { background: var(--db-soft); font-weight: 700; }
+.mini tr.new td { background: var(--try-soft); font-weight: 700; }
+.mini td.calc, .mini th.calc { color: var(--warn); }
+.pipe-a { text-align: center; font-size: 0.72rem; color: var(--muted); font-family: var(--font-head); line-height: 1.35; display: grid; justify-items: center; gap: 0.15rem; }
+.pipe-a .arrow { font-size: 1.2rem; line-height: 1; }
+.pane-n { font-size: 0.72rem; color: var(--muted); margin-top: 0.35rem; line-height: 1.4; }
+
+/* 그림 5: INTO 는 순서대로 */
+.pos { min-width: 36rem; display: grid; gap: 0.3rem; }
+.pos-row { display: grid; grid-template-columns: 8.5rem repeat(7, minmax(0, 1fr)); gap: 0.3rem; align-items: center; }
+.pos-row > b { font-family: var(--font-head); font-size: 0.75rem; color: var(--muted); font-weight: 700; line-height: 1.3; }
+.pos-row > span { font-family: var(--font-code); font-size: 0.74rem; text-align: center; padding: 0.3rem 0.15rem; border-radius: 6px; border: 1px solid var(--gui-frame); background: var(--paper); white-space: nowrap; overflow: hidden; }
+.pos-row > span.sel { border-color: var(--db); color: var(--db); background: var(--db-soft); }
+.pos-row > span.wa { border-color: var(--warn); }
+.pos-row > span.calc { border-style: dashed; border-color: var(--warn); color: var(--warn); }
+.pos-row > span.bad { border-color: var(--err); color: var(--err); background: color-mix(in srgb, var(--err) 10%, var(--paper)); }
+.pos-row > span.empty { border: 0; background: none; }
+.pos-row > i { font-style: normal; text-align: center; color: var(--muted); font-size: 0.85rem; line-height: 1; }
+.pos-sep { height: 0.6rem; }
+.pos-note { margin: 0.1rem 0 0 8.8rem; font-size: 0.76rem; color: var(--err); }
+
+/* 그림 6: call by value / reference */
+.cbr { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0.8rem; min-width: 34rem; }
+.cbr-col { border: 1px solid var(--line); border-radius: 10px; padding: 0.6rem 0.7rem 0.7rem; background: var(--paper); display: grid; gap: 0.45rem; align-content: start; }
+.cbr-col h5 { margin: 0; font-family: var(--font-head); font-size: 0.88rem; }
+.cbr-col h5 small { font-weight: 400; color: var(--muted); font-size: 0.75rem; display: block; }
+.stage { display: grid; grid-template-columns: 4.6rem minmax(0, 1fr); gap: 0.5rem; align-items: center; font-size: 0.78rem; }
+.stage > b { font-family: var(--font-head); color: var(--muted); font-size: 0.72rem; line-height: 1.3; }
+.tbl { display: flex; flex-wrap: wrap; gap: 0.2rem; align-items: center; }
+.tbl i { font-style: normal; font-family: var(--font-code); font-size: 0.7rem; padding: 0.12rem 0.35rem; border-radius: 4px; border: 1px solid var(--gui-frame); background: var(--gui-bg); }
+.tbl i.old { background: var(--warn-soft); border-color: var(--warn); color: var(--warn); }
+.tbl i.new { background: var(--try-soft); border-color: var(--try); color: var(--try); }
+.tbl em { font-style: normal; color: var(--muted); font-size: 0.72rem; }
+.verdict { font-size: 0.8rem; font-weight: 700; font-family: var(--font-head); }
+.verdict.ok { color: var(--ok); }
+.verdict.ng { color: var(--err); }
+
+/* 그림 7: 코드 지도 */
+.codemap pre { margin: 0; background: var(--code-bg); border: 1px solid var(--line); border-left: 4px solid var(--try); border-radius: 8px; padding: 0.9rem 1rem; overflow-x: auto; font-family: var(--font-code); font-size: 0.86rem; line-height: 1.75; color: var(--code-fg); }
+.codemap .slot { background: var(--try-soft); outline: 1px dashed var(--try); outline-offset: 1px; border-radius: 3px; padding: 0; color: var(--try); font-weight: 700; }
+.codemap .badge { font-family: var(--font-code); font-size: inherit; width: 2ch; height: 2ch; margin: 0; vertical-align: 0; }
+
+/* GUI 흉내 */
+.gui { font-size: 0.82rem; line-height: 1.4; background: var(--gui-bg); border: 1px solid var(--gui-frame); border-radius: 8px; overflow: hidden; min-width: 30rem; max-width: 44rem; margin: 0 auto; }
+.gui-head { background: var(--gui-head); color: var(--gui-head-fg); font-weight: 600; padding: 0.4rem 0.7rem; }
+.gui-tabs { display: flex; flex-wrap: wrap; gap: 0.2rem; padding: 0.4rem 0.7rem 0; border-bottom: 1px solid var(--gui-frame); }
+.gui-tabs span { padding: 0.22rem 0.6rem; border: 1px solid var(--gui-frame); border-bottom: 0; border-radius: 5px 5px 0 0; color: var(--muted); font-size: 0.76rem; }
+.gui-tabs span.on { background: var(--gui-field); color: var(--fg); font-weight: 700; }
+.gui-body { padding: 0.7rem 0.8rem; display: grid; gap: 0.45rem; }
+.gui-grid { font-size: 0.8rem; background: var(--gui-field); }
+.gui-grid th { background: var(--gui-bar); font-family: var(--font-body); font-weight: 600; border-bottom: 1px solid var(--gui-frame); padding: 0.3rem 0.5rem; }
+.gui-grid td { padding: 0.3rem 0.5rem; border-bottom: 1px solid var(--gui-frame); font-family: var(--font-code); white-space: nowrap; }
+.gui-grid td.t { font-family: var(--font-body); }
+.gui-grid tr.sel td { background: var(--gui-sel); }
+.gui-grid td .q { color: var(--quiz); font-weight: 700; }
+.gui-check { font-size: 0.8rem; }
+.gui-check::before { content: "☐"; margin-right: 0.35rem; color: var(--muted); }
+.gui-note { font-size: 0.75rem; color: var(--accent); font-weight: 600; }
+
+/* 비교 표 */
+table.vs td:first-child { font-family: var(--font-head); font-weight: 600; white-space: nowrap; }
+
+/* 점검 목록 */
+ul.check { list-style: none; padding: 0; display: grid; gap: 0.35rem; }
+ul.check li { margin: 0; }
+ul.check label { display: grid; grid-template-columns: 1.4rem minmax(0, 1fr); gap: 0.4rem; align-items: start; cursor: pointer; padding: 0.35rem 0.5rem; border-radius: 8px; border: 1px solid var(--line); background: var(--paper); }
+ul.check input { width: 1.05rem; height: 1.05rem; margin: 0.3rem 0 0; accent-color: var(--try); }
+ul.check input:checked + span { color: var(--muted); text-decoration: line-through; text-decoration-color: color-mix(in srgb, var(--muted) 60%, transparent); }
+.check-bar { display: flex; align-items: center; gap: 0.7rem; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); }
+
+footer.foot { margin-top: 4rem; padding-top: 1rem; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.82rem; }
+footer.foot p { margin: 0.3rem 0; }
+
+@media (max-width: 980px) {
+  .page { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+  nav.toc { position: static; border: 1px solid var(--line); border-radius: 10px; padding: 0.9rem; background: var(--paper); }
+  nav.toc ol { grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr)); }
+  nav.toc li.sub { display: none; }
+}
+@media (max-width: 640px) {
+  body { font-size: 15.5px; }
+  .road { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .book-b { padding: 0.3rem 0.8rem 0.7rem; }
+  .book ol.steps > li { grid-template-columns: 1.7rem minmax(0, 1fr); }
+  .make dl { grid-template-columns: minmax(0, 1fr); gap: 0 0; }
+  .make dd { margin-bottom: 0.35rem; }
+}
+@media print {
+  nav.toc, .copy, .btn, .no-box { display: none !important; }
+  .page { display: block; padding: 0; }
+  body { background: #fff; font-size: 10.5pt; }
+  details.help { break-inside: avoid; }
+  h2 { break-after: avoid; }
+}
+
+/* 2판: 머리 줄, 용어 단추, 옆 단추, 팝업 */
+.cover { padding-bottom: 1.2rem; }
+.cover-bar { display: flex; gap: 1rem; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+.how { margin: 0; font-size: 0.9rem; color: var(--muted); flex: 1 1 22rem; min-width: 0; }
+.cover .no-box { margin: 0; padding: 0.35rem 0.6rem; display: flex; align-items: center; gap: 0.5rem; }
+.cover .no-box input { width: 3.6rem; font: inherit; font-family: var(--font-code); font-size: 1rem; text-align: center; letter-spacing: 0.1em; padding: 0.2rem; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--fg); }
+.cover .no-box input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.book { margin: 0; }
+.meta { margin: 0.6rem 0 0.2rem; display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 0.2rem 0.8rem; font-size: 0.88rem; color: var(--muted); }
+.meta dt { font-family: var(--font-head); font-weight: 600; }
+.meta dd { margin: 0; min-width: 0; }
+figure.fig#fig-1 { margin: 0; }
+#fig-1 .nest { min-width: 0; max-width: 40rem; margin: 0 auto; border-style: solid; border-color: var(--gui-frame); background: var(--gui-bg); }
+#fig-1 .iface { grid-template-columns: auto auto minmax(0, 1fr) auto auto; justify-content: center; }
+#fig-1 figcaption b::after { content: " ·"; }
+
+button.term { appearance: none; font: inherit; color: inherit; background: none; border: 0; padding: 0; margin: 0; cursor: pointer; text-decoration: underline dotted var(--accent); text-decoration-thickness: 2px; text-underline-offset: 0.25em; border-radius: 3px; }
+button.term:hover { color: var(--accent); background: var(--accent-soft); }
+button.term:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+span.term.demo { text-decoration: underline dotted var(--accent); text-decoration-thickness: 2px; text-underline-offset: 0.25em; color: var(--fg); }
+
+.book ol.steps > li { grid-template-columns: 2rem minmax(0, 1fr) auto; }
+button.side, span.side { flex: none; width: 1.75rem; height: 1.75rem; border-radius: 50%; border: 1.5px solid color-mix(in srgb, var(--try) 55%, transparent); background: var(--try-soft); color: var(--try); font-family: var(--font-head); font-weight: 700; font-size: 0.9rem; display: inline-grid; place-items: center; line-height: 1; }
+button.side { appearance: none; cursor: pointer; padding: 0; margin-top: 0.05rem; }
+button.side:hover, button.side:focus-visible { background: var(--try); color: var(--paper); outline: none; }
+span.side.demo { width: 1.35rem; height: 1.35rem; font-size: 0.75rem; vertical-align: -0.2em; }
+.hint-book { margin-top: 0.5rem; }
+
+.pop-back { position: fixed; inset: 0; z-index: 50; background: color-mix(in srgb, #0b1220 45%, transparent); display: flex; align-items: center; justify-content: center; padding: max(16px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(16px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
+.pop { width: min(40rem, 100%); max-height: min(85vh, 46rem); display: flex; flex-direction: column; background: var(--paper); color: var(--fg); border-radius: 14px; border: 1px solid var(--line); box-shadow: 0 18px 48px rgb(0 0 0 / 0.3); overflow: hidden; }
+.pop-h { display: flex; align-items: center; gap: 0.5rem; padding: 0.7rem 0.8rem 0.6rem 1.1rem; border-bottom: 1px solid var(--line); background: var(--try-soft); }
+.pop-h h2 { margin: 0; padding: 0; border: 0; font-size: 1.08rem; flex: 1; min-width: 0; color: var(--try); }
+.pop-x, .pop-prev { appearance: none; flex: none; width: 2rem; height: 2rem; border-radius: 8px; border: 1px solid var(--line); background: var(--paper); color: var(--fg); cursor: pointer; font-size: 0.95rem; }
+.pop-x:hover, .pop-x:focus-visible, .pop-prev:hover, .pop-prev:focus-visible { border-color: var(--try); color: var(--try); outline: none; }
+.pop-b { padding: 0.3rem 1.1rem 1rem; overflow-y: auto; overscroll-behavior: contain; font-size: 0.95rem; }
+.pop-b figure.fig { margin: 0.8rem 0; }
+.pop-b .formula { text-align: center; font-family: var(--font-head); font-weight: 700; background: var(--accent-soft); border-radius: 8px; padding: 0.5rem; }
+.pop-b .gui { min-width: 26rem; }
+.pop-b svg.flow { min-width: 0; max-width: 100%; }
+.pop-b .pos { min-width: 28rem; }
+.pop-b .pos-row { grid-template-columns: 6.5rem repeat(5, minmax(0, 1fr)); }
+.pop-b .cbr { min-width: 0; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); }
+html.pop-open { overflow: hidden; }
+
+.flow3 { display: flex; align-items: center; justify-content: center; gap: 0.4rem; flex-wrap: wrap; }
+.f3 { border: 1.5px solid var(--gui-frame); border-radius: 8px; padding: 0.35rem 0.6rem; display: grid; text-align: center; background: var(--paper); }
+.f3 b { font-family: var(--font-head); font-size: 0.82rem; }
+.f3 span { font-size: 0.75rem; color: var(--muted); }
+.f3.db { border-color: var(--db); } .f3.db b { color: var(--db); }
+.f3.wa { border-color: var(--warn); } .f3.wa b { color: var(--warn); }
+.f3.it { border-color: var(--try); } .f3.it b { color: var(--try); }
+
+@media (max-width: 640px) {
+  .pop-back { align-items: flex-end; padding: 0; }
+  .pop { width: 100%; max-height: 88vh; border-radius: 14px 14px 0 0; padding-bottom: env(safe-area-inset-bottom, 0px); }
+  #fig-1 .iface { grid-template-columns: minmax(0, 1fr); justify-items: center; text-align: center; }
+  #fig-1 .iface .arrow { transform: rotate(90deg); }
+  #fig-1 .io { justify-items: center; grid-auto-flow: column; align-items: center; }
+  .book ol.steps > li { grid-template-columns: 1.7rem minmax(0, 1fr) auto; }
+}
+@media (max-width: 640px) {
+  .pop-b .pos { min-width: 0; }
+  .pop-b .pos-row { grid-template-columns: 4.6rem repeat(5, minmax(0, 1fr)); gap: 0.2rem; }
+  .pop-b .pos-row > span { font-size: 0.66rem; padding: 0.3rem 0.05rem; }
+  .pop-b .pos-row > b { font-size: 0.68rem; }
+  .pop-b .gui { min-width: 22rem; }
+}
+@media print { .pop-back, button.side { display: none !important; } button.term { text-decoration: none; } }
+.tk-ph { color: var(--quiz); }
+.cover .no-box .g-pre { font-family: var(--font-code); font-size: 1rem; font-weight: 700; margin-right: -0.2rem; }
+
+/* 단계 사이 여백 (11/19 훈영: 구분선 없이 여백만) */
+.book ol.steps { gap: 1.5rem; }
+
+/* 개조식 작업 지시: 지시문 + 목적 + 항목 : 값 (11/19 훈영) */
+.book ol.steps p.do { margin: 0; font-weight: 600; }
+ul.spec { list-style: none; margin: 0.35rem 0 0; padding: 0; display: grid; grid-template-columns: 8.6rem minmax(0, 1fr); gap: 0.2rem 0.9rem; font-size: 0.95rem; }
+ul.spec li { display: contents; }
+ul.spec b { font-family: var(--font-head); font-weight: 600; font-size: 0.86rem; color: var(--muted); padding-left: 0.9rem; position: relative; line-height: 1.75rem; }
+ul.spec b::before { content: "–"; position: absolute; left: 0; color: var(--line); }
+ul.spec span { min-width: 0; }
+ul.spec li.why b { color: var(--try); }
+ul.spec li.why span { color: var(--try); }
+@media (max-width: 640px) {
+  ul.spec { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  ul.spec b { line-height: 1.5; margin-top: 0.3rem; }
+  ul.spec span { padding-left: 0.9rem; }
+}
+
+/* 팝업 안 설명이 여러 개일 때: 번호 띠로 구분 (11/19 훈영) */
+.pop-sec + .pop-sec { margin-top: 1.4rem; padding-top: 0.2rem; border-top: 2px dashed color-mix(in srgb, var(--try) 35%, transparent); }
+.pop-sec-t { display: flex; align-items: center; gap: 0.5rem; margin: 0.9rem 0 0.5rem; padding: 0.4rem 0.7rem; border-radius: 8px; background: var(--accent-soft); color: var(--accent); font-family: var(--font-head); font-size: 1rem; }
+.pop-no { display: inline-grid; place-items: center; width: 1.4rem; height: 1.4rem; border-radius: 50%; background: var(--accent); color: var(--paper); font-size: 0.8rem; flex: none; }
+
+/* 팝업 글자 크기·여백 통일 (11/19): 제목 1rem / 본문 0.95rem / 코드 0.92em / 보조 글 0.85rem */
+.pop-b > :first-child { margin-top: 0.9rem; }
+.pop-b > :last-child { margin-bottom: 0.3rem; }
+.pop-b table { font-size: 1em; }
+.pop-b .table-wrap, .pop-b > table, .pop-b .sec-in > table, .pop-b .pop-sec > table { margin: 0.8rem 0; }
+.pop-b .code { margin: 0.8rem 0; }
+.pop-b .code pre { font-size: 0.92em; }
+.pop-b figure.fig { margin: 1rem 0; }
+.pop-b figure.fig figcaption { font-size: 0.85rem; }
+.pop-b .st-wrap { justify-content: center; }
+.pop-b .st-card { padding: 0.7rem 0.85rem; }
+.pop-b .st-card h5 { font-size: 0.92rem; }
+.pop-b .st-card p { font-size: 0.85rem; }
+.pop-b .st-mid { font-size: 0.85rem; }
+.pop-b .cells span { font-size: 0.8rem; padding: 0.32rem 0.6rem; }
+.pop-b .cbr-col h5 { font-size: 0.92rem; }
+.pop-b .cbr-col h5 small { font-size: 0.82rem; }
+.pop-b .stage { font-size: 0.85rem; }
+.pop-b .stage > b { font-size: 0.8rem; }
+.pop-b .tbl i { font-size: 0.78rem; }
+.pop-b .tbl em { font-size: 0.8rem; }
+.pop-b svg.flow text { font-size: 14.5px; }
+.pop-b svg.flow text.code { font-size: 13.5px; }
+.pop-b svg.flow text.sm { font-size: 12.5px; }
+.pop-b svg.flow text.lab, .pop-b svg.flow text.loop { font-size: 13px; }
+@media (min-width: 641px) { .pop-b .pos-row > b { font-size: 0.82rem; } .pop-b .pos-row > span { font-size: 0.8rem; } }
+@media (max-width: 640px) { .pop-b .cells span { font-size: 0.74rem; padding: 0.3rem 0.4rem; } }
+
+/* 팝업 표 디자인 A(둥근 테두리) + 이용률 막대 (11/19 훈영 선택) */
+.pop-b table:not(.gui-grid) { border-collapse: separate; border-spacing: 0; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.pop-b table:not(.gui-grid) th { background: var(--gui-bg); color: var(--muted); font-size: 0.86rem; font-weight: 600; border-bottom: 1px solid var(--line); padding: 0.6rem 0.9rem; }
+.pop-b table:not(.gui-grid) td { border-bottom: 1px solid var(--line); padding: 0.7rem 0.9rem; vertical-align: middle; }
+.pop-b table:not(.gui-grid) tbody tr:last-child td { border-bottom: 0; }
+.pop-b table:not(.gui-grid) tbody td:first-child:not(.num) { font-weight: 700; color: var(--accent); }
+.pop-b table th.num, .pop-b table td.num { text-align: right; font-variant-numeric: tabular-nums; }
+.pop-b td.rate { display: flex; align-items: center; gap: 0.7rem; }
+.pop-b .bar { flex: 1; min-width: 3.5rem; height: 0.5rem; border-radius: 99px; background: var(--gui-bar); overflow: hidden; }
+.pop-b .bar i { display: block; height: 100%; border-radius: 99px; background: var(--try); }
+.pop-b td.rate b.num { font-weight: 700; color: var(--try); min-width: 3.2rem; text-align: right; font-variant-numeric: tabular-nums; }
+@media (max-width: 640px) { .pop-b table:not(.gui-grid) th, .pop-b table:not(.gui-grid) td { padding: 0.55rem 0.6rem; } .pop-b td.rate { gap: 0.45rem; } }
+
+/* ===== 영어 원문 (11/20 훈영: 영어 공부용으로 원문 함께) ===== */
+.en-tag { display: inline-grid; place-items: center; font-family: var(--font-head); font-size: 0.66rem; font-weight: 700; letter-spacing: 0.04em; padding: 0.05rem 0.32rem; border-radius: 4px; background: var(--note-soft); color: var(--note); border: 1px solid color-mix(in srgb, var(--note) 30%, transparent); }
+details.orig { margin: 0.55rem 0 0; }
+details.orig > summary { display: inline-flex; align-items: center; gap: 0.4rem; cursor: pointer; list-style: none; user-select: none; font-family: var(--font-head); font-size: 0.8rem; font-weight: 600; color: var(--muted); padding: 0.15rem 0.5rem 0.15rem 0.3rem; border-radius: 6px; }
+details.orig > summary::-webkit-details-marker { display: none; }
+details.orig > summary::after { content: ""; width: 0.4rem; height: 0.4rem; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: translateY(-0.1rem) rotate(45deg); margin-left: 0.1rem; }
+details.orig[open] > summary::after { transform: translateY(0.1rem) rotate(-135deg); }
+details.orig > summary:hover { background: var(--note-soft); color: var(--fg); }
+details.orig > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.orig-b { margin-top: 0.35rem; padding: 0.65rem 0.85rem; border-left: 3px solid var(--note); border-radius: 0 8px 8px 0; background: var(--note-soft); }
+.orig-b p { margin: 0 0 0.45rem; font-family: "IBM Plex Sans KR", var(--font-body); font-size: 0.92rem; line-height: 1.6; color: var(--fg); }
+.orig-b p:last-of-type { margin-bottom: 0; }
+.orig-b p code { font-size: 0.86em; }
+.orig-b p i { font-style: italic; }
+.orig-b .h { font-family: var(--font-head); }
+.voc { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 0.2rem 0.8rem; margin: 0.6rem 0 0; padding-top: 0.55rem; border-top: 1px dashed color-mix(in srgb, var(--note) 35%, transparent); font-size: 0.84rem; }
+.voc dt { font-family: "IBM Plex Sans KR", var(--font-body); font-weight: 600; color: var(--note); }
+.voc dd { margin: 0; color: var(--muted); }
+.orig-all { display: inline-flex; align-items: center; gap: 0.45rem; font: inherit; font-family: var(--font-head); font-size: 0.85rem; font-weight: 600; color: var(--fg); background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 0.4rem 0.75rem; cursor: pointer; }
+.orig-all:hover { border-color: var(--note); }
+.orig-all[aria-pressed="true"] { background: var(--note-soft); border-color: var(--note); }
+.orig-all:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+@media print { details.orig { display: none; } .orig-all { display: none; } }
+
+/* ===== Component 이름·타입 표 그림 (2-2, 2-3) ===== */
+.ct { display: grid; grid-template-columns: max-content repeat(4, minmax(max-content, 1fr)); gap: 1px; background: var(--gui-frame); border: 1px solid var(--gui-frame); border-radius: 6px; overflow: hidden; font-family: var(--font-code); font-size: 0.8rem; }
+.ct > span { background: var(--gui-field); padding: 0.32rem 0.55rem; text-align: center; white-space: nowrap; }
+.ct > .lb { background: var(--paper); color: var(--muted); font-family: var(--font-head); font-size: 0.72rem; font-weight: 600; text-align: right; display: flex; align-items: center; justify-content: flex-end; }
+.ct > .nm { background: var(--gui-bar); color: var(--accent); font-weight: 700; }
+.ct > .ty { background: var(--gui-bg); color: var(--muted); font-size: 0.74rem; }
+.ct > .em { background: var(--gui-bg); color: var(--muted); }
+.ct.hl4 > span:nth-child(5n+4) { background: var(--warn-soft); color: var(--warn); font-weight: 700; box-shadow: inset 0 0 0 1px var(--warn); }
+.st-card.it { border-color: color-mix(in srgb, var(--try) 45%, var(--gui-frame)); }
+.st-card.it h5 { color: var(--try); }
+.st-card p b { color: var(--fg); }
+.at { display: grid; justify-items: center; gap: 0.3rem; }
+.at-f { display: flex; align-items: stretch; border: 1px solid var(--gui-frame); border-radius: 6px; font-size: 0.88rem; margin-bottom: 1.7rem; }
+.at-l { background: var(--gui-bar); padding: 0.4rem 0.65rem; font-family: var(--font-body); font-weight: 600; border-right: 1px solid var(--gui-frame); border-radius: 5px 0 0 5px; }
+.at-v { background: var(--gui-field); padding: 0.4rem 1.6rem; font-family: var(--font-code); border-radius: 0 5px 5px 0; color: var(--muted); }
+.at-v b { position: relative; font-weight: 700; }
+.at-v b.p1 { color: var(--accent); }
+.at-v b.p2 { color: var(--warn); }
+.at-v small { position: absolute; top: calc(100% + 0.55rem); font-family: var(--font-head); font-size: 0.74rem; font-weight: 600; white-space: nowrap; }
+.at-v b.p1 small { right: 0; }
+.at-v b.p2 small { left: 0; }
+.at-r { margin: 0.2rem 0 0; font-size: 0.85rem; color: var(--muted); }
+.pop-b ul.check li { padding: 0.45rem 0.7rem; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); }
+@media (max-width: 640px) { .ct { font-size: 0.7rem; } .ct > span { padding: 0.3rem 0.35rem; } .ct > .lb { font-size: 0.66rem; } }
+.pop-b .st-wrap { grid-template-columns: minmax(0, 32rem); }
+.nw { white-space: nowrap; }
+
+/* ===== SELECT 반복문 한 줄씩 넘겨 보기 ===== */
+.stepper { border: 1px solid var(--line); border-radius: 12px; padding: 0.8rem; background: var(--gui-bg); display: grid; gap: 0.5rem; margin: 0.8rem 0; }
+.stp-bar { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; flex-wrap: wrap; }
+.stp-no { font-family: var(--font-head); font-weight: 700; font-size: 0.85rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.stp-btns { display: flex; gap: 0.35rem; flex-wrap: wrap; }
+.stp-btns button { font: inherit; font-family: var(--font-head); font-size: 0.82rem; font-weight: 600; padding: 0.35rem 0.7rem; border-radius: 8px; border: 1px solid var(--line); background: var(--paper); color: var(--fg); cursor: pointer; }
+.stp-btns button.pri { background: var(--accent); border-color: var(--accent); color: var(--paper); }
+.stp-btns button:disabled { opacity: 0.4; cursor: default; }
+.stp-btns button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.stp-msg { margin: 0; min-height: 3.2em; padding: 0.55rem 0.75rem; border-radius: 8px; background: var(--paper); border-left: 3px solid var(--accent); font-size: 0.9rem; }
+.stp-box { background: var(--paper); border: 1px solid var(--gui-frame); border-radius: 10px; padding: 0.55rem 0.65rem; }
+.stp-box h6 { display: flex; justify-content: space-between; align-items: baseline; gap: 0.5rem; flex-wrap: wrap; margin: 0 0 0.4rem; font-family: var(--font-head); font-size: 0.85rem; }
+.stp-box h6 small { font-family: var(--font-code); font-weight: 400; color: var(--muted); font-size: 0.75rem; }
+.stp-box.db h6 span { color: var(--db); } .stp-box.wa h6 span { color: var(--warn); } .stp-box.it h6 span { color: var(--try); }
+.stp-box .ct > .lb { min-width: 1.4rem; justify-content: center; }
+.stp-box .ct > .skip { color: var(--muted); opacity: 0.5; text-decoration: line-through; }
+.stp-box .ct > .lb.skip { text-decoration: none; }
+.stp-box .ct > .cur { background: var(--warn-soft); color: var(--warn); font-weight: 700; }
+.stp-box .ct > .done { color: var(--fg); }
+.stp-box .ct > .lb.done { color: var(--ok); }
+.stp-box .ct > .new { background: var(--try-soft); color: var(--try); font-weight: 700; animation: stpIn 0.45s ease-out; }
+.stp-box .ct > .emp { color: var(--muted); font-family: var(--font-body); font-size: 0.8rem; background: var(--gui-field); }
+.stp-arrow { text-align: center; font-family: var(--font-head); font-size: 0.8rem; color: var(--muted); }
+.stp-arrow.on { color: var(--accent); font-weight: 700; }
+@keyframes stpIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .stp-box .ct > .new { animation: none; } }
+@media (max-width: 640px) { .stepper { padding: 0.55rem; } .stp-btns button { padding: 0.35rem 0.55rem; } }
+
+/* ---- 한 줄씩 넘겨 보기: 넓은 팝업, 나란히 배치, 움직이는 값 ---- */
+.pop.wide { width: min(64rem, 100%); max-height: min(92vh, 56rem); }
+.stepper { position: relative; container-type: inline-size; }
+.stp-top { display: grid; gap: 0.5rem; position: sticky; top: 0; z-index: 3; background: var(--gui-bg); margin: -0.8rem -0.8rem 0; padding: 0.8rem 0.8rem 0.4rem; border-radius: 12px 12px 0 0; }
+.stp-stage, .stp-r { display: grid; gap: 0.5rem; align-content: start; }
+.stp-box { scroll-margin-top: 9.5rem; scroll-margin-bottom: 0.6rem; }
+.stp-arrow b { font-size: 1rem; }
+.stp-arrow .rt { display: none; }
+.stp-box .ct > .hide { color: transparent !important; background: var(--gui-field) !important; animation: none !important; }
+.stp-box.wa { --fc: var(--warn); } .stp-box.it { --fc: var(--try); } .stp-msg { --fc: var(--accent); }
+.stp-box.flash, .stp-msg.flash { animation: stpFlash 1.1s ease-out; }
+@keyframes stpFlash {
+  0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--fc) 60%, transparent); }
+  35% { box-shadow: 0 0 0 6px color-mix(in srgb, var(--fc) 30%, transparent); }
+  100% { box-shadow: 0 0 0 10px transparent; }
+}
+@container (min-width: 46rem) {
+  .stp-stage { grid-template-columns: minmax(0, 1fr) 4.6rem minmax(0, 1fr); gap: 0.6rem; align-items: start; }
+  .stp-arrow.a1 { align-self: center; display: grid; justify-items: center; gap: 0.2rem; font-size: 0.74rem; line-height: 1.35; }
+  .stp-arrow.a1 .dn { display: none; }
+  .stp-arrow.a1 .rt { display: block; font-size: 1.6rem; line-height: 1; }
+  .stp-box .ct > span { padding: 0.32rem 0.4rem; }
+}
+@container (max-width: 30rem) {
+  .stp-box { padding: 0.45rem 0.5rem; scroll-margin-top: 11rem; }
+  .stp-box h6 { margin-bottom: 0.25rem; }
+  .stp-box .ct > span { padding: 0.22rem 0.3rem; }
+  .stp-top { margin: -0.55rem -0.55rem 0; padding: 0.55rem 0.55rem 0.35rem; }
+}
+
+/* ---- 넘겨 보기 움직임 2: 한 줄 띠, 훑기, 흐린 사본, 새 줄 자리 ---- */
+.stp-strip { position: absolute; z-index: 6; display: grid; gap: 1px; border-radius: 6px; overflow: hidden; pointer-events: none; transform-origin: 50% 50%; will-change: left, top, transform; }
+.stp-strip > span { display: flex; align-items: center; justify-content: center; min-width: 0; overflow: hidden; font-family: var(--font-code); font-size: 0.8rem; font-weight: 700; white-space: nowrap; }
+.stp-strip.to-wa { background: var(--warn); box-shadow: 0 0 0 1px var(--warn); }
+.stp-strip.to-wa > span { background: var(--warn-soft); color: var(--warn); }
+.stp-strip.to-it { background: var(--try); box-shadow: 0 0 0 1px var(--try); }
+.stp-strip.to-it > span { background: var(--try-soft); color: var(--try); }
+.stp-box .ct > .ghosted { opacity: 0.38; transition: opacity 0.2s; }
+.stp-box .ct > .old { color: var(--muted); }
+.stp-scan { position: absolute; z-index: 4; border: 2px solid var(--accent); border-radius: 6px; pointer-events: none; opacity: 0; box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent); transition: top 0.22s ease, left 0.22s ease, width 0.22s ease, height 0.22s ease, border-color 0.15s, box-shadow 0.15s, opacity 0.15s; }
+.stp-scan.on { opacity: 1; }
+.stp-scan.x { border-color: var(--err); box-shadow: 0 0 0 3px color-mix(in srgb, var(--err) 22%, transparent); }
+.stp-scan.lock { border-color: var(--warn); box-shadow: 0 0 0 4px color-mix(in srgb, var(--warn) 30%, transparent); }
+.stp-box .ct > .lb.shake { color: var(--err); opacity: 1; animation: stpShake 0.4s; }
+@keyframes stpShake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-3px); } 75% { transform: translateX(3px); } }
+.stepper.anim .ct > .new { animation: none; }
+.stp-cnt { display: inline-block; font-weight: 700; }
+.stp-cnt.bump { color: var(--try); animation: stpBump 0.5s; }
+@keyframes stpBump { 0% { transform: scale(1); } 40% { transform: scale(1.6); } 100% { transform: scale(1); } }
+@container (max-width: 30rem) { .stp-strip > span { font-size: 0.7rem; } }
+.stp-box .ct > span { scroll-margin-bottom: 1.2rem; scroll-margin-top: 10rem; }
+/* WHERE 조건 이름표와 안내 상자 */
+.stp-box h6 small.stp-where { --fc: var(--db); font-family: var(--font-code); font-weight: 700; font-size: 0.74rem; color: var(--db); background: var(--db-soft); border: 1px solid color-mix(in srgb, var(--db) 45%, transparent); border-radius: 999px; padding: 0.12rem 0.55rem; }
+.stp-where.flash { animation: stpFlash 1.1s ease-out; }
+.stp-toast { position: absolute; z-index: 7; display: grid; justify-items: center; gap: 0.25rem; padding: 0.7rem 1.1rem; border-radius: 12px; background: var(--paper); border: 2px solid var(--db); box-shadow: 0 12px 28px rgb(0 0 0 / 0.25); pointer-events: none; text-align: center; white-space: nowrap; }
+.stp-toast code { font-family: var(--font-code); font-size: 1.05rem; font-weight: 700; color: var(--db); background: none; padding: 0; }
+.stp-toast span { font-family: var(--font-head); font-size: 0.85rem; color: var(--fg); }
+@container (max-width: 30rem) { .stp-toast { padding: 0.55rem 0.8rem; } .stp-toast code { font-size: 0.92rem; } .stp-toast span { font-size: 0.78rem; } }
+.stepper .stp-toast code { background: none; border: 0; padding: 0; box-shadow: none; }
+.stp-stage { scroll-margin-top: 9.5rem; }
+@container (max-width: 30rem) { .stp-stage { scroll-margin-top: 11rem; } }
+
+/* ---- 넘겨 보기 코드 창: ▶ 실행 표시, 반복 화살표, 이름 색, sy-subrc·sy-dbcnt ---- */
+.stp-now { display: flex; align-items: baseline; gap: 0.5rem; min-width: 0; font-size: 0.72rem; }
+.stp-now > b { flex: none; font-family: var(--font-head); color: var(--accent); }
+.stp-now-c { min-width: 0; overflow-x: auto; white-space: nowrap; font-family: var(--font-code); color: var(--code-fg); background: var(--code-bg); border: 1px solid var(--line); border-radius: 6px; padding: 0.15rem 0.45rem; }
+.stp-code { position: relative; background: var(--code-bg); color: var(--code-fg); border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 8px; padding: 0.5rem 0.6rem 0.4rem 0; }
+.stp-gut { position: absolute; left: 0; top: 0; bottom: 0; width: 2rem; }
+.stp-code pre { margin: 0 0 0 2rem; padding: 0; background: none; border: 0; font-family: var(--font-code); font-size: 0.86rem; line-height: 1.65; white-space: pre; overflow-x: auto; }
+.stp-code .cl { display: block; border-radius: 4px; padding: 0 0.35rem; transition: background-color 0.25s; }
+.stp-code .cl.act { background: color-mix(in srgb, var(--accent) 13%, transparent); }
+.stp-pc { position: absolute; left: 1.05rem; top: 0.5rem; font-size: 0.8rem; line-height: 1; color: var(--accent); opacity: 0; transition: top 0.45s cubic-bezier(.4, .1, .2, 1), opacity 0.2s; }
+.stp-pc.on { opacity: 1; }
+.stp-pc.nt { transition: none; }
+.stp-loop { --lc: color-mix(in srgb, var(--muted) 55%, transparent); position: absolute; left: 0.4rem; width: 0.55rem; border: 2px solid var(--lc); border-right: 0; border-radius: 6px 0 0 6px; transition: border-color 0.2s; }
+.stp-loop::after { content: ""; position: absolute; top: -6px; right: -7px; border: 5px solid transparent; border-left: 7px solid var(--lc); }
+.stp-loop.on { --lc: var(--accent); }
+.stp-sys { --fc: var(--try); display: flex; justify-content: flex-end; gap: 0.9rem; margin: 0.3rem 0 0 2rem; padding: 0.1rem 0.35rem; border-radius: 6px; font-family: var(--font-code); font-size: 0.76rem; color: var(--muted); }
+.stp-sys b { display: inline-block; min-width: 0.8em; text-align: center; color: var(--code-fg); }
+.stp-sys b.bump { color: var(--try); animation: stpBump 0.5s; }
+.stp-sys.flash { animation: stpFlash 1.1s ease-out; }
+.stepper i.t-db, .stepper i.t-wa, .stepper i.t-it, .stepper i.t-where { font-style: normal; font-weight: 700; border-radius: 3px; transition: background-color 0.2s, box-shadow 0.2s, color 0.2s; }
+.stepper i.t-db, .stepper i.t-where { color: var(--db); }
+.stepper i.t-wa { color: var(--warn); }
+.stepper i.t-it { color: var(--try); }
+.stepper i.t-where.ng { color: var(--err); }
+.stepper i.hot { background: color-mix(in srgb, currentColor 16%, transparent); box-shadow: 0 0 0 2px color-mix(in srgb, currentColor 45%, transparent); animation: stpHot 0.8s ease-in-out infinite alternate; }
+@keyframes stpHot { from { box-shadow: 0 0 0 1px color-mix(in srgb, currentColor 30%, transparent); } to { box-shadow: 0 0 0 3px color-mix(in srgb, currentColor 55%, transparent); } }
+.stepper .wm { font-weight: 700; }
+.stepper .wm.ok { color: var(--db); } .stepper .wm.ng { color: var(--err); }
+.stepper .tk-str { color: inherit; }
+.stp-note { margin: -0.15rem 0 0; font-size: 0.78rem; color: var(--muted); }
+.stp-note code { font-size: 0.9em; }
+.stp-box h6 i { font-style: normal; }
+.stp-box, .stp-stage, .stp-box .ct > span { scroll-margin-top: 5rem; }
+.stp-code { scroll-margin-top: 4.5rem; }
+@container (min-width: 46rem) { .stp-now { display: none; } }
+@container (max-width: 30rem) {
+  .stp-code pre { font-size: 0.74rem; }
+  .stp-code { padding-right: 0.35rem; }
+  .stp-box, .stp-stage, .stp-box .ct > span { scroll-margin-top: 6.5rem; }
+  .stp-code { scroll-margin-top: 6.5rem; }
+}
+@media (prefers-reduced-motion: reduce) { .stepper i.hot { animation: none; } .stp-pc { transition: none; } }
+
+/* ================================================================ Exercise 18 추가 */
+h1 .opt-h { font-size: 0.8rem; vertical-align: 0.35em; margin-left: 0.3rem; }
+.fm .fm-from { font-family: var(--font-code); font-size: 0.7rem; color: var(--muted); margin-bottom: 0.25rem; overflow-wrap: anywhere; }
+.fm .fm-in.old { background: none; color: var(--muted); font-weight: 400; text-decoration: line-through; padding: 0; margin-top: 0.35rem; }
+.pop-b .gui.gui-copy { min-width: 0; max-width: 30rem; }
+.gui-copy .gui-grid { width: 100%; }
+.gui-copy .gui-grid th { text-align: left; }
+
+/* 넘겨 보기: array fetch · LOOP와 MODIFY */
+.stepper i.t-f, .stepper i.t-tx { font-style: normal; font-weight: 700; border-radius: 3px; transition: background-color 0.2s, box-shadow 0.2s, color 0.2s; }
+.stepper i.t-f { color: var(--accent); }
+.stepper i.t-tx { color: var(--fg); }
+.stp-code .cl.off { opacity: 0.85; }
+.stp-box .ct > .on { background: color-mix(in srgb, var(--accent) 13%, var(--gui-field)); }
+.stp-box .ct > .lb.on { background: var(--paper); color: var(--accent); font-weight: 700; }
+.stp-box .ct > .pend { outline: 2px dashed color-mix(in srgb, var(--warn) 75%, transparent); outline-offset: -4px; }
+.stp-box .ct > .src { background: var(--warn-soft); color: var(--warn); font-weight: 700; box-shadow: inset 0 0 0 2px var(--warn); }
+.stp-box .ct > .bump { animation: stpCell 0.55s ease-out; }
+.stp-box .ct > .miss { animation: stpMiss 0.9s ease-out; }
+@keyframes stpCell { 0% { transform: scale(1); } 40% { transform: scale(1.18); } 100% { transform: scale(1); } }
+@keyframes stpMiss { 0%, 100% { box-shadow: inset 0 0 0 0 transparent; } 30%, 70% { box-shadow: inset 0 0 0 2px var(--err); background: color-mix(in srgb, var(--err) 12%, var(--gui-field)); } }
+.stp-strip.to-calc { background: var(--warn); box-shadow: 0 0 0 1px var(--warn); }
+.stp-strip.to-calc > span { background: var(--paper); color: var(--warn); }
+.stp-mode-row { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; font-size: 0.78rem; color: var(--muted); }
+.stp-mode { font: inherit; font-family: var(--font-head); font-size: 0.8rem; font-weight: 600; padding: 0.3rem 0.8rem; border-radius: 999px; border: 1.5px dashed var(--err); background: var(--paper); color: var(--err); cursor: pointer; }
+.stp-mode[aria-pressed="true"] { border-style: solid; border-color: var(--accent); color: var(--accent); }
+.stp-mode:disabled { opacity: 0.4; cursor: default; }
+.stp-mode:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.stp-arrow.lm { display: flex; justify-content: center; gap: 1.4rem; flex-wrap: wrap; }
+.stp-arrow .ap { display: inline-flex; align-items: center; gap: 0.3rem; }
+.stp-arrow .ap.on { color: var(--accent); font-weight: 700; }
+.stp-arrow .ap.off { opacity: 0.45; text-decoration: line-through; }
+@container (min-width: 46rem) {
+  .stp-arrow.lm { display: grid; align-content: center; justify-items: center; gap: 1rem; }
+  .stp-arrow .ap { display: grid; justify-items: center; gap: 0.15rem; text-align: center; }
+  .stp-arrow.lm .dn { display: none; }
+  .stp-arrow.lm .rt { display: block; font-size: 1.6rem; line-height: 1; }
+  .stp-arrow .ap .t > span { display: block; font-weight: 400; }
+}
+@media (prefers-reduced-motion: reduce) { .stp-box .ct > .bump, .stp-box .ct > .miss { animation: none; } }
+.stepper .stp-msg code { white-space: normal; overflow-wrap: anywhere; }
+/* 접기 방식 사본 전용: 설명이 여러 개인 팝업의 소제목을 눌러 펼치기 */
+.pop-fold-tip { margin: 0.9rem 0 0.6rem; font-size: 0.85rem; color: var(--muted); }
+details.pop-sec { border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); border-radius: 10px; }
+details.pop-sec + details.pop-sec { margin-top: 0.7rem; padding-top: 0; border-top: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+details.pop-sec > summary.pop-sec-t { margin: 0; padding: 0.55rem 0.8rem; cursor: pointer; list-style: none; user-select: none; border-radius: 9px; font-weight: 700; }
+details.pop-sec > summary.pop-sec-t::-webkit-details-marker { display: none; }
+details.pop-sec > summary.pop-sec-t::after { content: ""; margin-left: auto; width: 0.5rem; height: 0.5rem; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: translateY(-0.12rem) rotate(45deg); transition: transform 0.15s; flex: none; }
+details.pop-sec[open] > summary.pop-sec-t { border-radius: 9px 9px 0 0; }
+details.pop-sec[open] > summary.pop-sec-t::after { transform: translateY(0.12rem) rotate(-135deg); }
+details.pop-sec > summary.pop-sec-t:hover { filter: brightness(0.97); }
+details.pop-sec > summary.pop-sec-t:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+details.pop-sec > .sec-in { padding: 0.9rem 1rem 1rem; }
+details.pop-sec > .sec-in > :first-child { margin-top: 0; }
+details.pop-sec > .sec-in > :last-child { margin-bottom: 0; }
+@media (prefers-reduced-motion: reduce) { details.pop-sec > summary.pop-sec-t::after { transition: none; } }
+@media (max-width: 640px) { details.pop-sec > .sec-in { padding: 0.75rem 0.6rem 0.8rem; } details.pop-sec > summary.pop-sec-t { padding: 0.5rem 0.6rem; } }
+@media (max-width: 640px) { details.pop-sec .pos-row { grid-template-columns: 3.9rem repeat(5, minmax(0, 1fr)); } }
+
+/* 변형 문제 페이지용 */
+.page { display: block; max-width: 50rem; }
+.cover-bar { margin-top: 1rem; align-items: flex-start; }
+.cover nav.toc { position: static; flex: 1 1 24rem; font-size: 0.86rem; }
+.cover nav.toc ol { grid-template-columns: repeat(auto-fill, minmax(10.5rem, 1fr)); }
+.cover nav.toc a { border: 1px solid var(--line); background: var(--paper); }
+.small { font-size: 0.75rem; }
+section { scroll-margin-top: 1rem; }
+section > h2 { display: flex; align-items: baseline; gap: 0.6rem; flex-wrap: wrap; }
+.lv { font-size: 0.8rem; font-weight: 700; color: var(--paper); background: var(--accent); border-radius: 6px; padding: 0.1rem 0.5rem; letter-spacing: 0.02em; }
+#orig .lv { background: var(--note); }
+.star { font-size: 0.9rem; color: var(--warn); letter-spacing: 0.05em; margin-left: auto; }
+.req { margin: 1rem 0; border: 1.5px solid var(--quiz); border-radius: 12px; background: var(--paper); overflow: hidden; }
+.req-h { display: flex; gap: 0.6rem; align-items: baseline; padding: 0.45rem 1rem; background: var(--quiz-soft); font-family: var(--font-head); }
+.req-h b { color: var(--quiz); }
+.req-h span { color: var(--muted); font-size: 0.84rem; }
+.req-b { padding: 0.7rem 1rem 0.8rem; }
+.req-b ol.tickets { margin: 0; padding-left: 1.3rem; }
+details.help.ans { border-color: color-mix(in srgb, var(--accent) 45%, transparent); background: var(--accent-soft); }
+details.help.ans > summary { color: var(--accent); }
+details.help + details.help { margin-top: -0.6rem; }
+section h4 { color: var(--muted); }
+.road li code { white-space: normal; }
+#orig .road { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+</style>
+</head>
+<body>
+<div class="page">
+<header class="cover">
+<div class="eyebrow">BC400 · Exercise 13~18 · HW-2 복습 · 멘토링</div>
+<h1>1주차 복습 문제</h1>
+<p class="lead">지금까지 만든 Function Module과 프로그램을 조금씩 바꿔 보는 문제예요. 새로운 문법은 없고, 수업에서 써 본 문장만으로 풀 수 있어요. 요청서를 읽고 <b>무엇이 바뀌는지</b>부터 정리한 다음 코드를 고치세요. 힌트는 막혔을 때 하나씩만 여세요.</p>
+<div class="cover-bar">
+<nav class="toc"><ol><li><a href="#orig">원본 Exercise 18</a></li><li><a href="#q1">복습 1 · FM 불러 쓰기</a></li><li><a href="#q2">복습 2 · 기간 조회</a></li><li><a href="#q3">복습 3 · 노선 찾기</a></li><li><a href="#q4">복습 4 · 만석 임박</a></li><li><a href="#q5">복습 5 · 버그 고치기</a></li><li><a href="#mentor">멘토용 메모</a></li></ol></nav>
+<div class="no-box"><label for="gno">내 번호</label><input id="gno" maxlength="2" placeholder="##" autocomplete="off"><span class="muted small">코드 속 ## 이 바뀌어요</span></div>
+</div>
+</header>
+<main>
+
+<section id="orig">
+<h2><span class="lv">원본</span> Exercise 18 · Array Fetch 구현하기</h2>
+<p>아래 문제들은 지금까지 만든 Function Module과 프로그램에서 출발해요. 원본을 아직 안 했다면 먼저 끝내고 오세요.</p>
+<div class="make"><div class="make-t"><span class="make-k">만든 것</span></div><dl><dt>Function Group</dt><dd>ZBC400_G<mark class="gno">##</mark></dd><dt>Function Module</dt><dd>Z_BC400_G<mark class="gno">##</mark>_FLIGHTLIST_GET_OPT (Exercise 17의 FM 복사본)</dd><dt>Import</dt><dd><code>IV_CARRID</code>, <code>IV_CONNID</code></dd><dt>Export</dt><dd><code>ET_FLIGHTS</code> (Internal Table)</dd><dt>Exception</dt><dd><code>NO_DATA</code></dd></dl></div>
+<ol class="road">
+<li><b>Task 1</b>Function Group 만들기 (있으면 건너뜀)</li>
+<li><b>Task 2</b>Exercise 17의 Function Module을 새 이름으로 복사</li>
+<li><b>Task 3</b>SELECT 반복문을 주석으로 바꾸고 <code>SELECT … INTO TABLE</code>로 교체, <code>LOOP</code> 안에서 이용률 계산 후 <code>MODIFY … INDEX SY-TABIX TRANSPORTING PERCENTAGE</code></li>
+<li><b>Task 4</b>활성화하고 Exercise 17과 같은 결과인지 테스트</li>
+</ol>
+<div class="box"><div class="box-t">이 페이지의 가정</div>
+<p><code>ET_FLIGHTS</code>는 <code>BC400_T_FLIGHTS</code>, 한 줄은 <code>BC400_S_FLIGHT</code>이고 칸 순서는 <code>CARRID · CONNID · FLDATE · SEATSMAX · SEATSOCC · PERCENTAGE</code>라고 가정했어요. 내 Structure의 칸 순서나 이름이 다르면 코드도 거기에 맞춰 바꾸세요.</p></div>
+<details class="help ans"><summary>원본 모범 답안 보기</summary><div class="help-b"><div class="code"><div class="cap">Exercise 18 모범 답안 (요약)</div><button class="copy" type="button">복사</button><pre><code><span class="tk-kw">FUNCTION</span> Z_BC400_G<mark class="gno">##</mark>_FLIGHTLIST_GET_OPT.
+
+  <span class="tk-kw">DATA</span> LS_FLIGHT <span class="tk-kw">LIKE</span> <span class="tk-kw">LINE</span> <span class="tk-kw">OF</span> ET_FLIGHTS.
+
+  <span class="tk-cmt">" SELECT 반복문(Exercise 17)은 주석으로 남겨 둠 (생략)</span>
+
+  <span class="tk-kw">SELECT</span>
+    CARRID,
+    CONNID,
+    FLDATE,
+    SEATSMAX,
+    SEATSOCC
+  <span class="tk-kw">FROM</span> SFLIGHT
+  <span class="tk-kw">INTO</span> <span class="tk-kw">TABLE</span> @ET_FLIGHTS
+  <span class="tk-kw">WHERE</span> CARRID <span class="tk-kw">EQ</span> @IV_CARRID
+    <span class="tk-kw">AND</span> CONNID <span class="tk-kw">EQ</span> @IV_CONNID.
+
+  <span class="tk-cmt">" 읽은 데이터가 없으면 Exception 발생</span>
+  <span class="tk-kw">IF</span> SY-SUBRC <span class="tk-kw">NE</span> <span class="tk-num">0</span>.
+    <span class="tk-kw">RAISE</span> NO_DATA.
+  <span class="tk-kw">ENDIF</span>.
+
+  <span class="tk-cmt">" 반복문으로 좌석 이용률 계산</span>
+  <span class="tk-kw">LOOP</span> <span class="tk-kw">AT</span> ET_FLIGHTS <span class="tk-kw">INTO</span> LS_FLIGHT.
+    LS_FLIGHT-PERCENTAGE = <span class="tk-num">100</span> * LS_FLIGHT-SEATSOCC / LS_FLIGHT-SEATSMAX.
+    <span class="tk-kw">MODIFY</span> ET_FLIGHTS <span class="tk-kw">FROM</span> LS_FLIGHT <span class="tk-kw">INDEX</span> SY-TABIX <span class="tk-kw">TRANSPORTING</span> PERCENTAGE.
+  <span class="tk-kw">ENDLOOP</span>.
+
+  <span class="tk-kw">SORT</span> ET_FLIGHTS <span class="tk-kw">BY</span> PERCENTAGE <span class="tk-kw">DESCENDING</span>.
+
+<span class="tk-kw">ENDFUNCTION</span>.</code></pre></div><p>핵심은 세 가지예요. <b>①</b> <code>INTO TABLE</code>로 한 번에 채우고 <b>②</b> 바로 뒤에서 <code>SY-SUBRC</code>로 <code>NO_DATA</code>를 판단하고 <b>③</b> <code>SORT</code>는 이용률을 다 계산한 <code>ENDLOOP</code> 뒤에 둬요.</p><p><b>짚고 갈 것</b> <code>SY-SUBRC</code>는 <b>바로 앞 문장</b>의 결과예요. SORT 뒤에서 확인해도 우연히 맞을 때가 있지만, SELECT 바로 뒤에서 확인해야 “SELECT가 데이터를 읽었는지”를 정확히 볼 수 있어요.</p></div></details>
+</section>
+<section id="q1">
+<h2><span class="lv">복습 1</span> 프로그램에서 FM 불러 쓰기 <span class="star">★☆☆</span></h2>
+<div class="req"><div class="req-h"><b>요청서</b><span>운항관리팀 · 조회 화면</span></div><div class="req-b">Function Module은 다 만들어졌다고 들었어요. 그런데 저희는 SE37 테스트 화면 말고 <b>프로그램을 실행해서</b> 보고 싶어요. 항공사와 노선 번호를 넣으면 일정 목록이 나오게 해 주세요. 없는 노선이면 <b>데이터가 없다고</b> 알려 주세요.</div></div>
+<div class="make"><div class="make-t"><span class="make-k">만들 것</span></div><dl><dt>Program</dt><dd>ZBC400_G<mark class="gno">##</mark>_FLIGHT_LIST (Executable Program, SE38)</dd><dt>입력</dt><dd><code>PA_CAR</code> (항공사), <code>PA_CON</code> (노선 번호)</dd><dt>사용할 FM</dt><dd>원본 <code>Z_BC400_G<mark class="gno">##</mark>_FLIGHTLIST_GET_OPT</code></dd><dt>출력</dt><dd>CARRID · CONNID · FLDATE · SEATSMAX · SEATSOCC · PERCENTAGE</dd></dl></div>
+<h4>힌트</h4>
+<details class="help"><summary>힌트 1</summary><div class="help-b"><p>Exercise 9 계산기에서 <code>Z_BC400_G<mark class="gno">##</mark>_COMP_PERCENTAGE</code>를 불렀던 것처럼 <b>Pattern 버튼</b>으로 CALL FUNCTION 문장을 넣으세요.</p></div></details><details class="help"><summary>힌트 2</summary><div class="help-b"><p>FM이 돌려주는 <code>ET_FLIGHTS</code>를 받을 변수가 필요해요. Exercise 14에서 <code>GT_CONNECTION TYPE BC400_T_CONNECTIONS</code>로 선언했던 것처럼 <code>BC400_T_FLIGHTS</code> 타입으로 만들고, 한 줄 변수는 <code>LIKE LINE OF</code>로 만드세요.</p></div></details><details class="help"><summary>힌트 3</summary><div class="help-b"><p>예외 처리는 계산기처럼 CALL FUNCTION 바로 뒤에서 <code>CASE SY-SUBRC</code>로 해요. 0일 때만 <code>LOOP AT … INTO …</code>로 한 줄씩 WRITE 하세요.</p></div></details>
+<h4>확인할 것</h4>
+<ul class="check"><li><label><input type="checkbox"><span>SE37 테스트 화면에서 본 결과와 줄 수가 같나요?</span></label></li><li><label><input type="checkbox"><span>이용률이 높은 순서로 나오나요?</span></label></li><li><label><input type="checkbox"><span>없는 노선(9999)을 넣으면 “데이터가 없습니다”가 나오나요?</span></label></li></ul>
+<details class="help ans"><summary>모범 답안 보기</summary><div class="help-b"><div class="code nocap"><button class="copy" type="button">복사</button><pre><code><span class="tk-kw">REPORT</span> ZBC400_G<mark class="gno">##</mark>_FLIGHT_LIST.
+
+<span class="tk-kw">PARAMETERS</span>: PA_CAR <span class="tk-kw">TYPE</span> BC400_S_FLIGHT-CARRID,
+            PA_CON <span class="tk-kw">TYPE</span> BC400_S_FLIGHT-CONNID.
+
+<span class="tk-kw">DATA</span>: GT_FLIGHTS <span class="tk-kw">TYPE</span> BC400_T_FLIGHTS,
+      GS_FLIGHT  <span class="tk-kw">LIKE</span> <span class="tk-kw">LINE</span> <span class="tk-kw">OF</span> GT_FLIGHTS.
+
+<span class="tk-kw">START-OF-SELECTION</span>.
+
+  <span class="tk-kw">CALL</span> <span class="tk-kw">FUNCTION</span> <span class="tk-str">&#x27;Z_BC400_G<mark class="gno">##</mark>_FLIGHTLIST_GET_OPT&#x27;</span>
+    <span class="tk-kw">EXPORTING</span>
+      IV_CARRID  = PA_CAR
+      IV_CONNID  = PA_CON
+    <span class="tk-kw">IMPORTING</span>
+      ET_FLIGHTS = GT_FLIGHTS
+    <span class="tk-kw">EXCEPTIONS</span>
+      NO_DATA    = <span class="tk-num">1</span>
+      <span class="tk-kw">OTHERS</span>     = <span class="tk-num">2</span>.
+
+  <span class="tk-kw">CASE</span> SY-SUBRC.
+    <span class="tk-kw">WHEN</span> <span class="tk-num">0</span>.
+      <span class="tk-kw">LOOP</span> <span class="tk-kw">AT</span> GT_FLIGHTS <span class="tk-kw">INTO</span> GS_FLIGHT.
+        <span class="tk-kw">WRITE</span>: / GS_FLIGHT-CARRID,
+                 GS_FLIGHT-CONNID,
+                 GS_FLIGHT-FLDATE,
+                 GS_FLIGHT-SEATSMAX,
+                 GS_FLIGHT-SEATSOCC,
+                 GS_FLIGHT-PERCENTAGE.
+      <span class="tk-kw">ENDLOOP</span>.
+    <span class="tk-kw">WHEN</span> <span class="tk-num">1</span>.
+      <span class="tk-kw">WRITE</span> / <span class="tk-str">&#x27;조회된 데이터가 없습니다.&#x27;</span>.
+    <span class="tk-kw">WHEN</span> <span class="tk-kw">OTHERS</span>.
+      <span class="tk-kw">WRITE</span> / <span class="tk-str">&#x27;알 수 없는 오류가 발생했습니다.&#x27;</span>.
+  <span class="tk-kw">ENDCASE</span>.</code></pre></div><p><b>생각해 볼 것</b> FM에서는 <code>IV_CARRID</code>가 <b>Import</b>인데, CALL FUNCTION에서는 <b>EXPORTING</b> 아래에 적어요. <code>ET_FLIGHTS</code>는 반대로 IMPORTING 아래에 있고요. 왜 반대인지 “누가 보내고 누가 받는지”로 짝지어 보세요.</p></div></details>
+</section>
+<section id="q2">
+<h2><span class="lv">복습 2</span> 기간으로 조회하기 <span class="star">★☆☆</span></h2>
+<div class="req"><div class="req-h"><b>요청서</b><span>영업팀 · 노선 번호 몰라요</span></div><div class="req-b">노선 번호까지는 모르겠고요, <b>항공사랑 기간</b>만 넣으면 그 기간의 비행 일정이 전부 나왔으면 좋겠어요. 시작일을 종료일보다 늦게 넣는 실수도 자주 하는데, 그럴 땐 <b>잘못 넣었다고 알려</b> 주세요. 결과는 노선별로, 날짜 순으로 보고 싶어요.</div></div>
+<div class="make"><div class="make-t"><span class="make-k">만들 것</span></div><dl><dt>Function Module</dt><dd>Z_BC400_G<mark class="gno">##</mark>_FLIGHTLIST_PERIOD (원본 FM을 복사해서 시작)</dd><dt>Import</dt><dd><code>IV_CARRID</code>, <code>IV_DATE_FROM</code>, <code>IV_DATE_TO</code> (날짜는 <code>BC400_S_FLIGHT-FLDATE</code>)</dd><dt>Export</dt><dd><code>ET_FLIGHTS</code> (그대로)</dd><dt>Exception</dt><dd><code>NO_DATA</code>, <code>WRONG_PERIOD</code> (새로 추가)</dd></dl></div>
+<h4>힌트</h4>
+<details class="help"><summary>힌트 1</summary><div class="help-b"><p>요청서에서 <b>바뀌는 것</b>만 골라 보세요. 입력(IV_CONNID 빠지고 날짜 둘 추가), WHERE 조건, 예외 하나 추가, 정렬 기준. 나머지(INTO TABLE, LOOP, MODIFY)는 원본 그대로예요.</p></div></details><details class="help"><summary>힌트 2</summary><div class="help-b"><p>기간 조건은 “시작일보다 크거나 같고(<code>GE</code>) 종료일보다 작거나 같다(<code>LE</code>)”를 <code>AND</code>로 이어서 써요. 날짜 검사는 <code>COMP_PERCENTAGE</code>에 적어 둔 “1. 입력값 점검”처럼 <b>SELECT보다 먼저</b> 하세요. 잘못된 입력이면 굳이 읽을 필요가 없으니까요.</p></div></details><details class="help"><summary>힌트 3</summary><div class="help-b"><p>정렬 기준이 두 개면 <code>SORT itab BY 칸1 칸2.</code>처럼 나란히 적어요. 앞에 적은 칸이 먼저 기준이 돼요.</p></div></details>
+<h4>확인할 것</h4>
+<ul class="check"><li><label><input type="checkbox"><span>기간을 넓게 넣으면 여러 노선(CONNID)의 일정이 섞여서 나오나요?</span></label></li><li><label><input type="checkbox"><span>결과가 CONNID → FLDATE 순서로 정렬돼 있나요?</span></label></li><li><label><input type="checkbox"><span>시작일 &gt; 종료일로 넣으면 <code>WRONG_PERIOD</code>가 뜨나요?</span></label></li><li><label><input type="checkbox"><span>데이터가 없는 기간(예: 아주 옛날)을 넣으면 <code>NO_DATA</code>가 뜨나요?</span></label></li></ul>
+<details class="help ans"><summary>모범 답안 보기</summary><div class="help-b"><div class="code nocap"><button class="copy" type="button">복사</button><pre><code><span class="tk-kw">FUNCTION</span> Z_BC400_G<mark class="gno">##</mark>_FLIGHTLIST_PERIOD.
+
+  <span class="tk-kw">DATA</span> LS_FLIGHT <span class="tk-kw">LIKE</span> <span class="tk-kw">LINE</span> <span class="tk-kw">OF</span> ET_FLIGHTS.
+
+  <span class="tk-cmt">" 1. 입력값 점검</span>
+  <span class="tk-kw">IF</span> IV_DATE_FROM &gt; IV_DATE_TO.
+    <span class="tk-kw">RAISE</span> WRONG_PERIOD.
+  <span class="tk-kw">ENDIF</span>.
+
+  <span class="tk-cmt">" 2. 로직 처리</span>
+  <span class="tk-kw">SELECT</span>
+    CARRID,
+    CONNID,
+    FLDATE,
+    SEATSMAX,
+    SEATSOCC
+  <span class="tk-kw">FROM</span> SFLIGHT
+  <span class="tk-kw">INTO</span> <span class="tk-kw">TABLE</span> @ET_FLIGHTS
+  <span class="tk-kw">WHERE</span> CARRID <span class="tk-kw">EQ</span> @IV_CARRID
+    <span class="tk-kw">AND</span> FLDATE <span class="tk-kw">GE</span> @IV_DATE_FROM
+    <span class="tk-kw">AND</span> FLDATE <span class="tk-kw">LE</span> @IV_DATE_TO.
+
+  <span class="tk-kw">IF</span> SY-SUBRC <span class="tk-kw">NE</span> <span class="tk-num">0</span>.
+    <span class="tk-kw">RAISE</span> NO_DATA.
+  <span class="tk-kw">ENDIF</span>.
+
+  <span class="tk-kw">LOOP</span> <span class="tk-kw">AT</span> ET_FLIGHTS <span class="tk-kw">INTO</span> LS_FLIGHT.
+    LS_FLIGHT-PERCENTAGE = <span class="tk-num">100</span> * LS_FLIGHT-SEATSOCC / LS_FLIGHT-SEATSMAX.
+    <span class="tk-kw">MODIFY</span> ET_FLIGHTS <span class="tk-kw">FROM</span> LS_FLIGHT <span class="tk-kw">INDEX</span> SY-TABIX <span class="tk-kw">TRANSPORTING</span> PERCENTAGE.
+  <span class="tk-kw">ENDLOOP</span>.
+
+  <span class="tk-cmt">" 3. 결과값 전달: 노선별, 날짜 순</span>
+  <span class="tk-kw">SORT</span> ET_FLIGHTS <span class="tk-kw">BY</span> CONNID FLDATE.
+
+<span class="tk-kw">ENDFUNCTION</span>.</code></pre></div><p><b>생각해 볼 것</b> 시작일과 종료일을 <b>같은 날</b>로 넣으면 그날 일정이 나오나요? <code>GE</code>, <code>LE</code> 대신 <code>GT</code>, <code>LT</code>를 쓰면 결과가 어떻게 달라질지도 생각해 보세요.</p></div></details>
+</section>
+<section id="q3">
+<h2><span class="lv">복습 3</span> 조건 골라서 노선 찾기 <span class="star">★★☆</span></h2>
+<div class="req"><div class="req-h"><b>요청서</b><span>여행사 · 상품 기획용</span></div><div class="req-b">항공사 <b>여러 개</b>와 <b>출발 도시</b>를 골라서 노선을 보고 싶어요. 아무것도 안 넣으면 전부 보여 주세요. 비행시간은 분 말고 <b>시간</b>(예: 1.5시간)으로 보여 주시고, <b>오래 걸리는 노선부터</b> 나오면 좋겠어요.</div></div>
+<div class="make"><div class="make-t"><span class="make-k">만들 것</span></div><dl><dt>Program</dt><dd>ZBC400_G<mark class="gno">##</mark>_CONN_SEARCH (Executable Program, SE38)</dd><dt>입력</dt><dd><code>SO_CAR</code> (항공사, SELECT-OPTIONS), <code>SO_CFR</code> (출발 도시, SELECT-OPTIONS)</dd><dt>변수</dt><dd>Local Structure Type <code>TS_CONN</code>, Table Type <code>TT_CONN</code>(Key: CARRID, CONNID), <code>GT_CONN</code>, <code>GS_CONN</code></dd><dt>출력</dt><dd>CARRID · CONNID · CITYFROM · CITYTO · 비행시간(시간)</dd><dt>메시지</dt><dd>조회 결과가 없으면 텍스트 기호 <code>E01</code>로 메시지 출력 후 종료</dd></dl></div>
+<h4>힌트</h4>
+<details class="help"><summary>힌트 1</summary><div class="help-b"><p>결과 한 줄에는 SPFLI에 없는 <b>비행시간(시간)</b> 칸이 하나 더 있어야 해요. HW-2C에서 잔여좌석·예약률 칸을 추가했던 것처럼 <code>TYPES: BEGIN OF … END OF</code>로 만들고, Table Type은 <code>TT_</code>로 시작하게 선언하세요.</p></div></details><details class="help"><summary>힌트 2</summary><div class="help-b"><p><code>SELECT-OPTIONS</code>는 <code>FOR</code> 뒤에 <b>변수</b>가 와야 해요. 그래서 Structure 변수를 먼저 선언하고 <code>FOR GS_CONN-CARRID</code>처럼 그 칸을 쓰세요. WHERE에서는 <code>=</code> 대신 <code>IN</code>으로 비교하고, 비워 두면 전체가 조회돼요.</p></div></details><details class="help"><summary>힌트 3</summary><div class="help-b"><p>결과 Structure는 칸 순서가 SELECT와 달라요(FLHOUR가 중간에 있음). 이름이 같은 칸끼리 맞춰 넣으려면 HW-2C처럼 <code>INTO CORRESPONDING FIELDS OF TABLE</code>을 쓰세요. 분을 시간으로 바꾸는 건 LOOP에서 <code>FLTIME / 60</code>.</p></div></details>
+<h4>확인할 것</h4>
+<ul class="check"><li><label><input type="checkbox"><span>아무것도 안 넣고 실행하면 SE16으로 본 SPFLI 전체 줄 수와 같나요?</span></label></li><li><label><input type="checkbox"><span>항공사에 AA, LH 두 개만 넣으면 그 두 항공사만 나오나요?</span></label></li><li><label><input type="checkbox"><span>출발 도시에 FRANKFURT를 넣으면 FRANKFURT 출발 노선만 나오나요?</span></label></li><li><label><input type="checkbox"><span>비행시간(시간)이 SE16의 FLTIME ÷ 60과 같고, 큰 값부터 나오나요?</span></label></li><li><label><input type="checkbox"><span>없는 도시(예: SEOUL)를 넣으면 E01 메시지가 나오나요?</span></label></li></ul>
+<details class="help ans"><summary>모범 답안 보기</summary><div class="help-b"><div class="code nocap"><button class="copy" type="button">복사</button><pre><code><span class="tk-kw">REPORT</span> ZBC400_G<mark class="gno">##</mark>_CONN_SEARCH.
+
+<span class="tk-cmt">" 1. 결과 한 줄 모양: SPFLI 칸 5개 + 직접 계산하는 칸 1개(FLHOUR)</span>
+<span class="tk-kw">TYPES</span>: <span class="tk-kw">BEGIN</span> <span class="tk-kw">OF</span> TS_CONN,
+         CARRID   <span class="tk-kw">TYPE</span> SPFLI-CARRID,
+         CONNID   <span class="tk-kw">TYPE</span> SPFLI-CONNID,
+         CITYFROM <span class="tk-kw">TYPE</span> SPFLI-CITYFROM,
+         CITYTO   <span class="tk-kw">TYPE</span> SPFLI-CITYTO,
+         FLHOUR   <span class="tk-kw">TYPE</span> P LENGTH <span class="tk-num">5</span> DECIMALS <span class="tk-num">1</span>,  <span class="tk-cmt">" 비행시간(시간)</span>
+         FLTIME   <span class="tk-kw">TYPE</span> SPFLI-FLTIME,           <span class="tk-cmt">" 비행시간(분)</span>
+       <span class="tk-kw">END</span> <span class="tk-kw">OF</span> TS_CONN.
+
+<span class="tk-kw">TYPES</span> TT_CONN <span class="tk-kw">TYPE</span> <span class="tk-kw">STANDARD</span> <span class="tk-kw">TABLE</span> <span class="tk-kw">OF</span> TS_CONN
+              WITH <span class="tk-kw">NON-UNIQUE</span> <span class="tk-kw">KEY</span> CARRID CONNID.
+
+<span class="tk-kw">DATA</span>: GT_CONN <span class="tk-kw">TYPE</span> TT_CONN,
+      GS_CONN <span class="tk-kw">TYPE</span> TS_CONN.
+
+<span class="tk-cmt">" 2. 입력 화면: FOR 뒤에는 변수(의 칸)가 와야 함</span>
+<span class="tk-kw">SELECT-OPTIONS</span>: SO_CAR <span class="tk-kw">FOR</span> GS_CONN-CARRID,
+                SO_CFR <span class="tk-kw">FOR</span> GS_CONN-CITYFROM.
+
+<span class="tk-cmt">" 3. 조회: FLHOUR 때문에 칸 순서가 달라서 이름으로 맞춰 넣음</span>
+<span class="tk-kw">SELECT</span>
+    CARRID,
+    CONNID,
+    CITYFROM,
+    CITYTO,
+    FLTIME
+<span class="tk-kw">FROM</span> SPFLI
+<span class="tk-kw">INTO</span> <span class="tk-kw">CORRESPONDING</span> <span class="tk-kw">FIELDS</span> <span class="tk-kw">OF</span> <span class="tk-kw">TABLE</span> @GT_CONN
+<span class="tk-kw">WHERE</span> CARRID <span class="tk-kw">IN</span> @SO_CAR
+  <span class="tk-kw">AND</span> CITYFROM <span class="tk-kw">IN</span> @SO_CFR.
+
+<span class="tk-kw">IF</span> SY-SUBRC <span class="tk-kw">NE</span> <span class="tk-num">0</span>.
+  <span class="tk-kw">WRITE</span> TEXT-E01. <span class="tk-cmt">" 조회된 노선이 없습니다.</span>
+  <span class="tk-kw">RETURN</span>.
+<span class="tk-kw">ENDIF</span>.
+
+<span class="tk-cmt">" 4. 분 → 시간</span>
+<span class="tk-kw">LOOP</span> <span class="tk-kw">AT</span> GT_CONN <span class="tk-kw">INTO</span> GS_CONN.
+  GS_CONN-FLHOUR = GS_CONN-FLTIME / <span class="tk-num">60</span>.
+  <span class="tk-kw">MODIFY</span> GT_CONN <span class="tk-kw">FROM</span> GS_CONN.
+<span class="tk-kw">ENDLOOP</span>.
+
+<span class="tk-kw">SORT</span> GT_CONN <span class="tk-kw">BY</span> FLHOUR <span class="tk-kw">DESCENDING</span>.
+
+<span class="tk-cmt">" 5. 출력</span>
+<span class="tk-kw">LOOP</span> <span class="tk-kw">AT</span> GT_CONN <span class="tk-kw">INTO</span> GS_CONN.
+  <span class="tk-kw">WRITE</span>: /(<span class="tk-num">6</span>)  GS_CONN-CARRID   <span class="tk-kw">COLOR</span> COL_KEY,
+          (<span class="tk-num">6</span>)  GS_CONN-CONNID   <span class="tk-kw">COLOR</span> COL_KEY,
+          (<span class="tk-num">20</span>) GS_CONN-CITYFROM,
+          (<span class="tk-num">20</span>) GS_CONN-CITYTO,
+          (<span class="tk-num">8</span>)  GS_CONN-FLHOUR.
+<span class="tk-kw">ENDLOOP</span>.</code></pre></div><p><b>생각해 볼 것</b> <code>INTO CORRESPONDING FIELDS OF TABLE</code>을 그냥 <code>INTO TABLE</code>로 바꾸면 어떻게 될까요? 다섯 번째 칸(FLTIME, 분)이 Structure의 다섯 번째 칸인 <b>FLHOUR</b>에 들어가요. 복습 5의 “순서대로 들어간다”와 같은 이야기예요. 디버거로 확인해 보세요.</p></div></details>
+</section>
+<section id="q4">
+<h2><span class="lv">복습 4</span> 만석 임박 항공편만 <span class="star">★★☆</span></h2>
+<div class="req"><div class="req-h"><b>요청서</b><span>운항관리팀 · 증편 검토용</span></div><div class="req-b">좌석이 거의 다 찬 일정만 보고 싶어요. 기준은 상황마다 다르니까 <b>몇 % 이상</b>인지는 제가 직접 넣을게요. 기준을 넘는 일정이 하나도 없으면, 노선 자체가 없는 거랑은 <b>구분해서</b> 알려 주세요.</div></div>
+<div class="make"><div class="make-t"><span class="make-k">만들 것</span></div><dl><dt>Function Module</dt><dd>Z_BC400_G<mark class="gno">##</mark>_FLIGHTLIST_FULL (Exercise 17의 <code>FLIGHTLIST_GET</code>을 복사해서 시작)</dd><dt>Import</dt><dd><code>IV_CARRID</code>, <code>IV_CONNID</code>, <code>IV_MIN_PERCENT</code> (<code>BC400_S_FLIGHT-PERCENTAGE</code>)</dd><dt>Export</dt><dd><code>ET_FLIGHTS</code> (그대로)</dd><dt>Exception</dt><dd><code>NO_DATA</code>, <code>NO_FULL_FLIGHT</code> (새로 추가)</dd></dl></div>
+<h4>힌트</h4>
+<details class="help"><summary>힌트 1</summary><div class="help-b"><p>Exercise 17의 SELECT 반복문은 한 줄씩 이용률을 계산하고 <code>APPEND</code> 해요. APPEND 앞에 <code>IF</code>를 하나 두면 기준을 넘는 줄만 담을 수 있어요.</p></div></details><details class="help"><summary>힌트 2</summary><div class="help-b"><p><code>ENDSELECT</code> 뒤의 <code>SY-SUBRC</code>는 “SFLIGHT에서 한 줄이라도 읽었는지”예요. 그래서 <code>NO_DATA</code> 판단에는 쓸 수 있지만, 기준을 넘는 줄이 있었는지는 알려 주지 않아요.</p></div></details><details class="help"><summary>힌트 3</summary><div class="help-b"><p><code>ET_FLIGHTS</code>에 담긴 줄이 있는지는 YG04_014에서 써 본 <code>READ TABLE … INDEX 1</code>로 확인할 수 있어요. 첫 줄을 못 읽으면 <code>SY-SUBRC</code>가 0이 아니에요.</p></div></details>
+<h4>확인할 것</h4>
+<ul class="check"><li><label><input type="checkbox"><span>기준을 0으로 넣으면 원본과 같은 줄 수가 나오나요?</span></label></li><li><label><input type="checkbox"><span>기준을 90으로 넣으면 90% 이상인 일정만 나오나요?</span></label></li><li><label><input type="checkbox"><span>기준을 100으로 넣으면 <code>NO_FULL_FLIGHT</code>가 뜨나요? (만석 일정이 없을 때)</span></label></li><li><label><input type="checkbox"><span>없는 노선(9999)을 넣으면 여전히 <code>NO_DATA</code>가 뜨나요?</span></label></li></ul>
+<details class="help ans"><summary>모범 답안 보기</summary><div class="help-b"><div class="code nocap"><button class="copy" type="button">복사</button><pre><code><span class="tk-kw">FUNCTION</span> Z_BC400_G<mark class="gno">##</mark>_FLIGHTLIST_FULL.
+
+  <span class="tk-kw">DATA</span> LS_FLIGHT <span class="tk-kw">LIKE</span> <span class="tk-kw">LINE</span> <span class="tk-kw">OF</span> ET_FLIGHTS.
+
+  <span class="tk-kw">CLEAR</span> ET_FLIGHTS[].
+
+  <span class="tk-cmt">" Exercise 17처럼 SELECT 반복문으로 한 줄씩 읽음</span>
+  <span class="tk-kw">SELECT</span>
+    CARRID,
+    CONNID,
+    FLDATE,
+    SEATSMAX,
+    SEATSOCC
+  <span class="tk-kw">FROM</span> SFLIGHT
+  <span class="tk-kw">INTO</span> @LS_FLIGHT
+  <span class="tk-kw">WHERE</span> CARRID <span class="tk-kw">EQ</span> @IV_CARRID
+    <span class="tk-kw">AND</span> CONNID <span class="tk-kw">EQ</span> @IV_CONNID.
+
+    LS_FLIGHT-PERCENTAGE = <span class="tk-num">100</span> * LS_FLIGHT-SEATSOCC / LS_FLIGHT-SEATSMAX.
+
+    <span class="tk-cmt">" 기준을 넘는 줄만 담기</span>
+    <span class="tk-kw">IF</span> LS_FLIGHT-PERCENTAGE <span class="tk-kw">GE</span> IV_MIN_PERCENT.
+      <span class="tk-kw">APPEND</span> LS_FLIGHT <span class="tk-kw">TO</span> ET_FLIGHTS.
+    <span class="tk-kw">ENDIF</span>.
+
+  <span class="tk-kw">ENDSELECT</span>.
+
+  <span class="tk-cmt">" SFLIGHT에서 한 줄도 못 읽음 → 노선 자체가 없음</span>
+  <span class="tk-kw">IF</span> SY-SUBRC <span class="tk-kw">NE</span> <span class="tk-num">0</span>.
+    <span class="tk-kw">RAISE</span> NO_DATA.
+  <span class="tk-kw">ENDIF</span>.
+
+  <span class="tk-cmt">" 읽기는 했는데 담긴 줄이 없음 → 기준을 넘는 일정이 없음</span>
+  <span class="tk-kw">READ</span> <span class="tk-kw">TABLE</span> ET_FLIGHTS <span class="tk-kw">INTO</span> LS_FLIGHT <span class="tk-kw">INDEX</span> <span class="tk-num">1</span>.
+  <span class="tk-kw">IF</span> SY-SUBRC <span class="tk-kw">NE</span> <span class="tk-num">0</span>.
+    <span class="tk-kw">RAISE</span> NO_FULL_FLIGHT.
+  <span class="tk-kw">ENDIF</span>.
+
+  <span class="tk-kw">SORT</span> ET_FLIGHTS <span class="tk-kw">BY</span> PERCENTAGE <span class="tk-kw">DESCENDING</span>.
+
+<span class="tk-kw">ENDFUNCTION</span>.</code></pre></div><p><b>생각해 볼 것</b> <code>NO_DATA</code> 검사(<code>IF SY-SUBRC NE 0</code>)를 <code>READ TABLE</code> 뒤로 옮기면 어떻게 될까요? 그 순간 <code>SY-SUBRC</code>가 누구의 결과로 바뀌는지 따라가 보세요.</p></div></details>
+</section>
+<section id="q5">
+<h2><span class="lv">복습 5</span> 고장 난 Function Module 고치기 <span class="star">★★☆</span></h2>
+<div class="req"><div class="req-h"><b>요청서</b><span>운영 문의 · 현업 3건 접수</span></div><div class="req-b"><ol class='tickets'><li>“이용률이 <b>150%</b>로 나오는 일정이 있어요. 날짜를 바꾸면 가끔 <b>덤프</b>도 나요.”</li><li>“이용률 높은 순으로 보여 준다고 했는데 <b>순서가 뒤죽박죽</b>이에요.”</li><li>“없는 노선 번호를 넣었는데 <b>아무 메시지 없이</b> 빈 결과만 나와요.”</li></ol></div></div>
+<p>원본 FM을 <b>Z_BC400_G<mark class="gno">##</mark>_FLIGHTLIST_BUG</b>로 복사한 뒤 소스를 아래 코드로 바꿔 넣고, 문의 3건의 원인을 찾아 고치세요. <b>디버거로 원인을 확인한 다음에</b> 고치는 게 규칙이에요.</p>
+<div class="code"><div class="cap">고장 난 코드</div><button class="copy" type="button">복사</button><pre><code><span class="tk-kw">FUNCTION</span> Z_BC400_G<mark class="gno">##</mark>_FLIGHTLIST_BUG.
+
+  <span class="tk-kw">DATA</span> LS_FLIGHT <span class="tk-kw">LIKE</span> <span class="tk-kw">LINE</span> <span class="tk-kw">OF</span> ET_FLIGHTS.
+
+  <span class="tk-kw">SELECT</span>
+    CARRID,
+    CONNID,
+    FLDATE,
+    SEATSOCC,
+    SEATSMAX
+  <span class="tk-kw">FROM</span> SFLIGHT
+  <span class="tk-kw">INTO</span> <span class="tk-kw">TABLE</span> @ET_FLIGHTS
+  <span class="tk-kw">WHERE</span> CARRID <span class="tk-kw">EQ</span> @IV_CARRID
+    <span class="tk-kw">AND</span> CONNID <span class="tk-kw">EQ</span> @IV_CONNID.
+
+  <span class="tk-kw">SORT</span> ET_FLIGHTS <span class="tk-kw">BY</span> PERCENTAGE <span class="tk-kw">DESCENDING</span>.
+
+  <span class="tk-kw">LOOP</span> <span class="tk-kw">AT</span> ET_FLIGHTS <span class="tk-kw">INTO</span> LS_FLIGHT.
+    LS_FLIGHT-PERCENTAGE = <span class="tk-num">100</span> * LS_FLIGHT-SEATSOCC / LS_FLIGHT-SEATSMAX.
+    <span class="tk-kw">MODIFY</span> ET_FLIGHTS <span class="tk-kw">FROM</span> LS_FLIGHT <span class="tk-kw">INDEX</span> SY-TABIX <span class="tk-kw">TRANSPORTING</span> PERCENTAGE.
+  <span class="tk-kw">ENDLOOP</span>.
+
+<span class="tk-kw">ENDFUNCTION</span>.</code></pre></div>
+<h4>힌트</h4>
+<details class="help"><summary>힌트 1</summary><div class="help-b"><p>문의 1: SELECT 바로 뒤에 Breakpoint를 걸고 <code>ET_FLIGHTS</code>의 첫 줄을 열어 보세요. SE16으로 본 SFLIGHT 같은 줄과 <code>SEATSMAX</code>, <code>SEATSOCC</code> 값이 같나요? <b>INTO TABLE은 이름이 아니라 순서</b>대로 들어가요. <code>CONNECTION_GET</code> 주석에 적어 둔 “N번째 필드에 넣는다”를 떠올려 보세요.</p></div></details><details class="help"><summary>힌트 2</summary><div class="help-b"><p>문의 2: <code>SORT</code>를 실행하는 순간 <code>PERCENTAGE</code> 칸에는 어떤 값이 들어 있을까요?</p></div></details><details class="help"><summary>힌트 3</summary><div class="help-b"><p>문의 3: 원본 코드와 나란히 놓고 비교해 보세요. 데이터가 없을 때 누가 <code>NO_DATA</code>를 일으켜야 하나요?</p></div></details>
+<details class="help ans"><summary>원인과 정답 보기</summary><div class="help-b"><div class="table-wrap"><table><tr><th>문의</th><th>원인</th><th>고치는 법</th></tr>
+<tr><td>1. 150%·덤프</td><td>SELECT의 칸 순서가 <code>SEATSOCC, SEATSMAX</code>로 바뀌어 있어서 두 값이 뒤바뀌어 들어감. 탑승 0명인 일정은 0으로 나누게 돼서 <code>CX_SY_ZERODIVIDE</code> 덤프</td><td>Structure 순서대로 <code>SEATSMAX, SEATSOCC</code></td></tr>
+<tr><td>2. 정렬 안 됨</td><td>이용률을 계산하기 전(모두 0일 때) SORT 해서 정렬한 효과가 없음</td><td><code>SORT</code>를 <code>ENDLOOP</code> 뒤로</td></tr>
+<tr><td>3. 메시지 없음</td><td>SELECT 뒤 <code>SY-SUBRC</code> 확인과 <code>RAISE NO_DATA</code>가 빠짐</td><td>SELECT 바로 뒤에 <code>IF SY-SUBRC NE 0. RAISE NO_DATA. ENDIF.</code></td></tr></table></div>
+<p>다 고치면 원본 모범 답안과 같은 코드가 돼요. 멘티에게는 <b>1번이 제일 위험한 버그</b>라는 걸 짚어 주세요. 덤프가 안 나는 날짜에서는 에러 없이 틀린 숫자만 조용히 나가니까요.</p></div></details>
+</section>
+<section id="mentor">
+<h2>멘토용 메모</h2>
+<ul>
+<li><b>1시간일 때</b> 원본 복습(10분) → 복습 1 같이 풀기(15분) → 복습 2 각자(20분) → 복습 5 다 같이 디버거 띄워 놓고(15분). 복습 3·4는 숙제.</li>
+<li><b>2시간일 때</b> 위 순서에 복습 3(30분, SELECT-OPTIONS·변수 선언 복습)과 리뷰(20분)를 더하고, 복습 4만 숙제로.</li>
+<li><b>리뷰 때 물어볼 것</b> “이 줄 빼면 어떻게 돼?”, “SORT를 여기 두면?”, “SY-SUBRC는 지금 어떤 문장의 결과야?” 같은 질문 하나면 충분해요.</li>
+<li><b>빨리 끝낸 멘티에게</b> 같은 코드에 조건을 하나만 더하세요. 예: 복습 1에 “이용률 90% 이상인 줄은 앞에 <code>ICON_RED_LIGHT AS ICON</code>”, 복습 2에 “마지막 줄에 전체 일정 수 출력(LOOP 안에서 변수에 1씩 더하기)”.</li>
+<li><b>테스트 값</b> SE16으로 SFLIGHT를 열어 실제로 있는 항공사·노선을 고르게 하세요. 항공사 코드는 대문자, 노선 번호는 네 자리(0400)로.</li>
+</ul>
+</section>
+
+</main>
+<footer class="foot"><p>원본: SAP BC400 Exercise 13~18 / SAP CODE 과제 HW-2. 복습 문제와 코드는 멘토링용으로 새로 만든 예시예요. 실제 시스템의 Structure 이름·칸 순서에 맞춰 바꿔 쓰세요.</p></footer>
+</div>
+<script>
+(function(){
+  var inp=document.getElementById('gno');
+  var marks=[].slice.call(document.querySelectorAll('mark.gno'));
+  function apply(){
+    var v=(inp.value||'').replace(/[^0-9A-Za-z]/g,'').toUpperCase();
+    marks.forEach(function(m){
+      var lower=m.closest('pre') && /[a-z]/.test((m.previousSibling&&m.previousSibling.textContent||'').slice(-3));
+      m.textContent=v? (lower? v.toLowerCase(): v) : '##';
+    });
+    try{localStorage.setItem('bc400-gno',v);}catch(e){}
+  }
+  try{inp.value=localStorage.getItem('bc400-gno')||'';}catch(e){}
+  inp.addEventListener('input',apply); apply();
+  document.querySelectorAll('.code .copy').forEach(function(b){
+    b.addEventListener('click',function(){
+      var t=b.parentNode.querySelector('pre').innerText;
+      var done=function(){b.textContent='복사됨';setTimeout(function(){b.textContent='복사';},1200);};
+      try{navigator.clipboard.writeText(t).then(done,function(){b.textContent='복사 안 됨';});}catch(e){b.textContent='복사 안 됨';}
+    });
+  });
+})();
+</script>
+<script src="weeks.js"></script>
+</body>
+</html>
