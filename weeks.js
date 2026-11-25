@@ -5,6 +5,17 @@
   // ===== 설정: 여기만 고치면 됨 =====
   var CONFIG = {
     prefix: 'CL7_2_Week',
+    // 첫 화면·상단 바에 보이는 이름
+    team: 'SAP CODE 7반 · 멘토링 2조',
+    // 첫 화면 카드에 보이는 주차별 주제 (비워 두면 '준비 중')
+    titles: {
+      1: 'HW-2C · Dictionary · Function Module 복습',
+      2: '',
+      3: '',
+      4: '',
+      5: '',
+      6: ''
+    },
     // 주차별 공개 날짜 (그날 0시부터 열림) - 매주 목요일 멘토링
     openDates: {
       1: '2026-11-26',
@@ -60,8 +71,13 @@
     return mentor;
   }
 
+  // 실제 공개일이 지났는지 (멘토 모드와 상관없이)
+  function isReleased(n) {
+    return new Date() >= openDate(n);
+  }
+
   function isOpen(n) {
-    return isPreview() || new Date() >= openDate(n);
+    return isPreview() || isReleased(n);
   }
 
   function label(n) {
@@ -69,11 +85,23 @@
     return (d.getMonth() + 1) + '/' + d.getDate();
   }
 
+  function labelLong(n) {
+    return label(n) + ' (' + '일월화수목금토'.charAt(openDate(n).getDay()) + ')';
+  }
+
+  function title(n) {
+    return (CONFIG.titles && CONFIG.titles[n]) || '';
+  }
+
   window.MENTORING = {
     prefix: CONFIG.prefix,
     maxWeek: maxWeek,
     isOpen: isOpen,
+    isReleased: isReleased,
     openLabel: label,
+    openLabelLong: labelLong,
+    title: title,
+    team: CONFIG.team,
     isPreview: isPreview
   };
 
@@ -129,14 +157,14 @@
   nav.className = 'wk-nav';
   document.body.insertBefore(nav, document.body.firstChild);
 
-  var html = '<a class="home" href="index.html#' + current + '">멘토링</a>';
+  var html = '<a class="home" href="index.html">' + CONFIG.team + '</a>';
   for (var n = 1; n <= maxWeek; n++) {
     if (n === current) {
       html += '<span class="on">' + n + '주차</span>';
     } else if (isOpen(n)) {
       html += '<a href="' + CONFIG.prefix + n + '.html">' + n + '주차</a>';
     } else {
-      html += '<span class="off" title="' + label(n) + ' 공개">🔒 ' + n + '주차</span>';
+      html += '<span class="off" title="' + label(n) + ' 오픈">🔒 ' + n + '주차</span>';
     }
   }
   if (isPreview()) {

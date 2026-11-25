@@ -69,6 +69,7 @@ body {
   padding-block: 2rem 4rem;
 }
 main { min-width: 0; display: grid; gap: 2.25rem; }
+main > * { min-width: 0; } /* 긴 코드 줄이 칸을 밀어내지 않고 코드 상자 안에서 가로 스크롤되게 */
 
 /* 목차 */
 nav.toc { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 1.5rem); align-self: start; font-size: 0.875rem; line-height: 1.5; }
@@ -784,7 +785,7 @@ section h4 { color: var(--muted); }
 <header class="cover">
 <div class="eyebrow">HW-2C · Dictionary · Function Module 복습 · 멘토링</div>
 <h1>1주차 복습 문제</h1>
-<p class="lead">HW-2C 비행일정별 좌석 조회에서 출발해요. 프로그램을 바꿔 보고(복습 1·2), Dictionary와 Function Module로 옮겨서 불러 쓰고(복습 3·4), 고장 난 코드를 고쳐 봐요(복습 5). 새로운 문법은 없고, 수업에서 써 본 문장만으로 풀 수 있어요(원본 강사님 코드와 마지막 예시·참고는 제외). 요청서를 읽고 <b>무엇이 바뀌는지</b>부터 정리한 다음 코드를 고치세요. 힌트는 막혔을 때 하나씩만 여세요.</p>
+<p class="lead">HW-2C 비행일정별 좌석 조회에서 출발해요. 프로그램을 바꿔 보고(복습 1·2), Dictionary와 Function Module로 옮겨서 불러 쓰고(복습 3·4), 고장 난 코드를 고쳐 봐요(복습 5). 새로운 문법은 없고, 수업에서 써 본 문장만으로 풀 수 있어요(마지막 예시·참고는 제외). 요청서를 읽고 <b>무엇이 바뀌는지</b>부터 정리한 다음 코드를 고치세요. 힌트는 막혔을 때 하나씩만 여세요.</p>
 <div class="cover-bar">
 <nav class="toc"><ol><li><a href="#rule">시작 전에 · 이름 규칙</a></li><li><a href="#orig">원본 HW-2C</a></li><li><a href="#q1">복습 1 · 이코노미만</a></li><li><a href="#q2">복습 2 · 기준 이상만</a></li><li><a href="#q3">복습 3 · Dictionary·FM</a></li><li><a href="#q4">복습 4 · FM 불러 쓰기</a></li><li><a href="#q5">복습 5 · 버그 고치기</a></li><li><a href="#ex">예시 · 실무처럼</a></li><li><a href="#alv">참고 · ALV 미리보기</a></li><li><a href="#mentor">멘토용 메모</a></li></ol></nav>
 <div class="no-box"><label for="gno">내 번호</label><input id="gno" maxlength="2" placeholder="##" autocomplete="off"><span class="muted small">코드 속 ## 이 바뀌어요</span></div>
@@ -802,7 +803,7 @@ section h4 { color: var(--muted); }
 <section id="orig">
 <details class="fold">
 <summary><h2><span class="lv">원본</span> HW-2C · 비행일정별 좌석 조회</h2></summary>
-<p>아래 문제들은 HW-2C에서 출발해요. 모범 답안은 <b>강사님 리뷰 코드</b>예요. 내 코드와 조금 달라도 흐름이 같으면 괜찮아요. 시작 전에 내 HW-2C를 한 번 실행해 보고 오세요.</p><p>강사님 코드에는 아직 같이 다루지 않은 <code>PERFORM</code>/<code>FORM</code>, <code>INITIALIZATION</code>, <code>SET TITLEBAR</code>, <code>LINE-SIZE</code>도 들어 있어요. 복습 문제에서는 이 문법들을 쓰지 않아요.</p>
+<p>아래 문제들은 HW-2C에서 출발해요. 모범 답안은 <b>강사님 리뷰 코드</b>예요. 내 코드와 조금 달라도 흐름이 같으면 괜찮아요. 시작 전에 내 HW-2C를 한 번 실행해 보고 오세요.</p>
 <div class="make"><div class="make-t"><span class="make-k">만든 것</span></div><dl><dt>Program</dt><dd>ZHWG<mark class="gno">##</mark>_2C (강사님 리뷰 코드는 ZHWG00_2C_REVIEW)</dd><dt>입력</dt><dd><code>PA_CAR</code> (항공사), <code>SO_CON</code> (노선), <code>SO_FLD</code> (비행일자) · SELECT-OPTIONS는 <code>SDYN_BOOK</code>로 만든 <code>GS_BOOK</code>의 칸을 FOR에 씀</dd><dt>결과</dt><dd>SFLIGHT 9칸 + 계산 6칸 = 15칸. 종류별로 묶음 (최대 → 예약 → 잔여 → 예약률, 각각 Economy·Business·First)</dd><dt>정렬</dt><dd>잔여좌석 많은 순 (Economy → Business → First)</dd></dl></div>
 <div class="box"><div class="box-t">짚고 갈 것 세 가지</div><p><b>①</b> SELECT 칸 순서와 Structure 앞 9칸의 순서가 같아서 <code>INTO TABLE</code>로 바로 받을 수 있어요. 순서가 다르면 <code>INTO CORRESPONDING FIELDS OF TABLE</code>이 필요해요(복습 5). <b>②</b> 계산은 LOOP 안에서 하고 <code>MODIFY</code>로 테이블에 다시 넣어요. <b>③</b> <code>DESCENDING</code>은 바로 앞 칸에만 붙어서, 칸마다 따로 적어야 해요.</p></div>
 <details class="help ans"><summary>원본 모범 답안 보기</summary><div class="help-b"><div class="code"><div class="cap">HW-2C 모범 답안 (강사님 리뷰 코드)</div><button class="copy" type="button">복사</button><pre><code><span class="tk-cmt">*&amp;---------------------------------------------------------------------*</span>
@@ -973,7 +974,7 @@ section h4 { color: var(--muted); }
     CV_RATE = <span class="tk-num">100</span> * PV_SEATSOCC / PV_SEATSMAX.
 
   <span class="tk-kw">ENDIF</span>.
-<span class="tk-kw">ENDFORM</span>.</code></pre></div><p><b>짚고 갈 것</b> 예약률 계산이 클래스마다 세 번 반복돼서 <code>FORM CALCULATE_RATE</code> 하나로 묶었어요. <code>USING</code>으로 예약·최대 좌석을 넘기고 <code>CHANGING</code>으로 예약률을 돌려받아요. First 클래스가 없는 항공편은 최대 좌석이 0이라서, 0으로 나누기 덤프도 FORM 안에서 한 번에 막아요. 복습 문제에서는 PERFORM 대신 <code>IF … &gt; 0</code>을 클래스마다 써요.</p></div></details>
+<span class="tk-kw">ENDFORM</span>.</code></pre></div><p><b>짚고 갈 것</b> 예약률 계산이 클래스마다 세 번 반복돼서 <code>FORM CALCULATE_RATE</code> 하나로 묶었어요. <code>USING</code>으로 예약·최대 좌석을 넘기고 <code>CHANGING</code>으로 예약률을 돌려받아요. First 클래스가 없는 항공편은 최대 좌석이 0이라서, 0으로 나누기 덤프도 FORM 안에서 한 번에 막아요.</p></div></details>
 </details>
 </section>
 <section id="q1">
@@ -1166,10 +1167,10 @@ section h4 { color: var(--muted); }
 <ol class="road"><li><b>Task 1</b>Domain <code>YG<mark class="gno">##</mark>_MT_D_PCT</code>: Data Type DEC, 길이 5, 소수 2</li><li><b>Task 2</b>Data Element <code>YG<mark class="gno">##</mark>_MT_E_PCT</code>: Domain은 Task 1, Field Label “예약률”</li><li><b>Task 3</b>Structure <code>YG<mark class="gno">##</mark>_MT_S_SEAT</code>: 아래 표의 15칸</li><li><b>Task 4</b>Table Type <code>YG<mark class="gno">##</mark>_MT_TT_SEAT</code>: Line Type은 Task 3, Standard Table, Key CARRID · CONNID · FLDATE</li><li><b>Task 5</b>FM <code>Y_G<mark class="gno">##</mark>_MT_SEAT_GET</code> (Function Group <code>YG<mark class="gno">##</mark>_MT</code>)</li></ol>
 <div class="table-wrap"><table><tr><th>Component</th><th>Component Type</th><th>설명</th></tr>
 <tr><td>CARRID</td><td>S_CARR_ID</td><td>항공사ID</td></tr><tr><td>CONNID</td><td>S_CONN_ID</td><td>항공편NO</td></tr><tr><td>FLDATE</td><td>S_DATE</td><td>비행일자</td></tr><tr><td>SEATSMAX</td><td>S_SEATSMAX</td><td>최대 Economy</td></tr><tr><td>SEATSMAX_B</td><td>S_SMAX_B</td><td>최대 Business</td></tr><tr><td>SEATSMAX_F</td><td>S_SMAX_F</td><td>최대 First</td></tr><tr><td>SEATSOCC</td><td>S_SEATSOCC</td><td>예약 Economy</td></tr><tr><td>SEATSOCC_B</td><td>S_SOCC_B</td><td>예약 Business</td></tr><tr><td>SEATSOCC_F</td><td>S_SOCC_F</td><td>예약 First</td></tr><tr><td>SEATSFREE</td><td>S_SEATSOCC</td><td>잔여 Economy</td></tr><tr><td>SEATSFREE_B</td><td>S_SOCC_B</td><td>잔여 Business</td></tr><tr><td>SEATSFREE_F</td><td>S_SOCC_F</td><td>잔여 First</td></tr><tr><td>RATE</td><td>YG<mark class="gno">##</mark>_MT_E_PCT</td><td>예약률 Economy</td></tr><tr><td>RATE_B</td><td>YG<mark class="gno">##</mark>_MT_E_PCT</td><td>예약률 Business</td></tr><tr><td>RATE_F</td><td>YG<mark class="gno">##</mark>_MT_E_PCT</td><td>예약률 First</td></tr></table></div>
-<p class="muted small">Component Type은 SE11에서 SFLIGHT를 열어 각 칸의 Data Element를 확인하고 그대로 쓰세요. 칸 순서와 잔여좌석 타입(예약 좌석과 같은 타입)은 원본 강사님 코드와 같게 맞췄어요. Domain의 DEC 길이 5·소수 2는 원본의 <code>TY_RATE</code>(<code>P LENGTH 3 DECIMALS 2</code>)와 같은 크기예요.</p>
+<p class="muted small">Component Type은 SE11에서 SFLIGHT를 열어 각 칸의 Data Element를 확인하고 그대로 쓰세요. 칸 순서와 잔여좌석 타입(예약 좌석과 같은 타입)은 원본 강사님 코드와 같아요. Domain의 DEC 길이 5·소수 2는 원본의 <code>TY_RATE</code>(<code>P LENGTH 3 DECIMALS 2</code>)와 같은 크기예요.</p>
 <div class="make"><div class="make-t"><span class="make-k">Task 5 · FM 인터페이스</span></div><dl><dt>Import</dt><dd><code>IV_CARRID</code> (S_CARR_ID), <code>IV_CONNID</code> (S_CONN_ID), <code>IV_DATE_FROM</code>, <code>IV_DATE_TO</code> (S_DATE)</dd><dt>Export</dt><dd><code>ET_SEATS</code> TYPE <code>YG<mark class="gno">##</mark>_MT_TT_SEAT</code></dd><dt>Exception</dt><dd><code>NO_DATA</code>, <code>WRONG_PERIOD</code></dd></dl></div>
 <h4>힌트</h4>
-<details class="help"><summary>힌트 1</summary><div class="help-b"><p>Dictionary는 HW-1에서 만든 순서 그대로예요. <b>쓰이는 쪽부터</b> 만들어야 활성화돼요. Domain → Data Element → Structure → Table Type.</p></div></details><details class="help"><summary>힌트 2</summary><div class="help-b"><p>Structure를 활성화할 때 “Enhancement Category가 없다”는 경고가 떠요. 에러가 아니라 경고라서 활성화는 돼요. 없애고 싶으면 메뉴 <b>Extras → Enhancement Category</b>에서 하나 골라 저장하세요. 실습이라 어느 걸 골라도 괜찮아요.</p></div></details><details class="help"><summary>힌트 3</summary><div class="help-b"><p>FM 로직은 원본의 3~5번을 옮기면 돼요. 예약률은 PERFORM 대신 클래스마다 <code>IF … &gt; 0</code>으로 계산해요. 바뀌는 건 세 가지예요. SELECT-OPTIONS 대신 값 하나씩 받아서 WHERE는 <code>EQ</code>·<code>GE</code>·<code>LE</code>로, 결과는 <code>ET_SEATS</code>에, 한 줄 변수는 <code>LIKE LINE OF ET_SEATS</code>로. 날짜 검사는 SELECT보다 먼저 하세요.</p></div></details>
+<details class="help"><summary>힌트 1</summary><div class="help-b"><p>Dictionary는 HW-1에서 만든 순서 그대로예요. <b>쓰이는 쪽부터</b> 만들어야 활성화돼요. Domain → Data Element → Structure → Table Type.</p></div></details><details class="help"><summary>힌트 2</summary><div class="help-b"><p>Structure를 활성화할 때 “Enhancement Category가 없다”는 경고가 떠요. 에러가 아니라 경고라서 활성화는 돼요. 없애고 싶으면 메뉴 <b>Extras → Enhancement Category</b>에서 하나 골라 저장하세요. 실습이라 어느 걸 골라도 괜찮아요.</p></div></details><details class="help"><summary>힌트 3</summary><div class="help-b"><p>FM 로직은 원본의 3~5번을 옮기면 돼요. 예약률은 모범 답안에서는 클래스마다 <code>IF … &gt; 0</code>으로 계산했어요. 원본처럼 FORM으로 묶어도 돼요. 바뀌는 건 세 가지예요. SELECT-OPTIONS 대신 값 하나씩 받아서 WHERE는 <code>EQ</code>·<code>GE</code>·<code>LE</code>로, 결과는 <code>ET_SEATS</code>에, 한 줄 변수는 <code>LIKE LINE OF ET_SEATS</code>로. 날짜 검사는 SELECT보다 먼저 하세요.</p></div></details>
 <h4>확인할 것</h4>
 <ul class="check"><li><label><input type="checkbox"><span>Domain부터 Table Type까지 에러 없이 활성화됐나요?</span></label></li><li><label><input type="checkbox"><span>SE37 테스트에서 HW-2C와 같은 노선·기간을 넣으면 숫자가 같게 나오나요?</span></label></li><li><label><input type="checkbox"><span>시작일 &gt; 종료일로 넣으면 <code>WRONG_PERIOD</code>가 뜨나요?</span></label></li><li><label><input type="checkbox"><span>없는 노선(9999)을 넣으면 <code>NO_DATA</code>가 뜨나요?</span></label></li></ul>
 <details class="help ans"><summary>모범 답안 보기</summary><div class="help-b"><div class="code"><div class="cap">Task 5 · FM 소스</div><button class="copy" type="button">복사</button><pre><code><span class="tk-kw">FUNCTION</span> Y_G<mark class="gno">##</mark>_MT_SEAT_GET.
@@ -1371,14 +1372,14 @@ section h4 { color: var(--muted); }
             (<span class="tk-num">10</span>) GS_FLIGHT-RATE_F       <span class="tk-kw">NO-SIGN</span> <span class="tk-kw">RIGHT-JUSTIFIED</span>.
   <span class="tk-kw">ENDLOOP</span>.</code></pre></div>
 <h4>힌트</h4>
-<details class="help"><summary>힌트 1</summary><div class="help-b"><p>문의 1: SELECT 바로 뒤에 Breakpoint를 걸고 <code>GT_FLIGHT</code>의 첫 줄을 열어 보세요. SE16으로 본 SFLIGHT 같은 줄과 <code>SEATSMAX_B</code> 값이 같나요? HW-2A와 HW-2C에서 한 번씩 겪었던 문제예요.</p></div></details><details class="help"><summary>힌트 2</summary><div class="help-b"><p>문의 2: <code>DESCENDING</code>은 어느 칸에 붙어 있나요? 앞의 두 칸은 어떤 순서로 정렬될까요?</p></div></details><details class="help"><summary>힌트 3</summary><div class="help-b"><p>문의 3: WHERE 조건에 입력값 세 개(<code>PA_CAR</code>, <code>SO_CON</code>, <code>SO_FLD</code>)가 다 쓰였나요?</p></div></details>
+<details class="help"><summary>힌트 1</summary><div class="help-b"><p>문의 1: SELECT 바로 뒤에 Breakpoint를 걸고 <code>GT_FLIGHT</code>의 첫 줄을 열어 보세요. SE16으로 본 SFLIGHT 같은 줄과 <code>SEATSMAX_B</code> 값이 같나요? INTO TABLE은 칸 이름이 아니라 <b>순서대로</b> 넣는다는 걸 떠올려 보세요.</p></div></details><details class="help"><summary>힌트 2</summary><div class="help-b"><p>문의 2: <code>DESCENDING</code>은 어느 칸에 붙어 있나요? 앞의 두 칸은 어떤 순서로 정렬될까요?</p></div></details><details class="help"><summary>힌트 3</summary><div class="help-b"><p>문의 3: WHERE 조건에 입력값 세 개(<code>PA_CAR</code>, <code>SO_CON</code>, <code>SO_FLD</code>)가 다 쓰였나요?</p></div></details>
 <details class="help ans"><summary>원인과 정답 보기</summary><div class="help-b"><div class="table-wrap"><table><tr><th>문의</th><th>원인</th><th>고치는 법</th></tr>
-<tr><td>1. 비즈니스·퍼스트 이상</td><td><code>INTO TABLE</code>은 이름이 아니라 <b>순서</b>대로 넣어요. Structure는 클래스별로 묶여 있어서 <code>SEATSMAX_B</code>가 <code>SEATSFREE</code> 자리에, <code>SEATSMAX_F</code>가 <code>SEATSMAX_B</code> 자리에 들어가고 퍼스트 칸은 비어요. 이코노미는 LOOP에서 다시 계산돼서 맞게 보여요.</td><td><code>INTO CORRESPONDING FIELDS OF TABLE</code></td></tr><tr><td>2. 정렬 반대</td><td><code>DESCENDING</code>이 마지막 칸(<code>SEATSFREE_F</code>)에만 붙어서, 앞의 두 칸은 오름차순</td><td>칸마다 <code>DESCENDING</code> 붙이기</td></tr><tr><td>3. 날짜 조건 무시</td><td>WHERE에 <code>SO_FLD</code> 조건이 빠짐</td><td><code>AND FLDATE IN @SO_FLD</code> 추가</td></tr></table></div><p>다 고치면 원본과 같은 결과가 나와요. 원본 강사님 코드는 Structure 칸 순서를 SELECT와 같게 둬서 <code>INTO TABLE</code>로도 됐지만, 이 코드는 클래스별로 묶어서 순서가 달라요. 멘티에게는 <b>1번이 제일 위험한 버그</b>라는 걸 짚어 주세요. 에러 없이 틀린 숫자만 조용히 나가니까요.</p></div></details>
+<tr><td>1. 비즈니스·퍼스트 이상</td><td><code>INTO TABLE</code>은 이름이 아니라 <b>순서</b>대로 넣어요. Structure는 클래스별로 묶여 있어서 <code>SEATSMAX_B</code>가 <code>SEATSFREE</code> 자리에, <code>SEATSMAX_F</code>가 <code>SEATSMAX_B</code> 자리에 들어가고 퍼스트 칸은 비어요. 이코노미는 LOOP에서 다시 계산돼서 맞게 보여요.</td><td><code>INTO CORRESPONDING FIELDS OF TABLE</code></td></tr><tr><td>2. 정렬 반대</td><td><code>DESCENDING</code>이 마지막 칸(<code>SEATSFREE_F</code>)에만 붙어서, 앞의 두 칸은 오름차순</td><td>칸마다 <code>DESCENDING</code> 붙이기</td></tr><tr><td>3. 날짜 조건 무시</td><td>WHERE에 <code>SO_FLD</code> 조건이 빠짐</td><td><code>AND FLDATE IN @SO_FLD</code> 추가</td></tr></table></div><p>다 고치면 원본과 같은 결과가 나와요. 원본 강사님 코드는 Structure 칸 순서를 SELECT와 같게 둬서 <code>INTO TABLE</code>로도 됐지만, 이 코드는 클래스별로 묶어서 순서가 달라요. 세 가지 중 <b>1번이 제일 위험한 버그</b>예요. 덤프나 에러 없이 틀린 숫자만 조용히 나가서, 누가 숫자를 직접 확인하기 전까지는 아무도 모르거든요.</p></div></details>
 </section>
 <section id="ex">
 <h2><span class="lv">예시</span> 실무처럼 정리하면</h2>
 <p>문제는 아니고, 오늘 만든 Dictionary 타입과 FM을 실무 프로그램처럼 쓰면 어떤 모양이 되는지 보여 주는 예시예요. FM으로 한 번 읽고, 같은 출력 코드를 클래스만 바꿔서 세 번 써요.</p>
-<p>아직 안 배운 <code>PERFORM</code>/<code>FORM</code>, <code>OBLIGATORY</code>, <code>SKIP</code>도 들어 있어요. 실제 코드가 어떻게 생겼는지 미리 보는 거라 지금 다 이해하지 않아도 괜찮아요.</p>
+<p>아직 같이 다루지 않은 <code>OBLIGATORY</code>(필수 입력)도 들어 있어요. 실제 코드가 어떻게 생겼는지 미리 보는 거라 지금 다 이해하지 않아도 괜찮아요.</p>
 <div class="make"><div class="make-t"><span class="make-k">구성</span></div><dl><dt>Program</dt><dd>YG<mark class="gno">##</mark>_MT1_EX</dd><dt>입력</dt><dd><code>PA_CAR</code>, <code>PA_CON</code>, <code>PA_FROM</code>, <code>PA_TO</code> (모두 필수 입력)</dd><dt>조회</dt><dd>복습 3의 <code>Y_G<mark class="gno">##</mark>_MT_SEAT_GET</code></dd><dt>출력</dt><dd><code>SHOW_CLASS</code> 하나로 Economy · Business · First 세 블록</dd></dl></div>
 <div class="code"><div class="cap">FM과 Dictionary 타입을 쓰는 프로그램</div><button class="copy" type="button">복사</button><pre><code><span class="tk-kw">REPORT</span> YG<mark class="gno">##</mark>_MT1_EX.
 
@@ -1467,7 +1468,7 @@ section h4 { color: var(--muted); }
 
 <span class="tk-kw">ENDFORM</span>.</code></pre></div>
 <h4>코드에서 볼 것</h4><ul>
-<li><b><code>PERFORM</code>은 이 프로그램 안에서 쓰는 작은 FM이라고 보면 돼요.</b> 코드 묶음에 이름(<code>FORM … ENDFORM</code>)을 붙여 두고 <code>PERFORM 이름</code>으로 불러요.</li>
+<li><b>원본의 <code>CALCULATE_RATE</code>처럼 서브루틴(<code>FORM … ENDFORM</code>)으로 묶었어요.</b> 코드 묶음에 이름을 붙여 두고 <code>PERFORM 이름</code>으로 불러요. 이 프로그램 안에서만 쓰는 작은 FM이라고 보면 돼요.</li>
 <li><b>같은 코드는 한 번만 써요.</b> 세 클래스의 출력 모양이 같아서 <code>SHOW_CLASS</code> 하나로 만들고, 어떤 클래스인지(<code>'E'</code>, <code>'B'</code>, <code>'F'</code>)만 <code>USING</code>으로 넘겨요. 안에서는 수업에서 쓴 <code>CASE</code>로 칸을 골라요.</li>
 <li><b>Dictionary 타입은 어디서든 같은 이름으로 써요.</b> FM의 <code>ET_SEATS</code>, 프로그램의 <code>GT_SEATS</code>, FORM 안의 <code>LS_SEAT</code>·<code>LV_PCT</code>가 모두 복습 3에서 만든 <code>YG<mark class="gno">##</mark>_MT_…</code> 타입이에요. 칸을 하나 바꾸고 싶으면 SE11에서 한 번만 고치면 돼요.</li>
 <li><b>변수 이름 앞글자로 어디서 쓰는 변수인지 알 수 있어요.</b> <code>PA_</code> 선택 화면, <code>GT_</code>·<code>GS_</code> 프로그램 전체, <code>LS_</code>·<code>LV_</code> FORM 안 지역 변수, <code>PV_</code> FORM이 받는 값.</li>
@@ -1624,8 +1625,9 @@ section h4 { color: var(--muted); }
 <li><b>시작할 때</b> 이름 규칙 표를 같이 읽고, 다 같이 Function Group <code>YG<mark class="gno">##</mark>_MT</code>부터 만들고 시작하세요. (5분)</li>
 <li><b>1시간일 때</b> 이름 규칙·Function Group(5분) → 원본 HW-2C 훑기(5분) → 복습 1 같이 풀기(15분) → 복습 5 다 같이 디버거 띄워 놓고(15분) → 복습 3의 Task 1~4 Dictionary만 같이(20분). 복습 2, 복습 3의 FM, 복습 4는 숙제.</li>
 <li><b>2시간일 때</b> 위 순서에 복습 3 FM 마무리(20분), 복습 4(15분), 리뷰(15분), 예시 보여 주기(5분)를 더하고, 복습 2만 숙제로.</li>
-<li><b>예시 보여 줄 때</b> 따라 치게 할 필요는 없고, PERFORM은 “나중에 배울 거고 이 프로그램 안의 작은 FM”이라고만 짚어 주세요. 기간을 시작일 &gt; 종료일로 넣어 메시지가 나오는 것까지 보여 주면 좋아요.</li>
+<li><b>예시 보여 줄 때</b> 따라 치게 할 필요는 없고, PERFORM은 강사님 HW-2C 리뷰 코드의 <code>CALCULATE_RATE</code>와 같은 서브루틴이라고 연결해 주세요. 기간을 시작일 &gt; 종료일로 넣어 메시지가 나오는 것까지 보여 주면 좋아요.</li>
 <li><b>참고 · ALV</b> 멘토링 때는 진행하지 않아요. “이번 주 화면 수업 내용은 다음 주에 오늘 만든 FM으로 이어서 해요”라고만 안내하고, 궁금한 사람은 미리 보게 하세요.</li>
+<li><b>복습 5 마무리</b> 1번(칸 밀림)이 제일 위험한 버그라는 걸 꼭 짚어 주세요. 에러 없이 틀린 숫자만 나가서 실무에서는 한참 뒤에 발견되는 경우가 많아요.</li>
 <li><b>리뷰 때 물어볼 것</b> “이 줄 빼면 어떻게 돼?”, “SORT를 여기 두면?”, “SY-SUBRC는 지금 어떤 문장의 결과야?” 같은 질문 하나면 충분해요.</li>
 <li><b>빨리 끝낸 멘티에게</b> 같은 코드에 조건을 하나만 더하세요. 예: 복습 1에 “잔여좌석이 0인 줄은 <code>COLOR COL_NEGATIVE</code>”, 복습 2에 “마지막 줄에 담긴 일정 수 출력(LOOP 안에서 변수에 1씩 더하기)”.</li>
 <li><b>테스트 값</b> SE16으로 SFLIGHT를 열어 실제로 있는 항공사·노선·날짜를 고르게 하세요. 항공사 코드는 대문자, 노선 번호는 네 자리(0400)로.</li>
