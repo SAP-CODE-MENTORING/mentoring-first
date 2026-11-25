@@ -77,6 +77,19 @@
     isPreview: isPreview
   };
 
+  // ----- 멘토용 메모: 멘토 모드가 아니면 화면에서 숨김 -----
+  // (화면에서만 숨기는 것이라 페이지 소스에는 그대로 남아 있음)
+  if (!isPreview()) {
+    var memo = document.getElementById('mentor');
+    if (memo) memo.parentNode.removeChild(memo);
+
+    var memoLinks = document.querySelectorAll('a[href="#mentor"]');
+    for (var i = 0; i < memoLinks.length; i++) {
+      var item = memoLinks[i].closest('li') || memoLinks[i];
+      item.parentNode.removeChild(item);
+    }
+  }
+
   // index.html에서 설정만 읽으려고 불렀으면 여기서 끝
   if (!/Week\d+\.html$/i.test(location.pathname)) return;
 

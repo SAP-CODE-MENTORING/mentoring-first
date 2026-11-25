@@ -762,6 +762,7 @@ details.fold > summary:hover > h2::after { background: var(--note-soft); color: 
 details.fold > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
 .lv { font-size: 0.8rem; font-weight: 700; color: var(--paper); background: var(--accent); border-radius: 6px; padding: 0.1rem 0.5rem; letter-spacing: 0.02em; }
 #orig .lv,
+#rule .lv,
 #ex .lv { background: var(--note); }
 .star { font-size: 0.9rem; color: var(--warn); letter-spacing: 0.05em; margin-left: auto; }
 .req { margin: 1rem 0; border: 1.5px solid var(--quiz); border-radius: 12px; background: var(--paper); overflow: hidden; }
@@ -781,133 +782,420 @@ section h4 { color: var(--muted); }
 <body>
 <div class="page">
 <header class="cover">
-<div class="eyebrow">BC400 · Exercise 13~18 · HW-2 복습 · 멘토링</div>
+<div class="eyebrow">HW-2C · Dictionary · Function Module 복습 · 멘토링</div>
 <h1>1주차 복습 문제</h1>
-<p class="lead">지금까지 만든 Function Module과 프로그램을 조금씩 바꿔 보는 문제예요. 새로운 문법은 없고, 수업에서 써 본 문장만으로 풀 수 있어요. 요청서를 읽고 <b>무엇이 바뀌는지</b>부터 정리한 다음 코드를 고치세요. 힌트는 막혔을 때 하나씩만 여세요.</p>
+<p class="lead">HW-2C 비행일정별 좌석 조회에서 출발해요. 프로그램을 바꿔 보고(복습 1·2), Dictionary와 Function Module로 옮겨서 불러 쓰고(복습 3·4), 고장 난 코드를 고쳐 봐요(복습 5). 새로운 문법은 없고, 수업에서 써 본 문장만으로 풀 수 있어요(원본 강사님 코드와 마지막 예시·참고는 제외). 요청서를 읽고 <b>무엇이 바뀌는지</b>부터 정리한 다음 코드를 고치세요. 힌트는 막혔을 때 하나씩만 여세요.</p>
 <div class="cover-bar">
-<nav class="toc"><ol><li><a href="#orig">원본 Exercise 18</a></li><li><a href="#q1">복습 1 · FM 불러 쓰기</a></li><li><a href="#q2">복습 2 · 기간 조회</a></li><li><a href="#q3">복습 3 · 노선 찾기</a></li><li><a href="#q4">복습 4 · 만석 임박</a></li><li><a href="#q5">복습 5 · 버그 고치기</a></li><li><a href="#ex">예시 · FM 모아 쓰기</a></li><li><a href="#mentor">멘토용 메모</a></li></ol></nav>
+<nav class="toc"><ol><li><a href="#rule">시작 전에 · 이름 규칙</a></li><li><a href="#orig">원본 HW-2C</a></li><li><a href="#q1">복습 1 · 이코노미만</a></li><li><a href="#q2">복습 2 · 기준 이상만</a></li><li><a href="#q3">복습 3 · Dictionary·FM</a></li><li><a href="#q4">복습 4 · FM 불러 쓰기</a></li><li><a href="#q5">복습 5 · 버그 고치기</a></li><li><a href="#ex">예시 · 실무처럼</a></li><li><a href="#alv">참고 · ALV 미리보기</a></li><li><a href="#mentor">멘토용 메모</a></li></ol></nav>
 <div class="no-box"><label for="gno">내 번호</label><input id="gno" maxlength="2" placeholder="##" autocomplete="off"><span class="muted small">코드 속 ## 이 바뀌어요</span></div>
 </div>
 </header>
 <main>
-
+<section id="rule">
+<h2><span class="lv">시작 전에</span> 이름 규칙과 Function Group 만들기</h2>
+<p>오늘 만드는 건 전부 <b>로컬 오브젝트</b>로 만들어요. 만들 때 Package를 묻는 창이 뜨면 <b>Local Object</b> 버튼을 누르면 돼요. 수업 패키지와 섞이지 않고, Transport Request 창도 안 떠요.</p>
+<div class="table-wrap"><table><tr><th>대상</th><th>규칙</th><th>예 (내 번호 기준)</th></tr>
+<tr><td>프로그램</td><td>YG<mark class="gno">##</mark>_MT주차_문제</td><td><code>YG<mark class="gno">##</mark>_MT1_Q1</code></td></tr><tr><td>Function Group</td><td>YG<mark class="gno">##</mark>_MT (멘토링 전체에서 하나)</td><td><code>YG<mark class="gno">##</mark>_MT</code></td></tr><tr><td>Function Module</td><td>Y_G<mark class="gno">##</mark>_MT_이름 (앞에 <b>Y_</b> 필수)</td><td><code>Y_G<mark class="gno">##</mark>_MT_SEAT_GET</code></td></tr><tr><td>Domain</td><td>YG<mark class="gno">##</mark>_MT_D_이름</td><td><code>YG<mark class="gno">##</mark>_MT_D_PCT</code></td></tr><tr><td>Data Element</td><td>YG<mark class="gno">##</mark>_MT_E_이름</td><td><code>YG<mark class="gno">##</mark>_MT_E_PCT</code></td></tr><tr><td>Structure</td><td>YG<mark class="gno">##</mark>_MT_S_이름</td><td><code>YG<mark class="gno">##</mark>_MT_S_SEAT</code></td></tr><tr><td>Table Type</td><td>YG<mark class="gno">##</mark>_MT_TT_이름</td><td><code>YG<mark class="gno">##</mark>_MT_TT_SEAT</code></td></tr></table></div>
+<div class="box"><div class="box-t">길이 제한</div><p>프로그램·FM·Structure 이름은 <b>30자</b>, <code>PARAMETERS</code>·<code>SELECT-OPTIONS</code> 이름은 <b>8자</b>, DB 테이블은 <b>16자</b>까지예요. FM만 <code>Y_G##…</code>처럼 Y 뒤에 언더바가 붙는 건, 고객 FM 이름이 <code>Y_</code>나 <code>Z_</code>로 시작해야 하는 규칙 때문이에요.</p></div>
+<p><b>Function Group은 오늘 처음 한 번만</b> 만들어요. SE37 → 메뉴 <b>Goto → Function Groups → Create Group</b> → 이름 <code>YG<mark class="gno">##</mark>_MT</code>, 설명 “멘토링” → <b>Local Object</b>. 만든 다음 SE80에서 그룹을 활성화해 두세요.</p>
+</section>
 <section id="orig">
 <details class="fold">
-<summary><h2><span class="lv">원본</span> Exercise 18 · Array Fetch 구현하기</h2></summary>
-<p>아래 문제들은 지금까지 만든 Function Module과 프로그램에서 출발해요. 원본을 아직 안 했다면 먼저 끝내고 오세요.</p>
-<div class="make"><div class="make-t"><span class="make-k">만든 것</span></div><dl><dt>Function Group</dt><dd>ZBC400_G<mark class="gno">##</mark></dd><dt>Function Module</dt><dd>Z_BC400_G<mark class="gno">##</mark>_FLIGHTLIST_GET_OPT (Exercise 17의 FM 복사본)</dd><dt>Import</dt><dd><code>IV_CARRID</code>, <code>IV_CONNID</code></dd><dt>Export</dt><dd><code>ET_FLIGHTS</code> (Internal Table)</dd><dt>Exception</dt><dd><code>NO_DATA</code></dd></dl></div>
-<ol class="road">
-<li><b>Task 1</b>Function Group 만들기 (있으면 건너뜀)</li>
-<li><b>Task 2</b>Exercise 17의 Function Module을 새 이름으로 복사</li>
-<li><b>Task 3</b>SELECT 반복문을 주석으로 바꾸고 <code>SELECT … INTO TABLE</code>로 교체, <code>LOOP</code> 안에서 이용률 계산 후 <code>MODIFY … INDEX SY-TABIX TRANSPORTING PERCENTAGE</code></li>
-<li><b>Task 4</b>활성화하고 Exercise 17과 같은 결과인지 테스트</li>
-</ol>
-<div class="box"><div class="box-t">이 페이지의 가정</div>
-<p><code>ET_FLIGHTS</code>는 <code>BC400_T_FLIGHTS</code>, 한 줄은 <code>BC400_S_FLIGHT</code>이고 칸 순서는 <code>CARRID · CONNID · FLDATE · SEATSMAX · SEATSOCC · PERCENTAGE</code>라고 가정했어요. 내 Structure의 칸 순서나 이름이 다르면 코드도 거기에 맞춰 바꾸세요.</p></div>
-<details class="help ans"><summary>원본 모범 답안 보기</summary><div class="help-b"><div class="code"><div class="cap">Exercise 18 모범 답안 (요약)</div><button class="copy" type="button">복사</button><pre><code><span class="tk-kw">FUNCTION</span> Z_BC400_G<mark class="gno">##</mark>_FLIGHTLIST_GET_OPT.
+<summary><h2><span class="lv">원본</span> HW-2C · 비행일정별 좌석 조회</h2></summary>
+<p>아래 문제들은 HW-2C에서 출발해요. 모범 답안은 <b>강사님 리뷰 코드</b>예요. 내 코드와 조금 달라도 흐름이 같으면 괜찮아요. 시작 전에 내 HW-2C를 한 번 실행해 보고 오세요.</p><p>강사님 코드에는 아직 같이 다루지 않은 <code>PERFORM</code>/<code>FORM</code>, <code>INITIALIZATION</code>, <code>SET TITLEBAR</code>, <code>LINE-SIZE</code>도 들어 있어요. 복습 문제에서는 이 문법들을 쓰지 않아요.</p>
+<div class="make"><div class="make-t"><span class="make-k">만든 것</span></div><dl><dt>Program</dt><dd>ZHWG<mark class="gno">##</mark>_2C (강사님 리뷰 코드는 ZHWG00_2C_REVIEW)</dd><dt>입력</dt><dd><code>PA_CAR</code> (항공사), <code>SO_CON</code> (노선), <code>SO_FLD</code> (비행일자) · SELECT-OPTIONS는 <code>SDYN_BOOK</code>로 만든 <code>GS_BOOK</code>의 칸을 FOR에 씀</dd><dt>결과</dt><dd>SFLIGHT 9칸 + 계산 6칸 = 15칸. 종류별로 묶음 (최대 → 예약 → 잔여 → 예약률, 각각 Economy·Business·First)</dd><dt>정렬</dt><dd>잔여좌석 많은 순 (Economy → Business → First)</dd></dl></div>
+<div class="box"><div class="box-t">짚고 갈 것 세 가지</div><p><b>①</b> SELECT 칸 순서와 Structure 앞 9칸의 순서가 같아서 <code>INTO TABLE</code>로 바로 받을 수 있어요. 순서가 다르면 <code>INTO CORRESPONDING FIELDS OF TABLE</code>이 필요해요(복습 5). <b>②</b> 계산은 LOOP 안에서 하고 <code>MODIFY</code>로 테이블에 다시 넣어요. <b>③</b> <code>DESCENDING</code>은 바로 앞 칸에만 붙어서, 칸마다 따로 적어야 해요.</p></div>
+<details class="help ans"><summary>원본 모범 답안 보기</summary><div class="help-b"><div class="code"><div class="cap">HW-2C 모범 답안 (강사님 리뷰 코드)</div><button class="copy" type="button">복사</button><pre><code><span class="tk-cmt">*&amp;---------------------------------------------------------------------*</span>
+<span class="tk-cmt">*&amp; Report ZHWG00_2C_REVIEW</span>
+<span class="tk-cmt">*&amp;---------------------------------------------------------------------*</span>
+<span class="tk-cmt">*&amp; [HW-2C] 비행일정별 좌석 조회 G&#35;&#35; 리뷰</span>
+<span class="tk-cmt">*&amp;---------------------------------------------------------------------*</span>
+<span class="tk-kw">REPORT</span> ZHWG00_2C_REVIEW <span class="tk-kw">LINE-SIZE</span> <span class="tk-num">170</span>             <span class="tk-cmt">" LINE-SIZE가 없으면 GUI 창넓이 기준으로 글자가 자동으로 다음줄로 내려간다.</span>
+                                                  <span class="tk-cmt">" 강제로 리스트 폭을 설정해서 GUI 창넓이와 관계없이 한 줄에 모든 글자가 출력되도록 설정했다.</span>
+                        <span class="tk-kw">NO</span> <span class="tk-kw">STANDARD</span> <span class="tk-kw">PAGE</span> <span class="tk-kw">HEADING</span>. <span class="tk-cmt">" 리스트 맨 위의 프로그램 제목을 제거한다.</span>
 
-  <span class="tk-kw">DATA</span> LS_FLIGHT <span class="tk-kw">LIKE</span> <span class="tk-kw">LINE</span> <span class="tk-kw">OF</span> ET_FLIGHTS.
+<span class="tk-cmt">" -----------------------------------------------------------------------</span>
+<span class="tk-cmt">" 1. Selection Screen</span>
+<span class="tk-cmt">"    - Dictionary Structure Type SDYN_BOOK 으로 변수 선언 후 참조</span>
+<span class="tk-cmt">" -----------------------------------------------------------------------</span>
+<span class="tk-kw">DATA</span> GS_BOOK <span class="tk-kw">TYPE</span> SDYN_BOOK.
 
-  <span class="tk-cmt">" SELECT 반복문(Exercise 17)은 주석으로 남겨 둠 (생략)</span>
+<span class="tk-kw">PARAMETERS</span>      PA_CAR <span class="tk-kw">TYPE</span> SDYN_BOOK-CARRID.
+<span class="tk-kw">SELECT-OPTIONS</span>: SO_CON <span class="tk-kw">FOR</span>  GS_BOOK-CONNID,
+                SO_FLD <span class="tk-kw">FOR</span>  GS_BOOK-FLDATE.
 
-  <span class="tk-kw">SELECT</span>
-    CARRID,
-    CONNID,
-    FLDATE,
-    SEATSMAX,
-    SEATSOCC
-  <span class="tk-kw">FROM</span> SFLIGHT
-  <span class="tk-kw">INTO</span> <span class="tk-kw">TABLE</span> @ET_FLIGHTS
-  <span class="tk-kw">WHERE</span> CARRID <span class="tk-kw">EQ</span> @IV_CARRID
-    <span class="tk-kw">AND</span> CONNID <span class="tk-kw">EQ</span> @IV_CONNID.
 
-  <span class="tk-cmt">" 읽은 데이터가 없으면 Exception 발생</span>
-  <span class="tk-kw">IF</span> SY-SUBRC <span class="tk-kw">NE</span> <span class="tk-num">0</span>.
-    <span class="tk-kw">RAISE</span> NO_DATA.
+<span class="tk-cmt">" -----------------------------------------------------------------------</span>
+<span class="tk-cmt">" 2. Local Structure Type / Internal Table / Work Area (15 Fields)</span>
+<span class="tk-cmt">" -----------------------------------------------------------------------</span>
+<span class="tk-cmt">" 예약률을 위한 타입 선언</span>
+<span class="tk-kw">TYPES</span> TY_RATE <span class="tk-kw">TYPE</span> P <span class="tk-kw">LENGTH</span> <span class="tk-num">3</span> <span class="tk-kw">DECIMALS</span> <span class="tk-num">2</span>.
+
+<span class="tk-kw">TYPES</span>: <span class="tk-kw">BEGIN</span> <span class="tk-kw">OF</span> TS_FLIGHT,
+         CARRID      <span class="tk-kw">TYPE</span> SFLIGHT-CARRID,     <span class="tk-cmt">" 항공사 ID</span>
+         CONNID      <span class="tk-kw">TYPE</span> SFLIGHT-CONNID,     <span class="tk-cmt">" 항공편 NO</span>
+         FLDATE      <span class="tk-kw">TYPE</span> SFLIGHT-FLDATE,     <span class="tk-cmt">" 비행일자</span>
+         SEATSMAX    <span class="tk-kw">TYPE</span> SFLIGHT-SEATSMAX,   <span class="tk-cmt">" 최대 좌석수 (Economy)</span>
+         SEATSMAX_B  <span class="tk-kw">TYPE</span> SFLIGHT-SEATSMAX_B, <span class="tk-cmt">" 최대 좌석수 (Business)</span>
+         SEATSMAX_F  <span class="tk-kw">TYPE</span> SFLIGHT-SEATSMAX_F, <span class="tk-cmt">" 최대 좌석수 (First)</span>
+         SEATSOCC    <span class="tk-kw">TYPE</span> SFLIGHT-SEATSOCC,   <span class="tk-cmt">" 예약 좌석수 (Economy)</span>
+         SEATSOCC_B  <span class="tk-kw">TYPE</span> SFLIGHT-SEATSOCC_B, <span class="tk-cmt">" 예약 좌석수 (Business)</span>
+         SEATSOCC_F  <span class="tk-kw">TYPE</span> SFLIGHT-SEATSOCC_F, <span class="tk-cmt">" 예약 좌석수 (First)</span>
+         SEATSFREE   <span class="tk-kw">TYPE</span> SFLIGHT-SEATSOCC,   <span class="tk-cmt">" 잔여 좌석수 (Economy)</span>
+         SEATSFREE_B <span class="tk-kw">TYPE</span> SFLIGHT-SEATSOCC_B, <span class="tk-cmt">" 잔여 좌석수 (Business)</span>
+         SEATSFREE_F <span class="tk-kw">TYPE</span> SFLIGHT-SEATSOCC_F, <span class="tk-cmt">" 잔여 좌석수 (First)</span>
+         RATE        <span class="tk-kw">TYPE</span> TY_RATE,            <span class="tk-cmt">" 예약률 (Economy)</span>
+         RATE_B      <span class="tk-kw">TYPE</span> TY_RATE,            <span class="tk-cmt">" 예약률 (Business)</span>
+         RATE_F      <span class="tk-kw">TYPE</span> TY_RATE,            <span class="tk-cmt">" 예약률 (First)</span>
+       <span class="tk-kw">END</span> <span class="tk-kw">OF</span> TS_FLIGHT.
+
+
+<span class="tk-kw">DATA</span> GT_FLIGHT <span class="tk-kw">TYPE</span> <span class="tk-kw">STANDARD</span> <span class="tk-kw">TABLE</span> <span class="tk-kw">OF</span> TS_FLIGHT
+               <span class="tk-kw">WITH</span> <span class="tk-kw">NON-UNIQUE</span> <span class="tk-kw">KEY</span> CARRID CONNID FLDATE.
+<span class="tk-kw">DATA</span> GS_FLIGHT <span class="tk-kw">LIKE</span> <span class="tk-kw">LINE</span> <span class="tk-kw">OF</span> GT_FLIGHT.
+
+<span class="tk-kw">INITIALIZATION</span>.
+  <span class="tk-cmt">" [HW-2C] 비행일정별 좌석 조회 G&#35;&#35;</span>
+  <span class="tk-kw">SET</span> <span class="tk-kw">TITLEBAR</span> <span class="tk-str">&#x27;TITLE&#x27;</span>.
+
+  <span class="tk-cmt">" -----------------------------------------------------------------------</span>
+
+<span class="tk-kw">START-OF-SELECTION</span>.
+  <span class="tk-cmt">" -----------------------------------------------------------------------</span>
+
+  <span class="tk-cmt">" [HW-2C] 비행일정별 좌석 조회 G&#35;&#35;</span>
+  <span class="tk-kw">SET</span> <span class="tk-kw">TITLEBAR</span> <span class="tk-str">&#x27;TITLE&#x27;</span>.
+
+  <span class="tk-cmt">" 3. SFLIGHT 조회 (Array Fetch)</span>
+  <span class="tk-kw">SELECT</span> CARRID CONNID FLDATE SEATSMAX SEATSMAX_B SEATSMAX_F SEATSOCC SEATSOCC_B SEATSOCC_F
+    <span class="tk-kw">FROM</span> SFLIGHT
+    <span class="tk-kw">INTO</span> <span class="tk-kw">TABLE</span> GT_FLIGHT
+    <span class="tk-kw">WHERE</span> CARRID  = PA_CAR
+      <span class="tk-kw">AND</span> CONNID <span class="tk-kw">IN</span> SO_CON
+  <span class="tk-kw">AND</span> FLDATE <span class="tk-kw">IN</span> SO_FLD.
+
+  <span class="tk-cmt">" 4. 조회 실패 시 오류 메시지 출력 후 중단</span>
+  <span class="tk-kw">IF</span> SY-SUBRC &lt;&gt; <span class="tk-num">0</span>.
+    <span class="tk-kw">WRITE</span> / <span class="tk-str">&#x27;조회 조건에 해당하는 비행일정 데이터가 없습니다.&#x27;</span>
+          <span class="tk-kw">COLOR</span> COL_NEGATIVE.
+    <span class="tk-kw">RETURN</span>.
   <span class="tk-kw">ENDIF</span>.
 
-  <span class="tk-cmt">" 반복문으로 좌석 이용률 계산</span>
-  <span class="tk-kw">LOOP</span> <span class="tk-kw">AT</span> ET_FLIGHTS <span class="tk-kw">INTO</span> LS_FLIGHT.
-    LS_FLIGHT-PERCENTAGE = <span class="tk-num">100</span> * LS_FLIGHT-SEATSOCC / LS_FLIGHT-SEATSMAX.
-    <span class="tk-kw">MODIFY</span> ET_FLIGHTS <span class="tk-kw">FROM</span> LS_FLIGHT <span class="tk-kw">INDEX</span> SY-TABIX <span class="tk-kw">TRANSPORTING</span> PERCENTAGE.
+  <span class="tk-cmt">" 5. 잔여 좌석수 / 예약률 계산</span>
+  <span class="tk-kw">LOOP</span> <span class="tk-kw">AT</span> GT_FLIGHT <span class="tk-kw">INTO</span> GS_FLIGHT.
+
+    <span class="tk-cmt">" 잔여 좌석수</span>
+    GS_FLIGHT-SEATSFREE   = GS_FLIGHT-SEATSMAX   - GS_FLIGHT-SEATSOCC.
+    GS_FLIGHT-SEATSFREE_B = GS_FLIGHT-SEATSMAX_B - GS_FLIGHT-SEATSOCC_B.
+    GS_FLIGHT-SEATSFREE_F = GS_FLIGHT-SEATSMAX_F - GS_FLIGHT-SEATSOCC_F.
+
+    <span class="tk-cmt">" Economy 예약율 계산</span>
+    <span class="tk-kw">PERFORM</span> CALCULATE_RATE: <span class="tk-kw">USING</span>    GS_FLIGHT-SEATSOCC
+                                     GS_FLIGHT-SEATSMAX
+                            <span class="tk-kw">CHANGING</span> GS_FLIGHT-RATE,         <span class="tk-cmt">" 콤마</span>
+
+                            <span class="tk-cmt">" Business 예약율 계산</span>
+                            <span class="tk-kw">USING</span>    GS_FLIGHT-SEATSOCC_B
+                                     GS_FLIGHT-SEATSMAX_B
+                            <span class="tk-kw">CHANGING</span> GS_FLIGHT-RATE_B,       <span class="tk-cmt">" 콤마</span>
+
+                            <span class="tk-cmt">" First 예약율 계산</span>
+                            <span class="tk-kw">USING</span>    GS_FLIGHT-SEATSOCC_F
+                                     GS_FLIGHT-SEATSMAX_F
+                            <span class="tk-kw">CHANGING</span> GS_FLIGHT-RATE_F.
+
+    <span class="tk-kw">MODIFY</span> GT_FLIGHT <span class="tk-kw">FROM</span> GS_FLIGHT.
+
   <span class="tk-kw">ENDLOOP</span>.
 
-  <span class="tk-kw">SORT</span> ET_FLIGHTS <span class="tk-kw">BY</span> PERCENTAGE <span class="tk-kw">DESCENDING</span>.
+  <span class="tk-cmt">" 잔여 좌석수 기준 내림차순 정렬 (Economy → Business → First)</span>
+  <span class="tk-kw">SORT</span> GT_FLIGHT <span class="tk-kw">BY</span> SEATSFREE   <span class="tk-kw">DESCENDING</span>
+                    SEATSFREE_B <span class="tk-kw">DESCENDING</span>
+                    SEATSFREE_F <span class="tk-kw">DESCENDING</span>.
 
-<span class="tk-kw">ENDFUNCTION</span>.</code></pre></div><p>핵심은 세 가지예요. <b>①</b> <code>INTO TABLE</code>로 한 번에 채우고 <b>②</b> 바로 뒤에서 <code>SY-SUBRC</code>로 <code>NO_DATA</code>를 판단하고 <b>③</b> <code>SORT</code>는 이용률을 다 계산한 <code>ENDLOOP</code> 뒤에 둬요.</p><p><b>짚고 갈 것</b> <code>SY-SUBRC</code>는 <b>바로 앞 문장</b>의 결과예요. SORT 뒤에서 확인해도 우연히 맞을 때가 있지만, SELECT 바로 뒤에서 확인해야 “SELECT가 데이터를 읽었는지”를 정확히 볼 수 있어요.</p></div></details>
+  <span class="tk-cmt">" 6. 화면 출력</span>
+  <span class="tk-cmt">" - 헤더</span>
+  <span class="tk-kw">WRITE</span>: /(<span class="tk-num">10</span>) TEXT-F01 <span class="tk-kw">CENTERED</span>,        <span class="tk-cmt">" 항공사ID</span>
+          (<span class="tk-num">10</span>) TEXT-F02 <span class="tk-kw">CENTERED</span>,        <span class="tk-cmt">" 항공편NO</span>
+          (<span class="tk-num">14</span>) TEXT-F03 <span class="tk-kw">CENTERED</span>,        <span class="tk-cmt">" 비행일자</span>
+          (<span class="tk-num">10</span>) TEXT-F04 <span class="tk-kw">RIGHT-JUSTIFIED</span>, <span class="tk-cmt">" Eco 최대</span>
+          (<span class="tk-num">10</span>) TEXT-F05 <span class="tk-kw">RIGHT-JUSTIFIED</span>, <span class="tk-cmt">" Eco 예약</span>
+          (<span class="tk-num">10</span>) TEXT-F06 <span class="tk-kw">RIGHT-JUSTIFIED</span>, <span class="tk-cmt">" Eco 잔여</span>
+          (<span class="tk-num">10</span>) TEXT-F07 <span class="tk-kw">RIGHT-JUSTIFIED</span>, <span class="tk-cmt">" Eco %</span>
+          (<span class="tk-num">10</span>) TEXT-F08 <span class="tk-kw">RIGHT-JUSTIFIED</span>, <span class="tk-cmt">" Biz 최대</span>
+          (<span class="tk-num">10</span>) TEXT-F09 <span class="tk-kw">RIGHT-JUSTIFIED</span>, <span class="tk-cmt">" Biz 예약</span>
+          (<span class="tk-num">10</span>) TEXT-F10 <span class="tk-kw">RIGHT-JUSTIFIED</span>, <span class="tk-cmt">" Biz 잔여</span>
+          (<span class="tk-num">10</span>) TEXT-F11 <span class="tk-kw">RIGHT-JUSTIFIED</span>, <span class="tk-cmt">" Biz %</span>
+          (<span class="tk-num">10</span>) TEXT-F12 <span class="tk-kw">RIGHT-JUSTIFIED</span>, <span class="tk-cmt">" 1st 최대</span>
+          (<span class="tk-num">10</span>) TEXT-F13 <span class="tk-kw">RIGHT-JUSTIFIED</span>, <span class="tk-cmt">" 1st 예약</span>
+          (<span class="tk-num">10</span>) TEXT-F14 <span class="tk-kw">RIGHT-JUSTIFIED</span>, <span class="tk-cmt">" 1st 잔여</span>
+          (<span class="tk-num">10</span>) TEXT-F15 <span class="tk-kw">RIGHT-JUSTIFIED</span>. <span class="tk-cmt">" 1st %</span>
+  <span class="tk-kw">ULINE</span>.
+
+  <span class="tk-cmt">" - 데이터 (Key: Color + 가운데 정렬 / 숫자: No sign + 우측 정렬)</span>
+  <span class="tk-kw">LOOP</span> <span class="tk-kw">AT</span> GT_FLIGHT <span class="tk-kw">INTO</span> GS_FLIGHT.
+    <span class="tk-kw">WRITE</span>: /(<span class="tk-num">10</span>) GS_FLIGHT-CARRID      <span class="tk-kw">COLOR</span> COL_KEY <span class="tk-kw">CENTERED</span>,
+            (<span class="tk-num">10</span>) GS_FLIGHT-CONNID      <span class="tk-kw">COLOR</span> COL_KEY <span class="tk-kw">CENTERED</span>,
+            (<span class="tk-num">14</span>) GS_FLIGHT-FLDATE      <span class="tk-kw">COLOR</span> COL_KEY <span class="tk-kw">CENTERED</span>,
+            (<span class="tk-num">10</span>) GS_FLIGHT-SEATSMAX    <span class="tk-kw">NO-SIGN</span> <span class="tk-kw">RIGHT-JUSTIFIED</span>,
+            (<span class="tk-num">10</span>) GS_FLIGHT-SEATSOCC    <span class="tk-kw">NO-SIGN</span> <span class="tk-kw">RIGHT-JUSTIFIED</span>,
+            (<span class="tk-num">10</span>) GS_FLIGHT-SEATSFREE   <span class="tk-kw">NO-SIGN</span> <span class="tk-kw">RIGHT-JUSTIFIED</span>,
+            (<span class="tk-num">10</span>) GS_FLIGHT-RATE        <span class="tk-kw">NO-SIGN</span> <span class="tk-kw">RIGHT-JUSTIFIED</span>,
+            (<span class="tk-num">10</span>) GS_FLIGHT-SEATSMAX_B  <span class="tk-kw">NO-SIGN</span> <span class="tk-kw">RIGHT-JUSTIFIED</span>,
+            (<span class="tk-num">10</span>) GS_FLIGHT-SEATSOCC_B  <span class="tk-kw">NO-SIGN</span> <span class="tk-kw">RIGHT-JUSTIFIED</span>,
+            (<span class="tk-num">10</span>) GS_FLIGHT-SEATSFREE_B <span class="tk-kw">NO-SIGN</span> <span class="tk-kw">RIGHT-JUSTIFIED</span>,
+            (<span class="tk-num">10</span>) GS_FLIGHT-RATE_B      <span class="tk-kw">NO-SIGN</span> <span class="tk-kw">RIGHT-JUSTIFIED</span>,
+            (<span class="tk-num">10</span>) GS_FLIGHT-SEATSMAX_F  <span class="tk-kw">NO-SIGN</span> <span class="tk-kw">RIGHT-JUSTIFIED</span>,
+            (<span class="tk-num">10</span>) GS_FLIGHT-SEATSOCC_F  <span class="tk-kw">NO-SIGN</span> <span class="tk-kw">RIGHT-JUSTIFIED</span>,
+            (<span class="tk-num">10</span>) GS_FLIGHT-SEATSFREE_F <span class="tk-kw">NO-SIGN</span> <span class="tk-kw">RIGHT-JUSTIFIED</span>,
+            (<span class="tk-num">10</span>) GS_FLIGHT-RATE_F      <span class="tk-kw">NO-SIGN</span> <span class="tk-kw">RIGHT-JUSTIFIED</span>.
+  <span class="tk-kw">ENDLOOP</span>.
+
+  <span class="tk-cmt">" ---------------------------------------------------------------------</span>
+  <span class="tk-cmt">" START-OF-SELECT 끝.</span>
+  <span class="tk-cmt">" ---------------------------------------------------------------------</span>
+
+<span class="tk-cmt">*&amp;---------------------------------------------------------------------*</span>
+<span class="tk-cmt">*&amp; Form CALCULATE_RATE</span>
+<span class="tk-cmt">*&amp;---------------------------------------------------------------------*</span>
+<span class="tk-kw">FORM</span> CALCULATE_RATE <span class="tk-kw">USING</span>    <span class="tk-kw">VALUE</span>(PV_SEATSOCC) <span class="tk-kw">TYPE</span> SFLIGHT-SEATSOCC
+                             <span class="tk-kw">VALUE</span>(PV_SEATSMAX) <span class="tk-kw">TYPE</span> SFLIGHT-SEATSMAX
+                    <span class="tk-kw">CHANGING</span> CV_RATE            <span class="tk-kw">TYPE</span> TY_RATE.
+
+  <span class="tk-cmt">" 예약률(%) - 최대 좌석수가 0인 경우 0으로 처리 (Zero Divide 방지)</span>
+
+  <span class="tk-kw">IF</span> PV_SEATSMAX = <span class="tk-num">0</span>.
+
+    CV_RATE = <span class="tk-num">0</span>.
+
+  <span class="tk-kw">ELSE</span>.
+
+    CV_RATE = <span class="tk-num">100</span> * PV_SEATSOCC / PV_SEATSMAX.
+
+  <span class="tk-kw">ENDIF</span>.
+<span class="tk-kw">ENDFORM</span>.</code></pre></div><p><b>짚고 갈 것</b> 예약률 계산이 클래스마다 세 번 반복돼서 <code>FORM CALCULATE_RATE</code> 하나로 묶었어요. <code>USING</code>으로 예약·최대 좌석을 넘기고 <code>CHANGING</code>으로 예약률을 돌려받아요. First 클래스가 없는 항공편은 최대 좌석이 0이라서, 0으로 나누기 덤프도 FORM 안에서 한 번에 막아요. 복습 문제에서는 PERFORM 대신 <code>IF … &gt; 0</code>을 클래스마다 써요.</p></div></details>
 </details>
 </section>
 <section id="q1">
-<h2><span class="lv">복습 1</span> 프로그램에서 FM 불러 쓰기 <span class="star">★☆☆</span></h2>
-<div class="req"><div class="req-h"><b>요청서</b><span>운항관리팀 · 조회 화면</span></div><div class="req-b">Function Module은 다 만들어졌다고 들었어요. 그런데 저희는 SE37 테스트 화면 말고 <b>프로그램을 실행해서</b> 보고 싶어요. 항공사와 노선 번호를 넣으면 일정 목록이 나오게 해 주세요. 없는 노선이면 <b>데이터가 없다고</b> 알려 주세요.</div></div>
-<div class="make"><div class="make-t"><span class="make-k">만들 것</span></div><dl><dt>Program</dt><dd>ZBC400_G<mark class="gno">##</mark>_FLIGHT_LIST (Executable Program, SE38)</dd><dt>입력</dt><dd><code>PA_CAR</code> (항공사), <code>PA_CON</code> (노선 번호)</dd><dt>사용할 FM</dt><dd>원본 <code>Z_BC400_G<mark class="gno">##</mark>_FLIGHTLIST_GET_OPT</code></dd><dt>출력</dt><dd>CARRID · CONNID · FLDATE · SEATSMAX · SEATSOCC · PERCENTAGE</dd></dl></div>
+<h2><span class="lv">복습 1</span> 이코노미만, 곧 마감되는 순서로 <span class="star">★☆☆</span></h2>
+<div class="req"><div class="req-h"><b>요청서</b><span>영업팀 · 이코노미 마감 임박</span></div><div class="req-b">HW-2C 화면이 너무 넓어요. 저희는 <b>이코노미만</b> 보면 돼요. 비즈니스, 퍼스트 칸은 빼 주시고, <b>남은 좌석이 적은 일정부터</b> 보여 주세요. 곧 마감되는 걸 먼저 봐야 하거든요.</div></div>
+<div class="make"><div class="make-t"><span class="make-k">만들 것</span></div><dl><dt>Program</dt><dd>YG<mark class="gno">##</mark>_MT1_Q1 (HW-2C를 복사해서 시작)</dd><dt>입력</dt><dd>HW-2C 그대로</dd><dt>변수</dt><dd><code>TY_RATE</code>(원본과 같음), <code>TS_ECO</code>(7칸), <code>TT_ECO</code>(Key: CARRID, CONNID, FLDATE), <code>GT_ECO</code>, <code>GS_ECO</code></dd><dt>출력</dt><dd>CARRID · CONNID · FLDATE · 최대 · 예약 · 잔여 · 예약률</dd><dt>정렬</dt><dd>잔여좌석 <b>적은</b> 순</dd></dl></div>
 <h4>힌트</h4>
-<details class="help"><summary>힌트 1</summary><div class="help-b"><p>Exercise 9 계산기에서 <code>Z_BC400_G<mark class="gno">##</mark>_COMP_PERCENTAGE</code>를 불렀던 것처럼 <b>Pattern 버튼</b>으로 CALL FUNCTION 문장을 넣으세요.</p></div></details><details class="help"><summary>힌트 2</summary><div class="help-b"><p>FM이 돌려주는 <code>ET_FLIGHTS</code>를 받을 변수가 필요해요. Exercise 14에서 <code>GT_CONNECTION TYPE BC400_T_CONNECTIONS</code>로 선언했던 것처럼 <code>BC400_T_FLIGHTS</code> 타입으로 만들고, 한 줄 변수는 <code>LIKE LINE OF</code>로 만드세요.</p></div></details><details class="help"><summary>힌트 3</summary><div class="help-b"><p>예외 처리는 계산기처럼 CALL FUNCTION 바로 뒤에서 <code>CASE SY-SUBRC</code>로 해요. 0일 때만 <code>LOOP AT … INTO …</code>로 한 줄씩 WRITE 하세요.</p></div></details>
+<details class="help"><summary>힌트 1</summary><div class="help-b"><p>요청서에서 바뀌는 것만 골라 보세요. 칸 수(15칸 → 7칸), 선언 방식, SELECT 칸, 계산, 정렬 방향, 출력. 입력과 WHERE는 그대로예요.</p></div></details><details class="help"><summary>힌트 2</summary><div class="help-b"><p>원본의 <code>TYPES: BEGIN OF TS_FLIGHT</code>에서 Economy 칸만 남기면 돼요. 이번에는 테이블 모양도 <code>TYPES TT_ECO TYPE STANDARD TABLE OF TS_ECO WITH NON-UNIQUE KEY …</code>로 따로 만든 다음, <code>DATA</code>로 변수를 선언해 보세요.</p></div></details><details class="help"><summary>힌트 3</summary><div class="help-b"><p><code>SORT</code>에 <code>DESCENDING</code>을 안 붙이면 작은 것부터(오름차순) 정렬돼요. 헤더에 쓸 텍스트 기호(F01~F07)도 새 프로그램에 다시 만들어야 해요.</p></div></details>
 <h4>확인할 것</h4>
-<ul class="check"><li><label><input type="checkbox"><span>SE37 테스트 화면에서 본 결과와 줄 수가 같나요?</span></label></li><li><label><input type="checkbox"><span>이용률이 높은 순서로 나오나요?</span></label></li><li><label><input type="checkbox"><span>없는 노선(9999)을 넣으면 “데이터가 없습니다”가 나오나요?</span></label></li></ul>
-<details class="help ans"><summary>모범 답안 보기</summary><div class="help-b"><div class="code nocap"><button class="copy" type="button">복사</button><pre><code><span class="tk-kw">REPORT</span> ZBC400_G<mark class="gno">##</mark>_FLIGHT_LIST.
+<ul class="check"><li><label><input type="checkbox"><span>비즈니스, 퍼스트 칸 없이 7칸만 나오나요?</span></label></li><li><label><input type="checkbox"><span>잔여좌석이 작은 값부터 나오나요?</span></label></li><li><label><input type="checkbox"><span>예약률이 HW-2C 결과의 Eco %와 같은가요?</span></label></li><li><label><input type="checkbox"><span>없는 노선(9999)을 넣으면 E01 메시지가 나오나요?</span></label></li></ul>
+<details class="help ans"><summary>모범 답안 보기</summary><div class="help-b"><div class="code nocap"><button class="copy" type="button">복사</button><pre><code><span class="tk-kw">REPORT</span> YG<mark class="gno">##</mark>_MT1_Q1.
 
-<span class="tk-kw">PARAMETERS</span>: PA_CAR <span class="tk-kw">TYPE</span> BC400_S_FLIGHT-CARRID,
-            PA_CON <span class="tk-kw">TYPE</span> BC400_S_FLIGHT-CONNID.
+<span class="tk-cmt">" 1. 입력: HW-2C 그대로</span>
+<span class="tk-kw">PARAMETERS</span> PA_CAR <span class="tk-kw">TYPE</span> SDYN_BOOK-CARRID.
 
-<span class="tk-kw">DATA</span>: GT_FLIGHTS <span class="tk-kw">TYPE</span> BC400_T_FLIGHTS,
-      GS_FLIGHT  <span class="tk-kw">LIKE</span> <span class="tk-kw">LINE</span> <span class="tk-kw">OF</span> GT_FLIGHTS.
+<span class="tk-kw">DATA</span> GS_BOOK <span class="tk-kw">TYPE</span> SDYN_BOOK.
+
+<span class="tk-kw">SELECT-OPTIONS</span>: SO_CON <span class="tk-kw">FOR</span> GS_BOOK-CONNID,
+                SO_FLD <span class="tk-kw">FOR</span> GS_BOOK-FLDATE.
+
+<span class="tk-cmt">" 2. TYPES로 한 줄 모양(TS_)과 테이블 모양(TT_)을 정의</span>
+<span class="tk-cmt">" 예약률 타입 (원본과 같게)</span>
+<span class="tk-kw">TYPES</span> TY_RATE <span class="tk-kw">TYPE</span> P <span class="tk-kw">LENGTH</span> <span class="tk-num">3</span> <span class="tk-kw">DECIMALS</span> <span class="tk-num">2</span>.
+
+<span class="tk-kw">TYPES</span>: <span class="tk-kw">BEGIN</span> <span class="tk-kw">OF</span> TS_ECO,
+         CARRID     <span class="tk-kw">TYPE</span> SFLIGHT-CARRID,
+         CONNID     <span class="tk-kw">TYPE</span> SFLIGHT-CONNID,
+         FLDATE     <span class="tk-kw">TYPE</span> SFLIGHT-FLDATE,
+         SEATSMAX   <span class="tk-kw">TYPE</span> SFLIGHT-SEATSMAX,
+         SEATSOCC   <span class="tk-kw">TYPE</span> SFLIGHT-SEATSOCC,
+         SEATSFREE  <span class="tk-kw">TYPE</span> SFLIGHT-SEATSMAX,
+         RATE       <span class="tk-kw">TYPE</span> TY_RATE,
+       <span class="tk-kw">END</span> <span class="tk-kw">OF</span> TS_ECO.
+
+<span class="tk-kw">TYPES</span> TT_ECO <span class="tk-kw">TYPE</span> <span class="tk-kw">STANDARD</span> <span class="tk-kw">TABLE</span> <span class="tk-kw">OF</span> TS_ECO
+             <span class="tk-kw">WITH</span> <span class="tk-kw">NON-UNIQUE</span> <span class="tk-kw">KEY</span> CARRID CONNID FLDATE.
+
+<span class="tk-kw">DATA</span>: GT_ECO <span class="tk-kw">TYPE</span> TT_ECO,
+      GS_ECO <span class="tk-kw">TYPE</span> TS_ECO.
 
 <span class="tk-kw">START-OF-SELECTION</span>.
 
-  <span class="tk-kw">CALL</span> <span class="tk-kw">FUNCTION</span> <span class="tk-str">&#x27;Z_BC400_G<mark class="gno">##</mark>_FLIGHTLIST_GET_OPT&#x27;</span>
-    <span class="tk-kw">EXPORTING</span>
-      IV_CARRID  = PA_CAR
-      IV_CONNID  = PA_CON
-    <span class="tk-kw">IMPORTING</span>
-      ET_FLIGHTS = GT_FLIGHTS
-    <span class="tk-kw">EXCEPTIONS</span>
-      NO_DATA    = <span class="tk-num">1</span>
-      <span class="tk-kw">OTHERS</span>     = <span class="tk-num">2</span>.
+  <span class="tk-cmt">" 3. 조회: Economy 칸만</span>
+  <span class="tk-kw">SELECT</span>
+      CARRID,
+      CONNID,
+      FLDATE,
+      SEATSMAX,
+      SEATSOCC
+  <span class="tk-kw">FROM</span> SFLIGHT
+  <span class="tk-kw">INTO</span> <span class="tk-kw">CORRESPONDING</span> <span class="tk-kw">FIELDS</span> <span class="tk-kw">OF</span> <span class="tk-kw">TABLE</span> @GT_ECO
+  <span class="tk-kw">WHERE</span> CARRID = @PA_CAR
+    <span class="tk-kw">AND</span> CONNID <span class="tk-kw">IN</span> @SO_CON
+    <span class="tk-kw">AND</span> FLDATE <span class="tk-kw">IN</span> @SO_FLD.
 
-  <span class="tk-kw">CASE</span> SY-SUBRC.
-    <span class="tk-kw">WHEN</span> <span class="tk-num">0</span>.
-      <span class="tk-kw">LOOP</span> <span class="tk-kw">AT</span> GT_FLIGHTS <span class="tk-kw">INTO</span> GS_FLIGHT.
-        <span class="tk-kw">WRITE</span>: / GS_FLIGHT-CARRID,
-                 GS_FLIGHT-CONNID,
-                 GS_FLIGHT-FLDATE,
-                 GS_FLIGHT-SEATSMAX,
-                 GS_FLIGHT-SEATSOCC,
-                 GS_FLIGHT-PERCENTAGE.
-      <span class="tk-kw">ENDLOOP</span>.
-    <span class="tk-kw">WHEN</span> <span class="tk-num">1</span>.
-      <span class="tk-kw">WRITE</span> / <span class="tk-str">&#x27;조회된 데이터가 없습니다.&#x27;</span>.
-    <span class="tk-kw">WHEN</span> <span class="tk-kw">OTHERS</span>.
-      <span class="tk-kw">WRITE</span> / <span class="tk-str">&#x27;알 수 없는 오류가 발생했습니다.&#x27;</span>.
-  <span class="tk-kw">ENDCASE</span>.</code></pre></div><p><b>생각해 볼 것</b> FM에서는 <code>IV_CARRID</code>가 <b>Import</b>인데, CALL FUNCTION에서는 <b>EXPORTING</b> 아래에 적어요. <code>ET_FLIGHTS</code>는 반대로 IMPORTING 아래에 있고요. 왜 반대인지 “누가 보내고 누가 받는지”로 짝지어 보세요.</p></div></details>
+  <span class="tk-kw">IF</span> SY-SUBRC <span class="tk-kw">NE</span> <span class="tk-num">0</span>.
+    <span class="tk-kw">WRITE</span> TEXT-E01.  <span class="tk-cmt">" 조회된 일정이 없습니다.</span>
+    <span class="tk-kw">RETURN</span>.
+  <span class="tk-kw">ENDIF</span>.
+
+  <span class="tk-cmt">" 4. 계산</span>
+  <span class="tk-kw">LOOP</span> <span class="tk-kw">AT</span> GT_ECO <span class="tk-kw">INTO</span> GS_ECO.
+    GS_ECO-SEATSFREE = GS_ECO-SEATSMAX - GS_ECO-SEATSOCC.
+
+    <span class="tk-kw">IF</span> GS_ECO-SEATSMAX &gt; <span class="tk-num">0</span>.
+      GS_ECO-RATE = <span class="tk-num">100</span> * GS_ECO-SEATSOCC / GS_ECO-SEATSMAX.
+    <span class="tk-kw">ENDIF</span>.
+
+    <span class="tk-kw">MODIFY</span> GT_ECO <span class="tk-kw">FROM</span> GS_ECO.
+  <span class="tk-kw">ENDLOOP</span>.
+
+  <span class="tk-cmt">" 5. 정렬: 잔여좌석 적은 순 (DESCENDING을 안 쓰면 작은 것부터)</span>
+  <span class="tk-kw">SORT</span> GT_ECO <span class="tk-kw">BY</span> SEATSFREE.
+
+  <span class="tk-cmt">" 6. 출력</span>
+  <span class="tk-kw">WRITE</span>: /(<span class="tk-num">10</span>) TEXT-F01 <span class="tk-kw">CENTERED</span>,         <span class="tk-cmt">" 항공사ID</span>
+          (<span class="tk-num">10</span>) TEXT-F02 <span class="tk-kw">CENTERED</span>,         <span class="tk-cmt">" 항공편NO</span>
+          (<span class="tk-num">14</span>) TEXT-F03 <span class="tk-kw">CENTERED</span>,         <span class="tk-cmt">" 비행일자</span>
+          (<span class="tk-num">10</span>) TEXT-F04 <span class="tk-kw">RIGHT-JUSTIFIED</span>,  <span class="tk-cmt">" 최대</span>
+          (<span class="tk-num">10</span>) TEXT-F05 <span class="tk-kw">RIGHT-JUSTIFIED</span>,  <span class="tk-cmt">" 예약</span>
+          (<span class="tk-num">10</span>) TEXT-F06 <span class="tk-kw">RIGHT-JUSTIFIED</span>,  <span class="tk-cmt">" 잔여</span>
+          (<span class="tk-num">10</span>) TEXT-F07 <span class="tk-kw">RIGHT-JUSTIFIED</span>.  <span class="tk-cmt">" 예약률</span>
+  <span class="tk-kw">ULINE</span>.
+
+  <span class="tk-kw">LOOP</span> <span class="tk-kw">AT</span> GT_ECO <span class="tk-kw">INTO</span> GS_ECO.
+    <span class="tk-kw">WRITE</span>: /(<span class="tk-num">10</span>) GS_ECO-CARRID     <span class="tk-kw">COLOR</span> COL_KEY <span class="tk-kw">CENTERED</span>,
+            (<span class="tk-num">10</span>) GS_ECO-CONNID     <span class="tk-kw">COLOR</span> COL_KEY <span class="tk-kw">CENTERED</span>,
+            (<span class="tk-num">14</span>) GS_ECO-FLDATE     <span class="tk-kw">COLOR</span> COL_KEY <span class="tk-kw">CENTERED</span>,
+            (<span class="tk-num">10</span>) GS_ECO-SEATSMAX   <span class="tk-kw">NO-SIGN</span> <span class="tk-kw">RIGHT-JUSTIFIED</span>,
+            (<span class="tk-num">10</span>) GS_ECO-SEATSOCC   <span class="tk-kw">NO-SIGN</span> <span class="tk-kw">RIGHT-JUSTIFIED</span>,
+            (<span class="tk-num">10</span>) GS_ECO-SEATSFREE  <span class="tk-kw">NO-SIGN</span> <span class="tk-kw">RIGHT-JUSTIFIED</span>,
+            (<span class="tk-num">10</span>) GS_ECO-RATE       <span class="tk-kw">NO-SIGN</span> <span class="tk-kw">RIGHT-JUSTIFIED</span>.
+  <span class="tk-kw">ENDLOOP</span>.</code></pre></div><p><b>생각해 볼 것</b> SELECT를 HW-2C처럼 9칸 그대로 두면 어떻게 될까요? <code>INTO CORRESPONDING</code>이라 TS_ECO에 없는 칸은 그냥 버려져서 결과는 같아요. 그래도 필요한 칸만 읽는 게 좋은 이유를 생각해 보세요. (힌트: DB에서 가져오는 양)</p></div></details>
 </section>
 <section id="q2">
-<h2><span class="lv">복습 2</span> 기간으로 조회하기 <span class="star">★☆☆</span></h2>
-<div class="req"><div class="req-h"><b>요청서</b><span>영업팀 · 노선 번호 몰라요</span></div><div class="req-b">노선 번호까지는 모르겠고요, <b>항공사랑 기간</b>만 넣으면 그 기간의 비행 일정이 전부 나왔으면 좋겠어요. 시작일을 종료일보다 늦게 넣는 실수도 자주 하는데, 그럴 땐 <b>잘못 넣었다고 알려</b> 주세요. 결과는 노선별로, 날짜 순으로 보고 싶어요.</div></div>
-<div class="make"><div class="make-t"><span class="make-k">만들 것</span></div><dl><dt>Function Module</dt><dd>Z_BC400_G<mark class="gno">##</mark>_FLIGHTLIST_PERIOD (원본 FM을 복사해서 시작)</dd><dt>Import</dt><dd><code>IV_CARRID</code>, <code>IV_DATE_FROM</code>, <code>IV_DATE_TO</code> (날짜는 <code>BC400_S_FLIGHT-FLDATE</code>)</dd><dt>Export</dt><dd><code>ET_FLIGHTS</code> (그대로)</dd><dt>Exception</dt><dd><code>NO_DATA</code>, <code>WRONG_PERIOD</code> (새로 추가)</dd></dl></div>
+<h2><span class="lv">복습 2</span> 예약률이 기준 이상인 일정만 <span class="star">★★☆</span></h2>
+<div class="req"><div class="req-h"><b>요청서</b><span>운항관리팀 · 증편 검토용</span></div><div class="req-b">이코노미 <b>예약률이 기준 이상</b>인 일정만 보고 싶어요. 기준은 상황마다 달라서 몇 % 이상인지는 제가 직접 넣을게요. 기준을 넘는 일정이 하나도 없으면, <b>일정 자체가 없는 거랑 구분해서</b> 알려 주세요.</div></div>
+<div class="make"><div class="make-t"><span class="make-k">만들 것</span></div><dl><dt>Program</dt><dd>YG<mark class="gno">##</mark>_MT1_Q2 (복습 1을 복사해서 시작)</dd><dt>입력</dt><dd>복습 1 + <code>PA_PCT</code> (기준 예약률, <code>TYPE I</code>)</dd><dt>변수</dt><dd><code>GT_ECO</code> (읽은 전체), <code>GT_RESULT</code> (기준 이상만, 같은 <code>TT_ECO</code> 타입)</dd><dt>메시지</dt><dd>일정이 없으면 E01, 기준을 넘는 일정이 없으면 E02</dd><dt>정렬</dt><dd>예약률 높은 순</dd></dl></div>
 <h4>힌트</h4>
-<details class="help"><summary>힌트 1</summary><div class="help-b"><p>요청서에서 <b>바뀌는 것</b>만 골라 보세요. 입력(IV_CONNID 빠지고 날짜 둘 추가), WHERE 조건, 예외 하나 추가, 정렬 기준. 나머지(INTO TABLE, LOOP, MODIFY)는 원본 그대로예요.</p></div></details><details class="help"><summary>힌트 2</summary><div class="help-b"><p>기간 조건은 “시작일보다 크거나 같고(<code>GE</code>) 종료일보다 작거나 같다(<code>LE</code>)”를 <code>AND</code>로 이어서 써요. 날짜 검사는 <code>COMP_PERCENTAGE</code>에 적어 둔 “1. 입력값 점검”처럼 <b>SELECT보다 먼저</b> 하세요. 잘못된 입력이면 굳이 읽을 필요가 없으니까요.</p></div></details><details class="help"><summary>힌트 3</summary><div class="help-b"><p>정렬 기준이 두 개면 <code>SORT itab BY 칸1 칸2.</code>처럼 나란히 적어요. 앞에 적은 칸이 먼저 기준이 돼요.</p></div></details>
+<details class="help"><summary>힌트 1</summary><div class="help-b"><p>계산하는 LOOP 안에서, 예약률을 구한 바로 다음에 <code>IF</code>를 하나 두세요. 기준 이상이면 <code>APPEND GS_ECO TO GT_RESULT.</code>로 다른 테이블에 담아요.</p></div></details><details class="help"><summary>힌트 2</summary><div class="help-b"><p>테이블에서 줄을 지우는 문법은 아직 안 배웠어요. 그래서 “기준 미만을 지우기” 대신 “기준 이상만 새 테이블에 담기”로 풀어요. 출력도 <code>GT_RESULT</code>로 해요.</p></div></details><details class="help"><summary>힌트 3</summary><div class="help-b"><p><code>GT_RESULT</code>가 비었는지는 수업에서 써 본 <code>READ TABLE … INDEX 1</code>로 확인할 수 있어요. 첫 줄을 못 읽으면 <code>SY-SUBRC</code>가 0이 아니에요.</p></div></details>
 <h4>확인할 것</h4>
-<ul class="check"><li><label><input type="checkbox"><span>기간을 넓게 넣으면 여러 노선(CONNID)의 일정이 섞여서 나오나요?</span></label></li><li><label><input type="checkbox"><span>결과가 CONNID → FLDATE 순서로 정렬돼 있나요?</span></label></li><li><label><input type="checkbox"><span>시작일 &gt; 종료일로 넣으면 <code>WRONG_PERIOD</code>가 뜨나요?</span></label></li><li><label><input type="checkbox"><span>데이터가 없는 기간(예: 아주 옛날)을 넣으면 <code>NO_DATA</code>가 뜨나요?</span></label></li></ul>
-<details class="help ans"><summary>모범 답안 보기</summary><div class="help-b"><div class="code nocap"><button class="copy" type="button">복사</button><pre><code><span class="tk-kw">FUNCTION</span> Z_BC400_G<mark class="gno">##</mark>_FLIGHTLIST_PERIOD.
+<ul class="check"><li><label><input type="checkbox"><span>기준을 0으로 넣으면 복습 1과 같은 줄 수가 나오나요?</span></label></li><li><label><input type="checkbox"><span>기준을 90으로 넣으면 90% 이상인 일정만 나오나요?</span></label></li><li><label><input type="checkbox"><span>기준을 100으로 넣으면 E02 메시지가 나오나요? (만석 일정이 없을 때)</span></label></li><li><label><input type="checkbox"><span>없는 노선(9999)을 넣으면 E02가 아니라 E01이 나오나요?</span></label></li></ul>
+<details class="help ans"><summary>모범 답안 보기</summary><div class="help-b"><div class="code nocap"><button class="copy" type="button">복사</button><pre><code><span class="tk-kw">REPORT</span> YG<mark class="gno">##</mark>_MT1_Q2.
 
-  <span class="tk-kw">DATA</span> LS_FLIGHT <span class="tk-kw">LIKE</span> <span class="tk-kw">LINE</span> <span class="tk-kw">OF</span> ET_FLIGHTS.
+<span class="tk-kw">PARAMETERS</span> PA_CAR <span class="tk-kw">TYPE</span> SDYN_BOOK-CARRID.
 
-  <span class="tk-cmt">" 1. 입력값 점검</span>
+<span class="tk-kw">DATA</span> GS_BOOK <span class="tk-kw">TYPE</span> SDYN_BOOK.
+
+<span class="tk-kw">SELECT-OPTIONS</span>: SO_CON <span class="tk-kw">FOR</span> GS_BOOK-CONNID,
+                SO_FLD <span class="tk-kw">FOR</span> GS_BOOK-FLDATE.
+
+<span class="tk-kw">PARAMETERS</span> PA_PCT <span class="tk-kw">TYPE</span> I.  <span class="tk-cmt">" 기준 예약률(%)</span>
+
+<span class="tk-cmt">" 예약률 타입 (원본과 같게)</span>
+<span class="tk-kw">TYPES</span> TY_RATE <span class="tk-kw">TYPE</span> P <span class="tk-kw">LENGTH</span> <span class="tk-num">3</span> <span class="tk-kw">DECIMALS</span> <span class="tk-num">2</span>.
+
+<span class="tk-kw">TYPES</span>: <span class="tk-kw">BEGIN</span> <span class="tk-kw">OF</span> TS_ECO,
+         CARRID     <span class="tk-kw">TYPE</span> SFLIGHT-CARRID,
+         CONNID     <span class="tk-kw">TYPE</span> SFLIGHT-CONNID,
+         FLDATE     <span class="tk-kw">TYPE</span> SFLIGHT-FLDATE,
+         SEATSMAX   <span class="tk-kw">TYPE</span> SFLIGHT-SEATSMAX,
+         SEATSOCC   <span class="tk-kw">TYPE</span> SFLIGHT-SEATSOCC,
+         SEATSFREE  <span class="tk-kw">TYPE</span> SFLIGHT-SEATSMAX,
+         RATE       <span class="tk-kw">TYPE</span> TY_RATE,
+       <span class="tk-kw">END</span> <span class="tk-kw">OF</span> TS_ECO.
+
+<span class="tk-kw">TYPES</span> TT_ECO <span class="tk-kw">TYPE</span> <span class="tk-kw">STANDARD</span> <span class="tk-kw">TABLE</span> <span class="tk-kw">OF</span> TS_ECO
+             <span class="tk-kw">WITH</span> <span class="tk-kw">NON-UNIQUE</span> <span class="tk-kw">KEY</span> CARRID CONNID FLDATE.
+
+<span class="tk-kw">DATA</span>: GT_ECO    <span class="tk-kw">TYPE</span> TT_ECO,  <span class="tk-cmt">" SFLIGHT에서 읽은 전체</span>
+      GT_RESULT <span class="tk-kw">TYPE</span> TT_ECO,  <span class="tk-cmt">" 기준을 넘는 일정만</span>
+      GS_ECO    <span class="tk-kw">TYPE</span> TS_ECO.
+
+<span class="tk-kw">START-OF-SELECTION</span>.
+
+  <span class="tk-kw">SELECT</span>
+      CARRID,
+      CONNID,
+      FLDATE,
+      SEATSMAX,
+      SEATSOCC
+  <span class="tk-kw">FROM</span> SFLIGHT
+  <span class="tk-kw">INTO</span> <span class="tk-kw">CORRESPONDING</span> <span class="tk-kw">FIELDS</span> <span class="tk-kw">OF</span> <span class="tk-kw">TABLE</span> @GT_ECO
+  <span class="tk-kw">WHERE</span> CARRID = @PA_CAR
+    <span class="tk-kw">AND</span> CONNID <span class="tk-kw">IN</span> @SO_CON
+    <span class="tk-kw">AND</span> FLDATE <span class="tk-kw">IN</span> @SO_FLD.
+
+  <span class="tk-cmt">" 일정 자체가 없음</span>
+  <span class="tk-kw">IF</span> SY-SUBRC <span class="tk-kw">NE</span> <span class="tk-num">0</span>.
+    <span class="tk-kw">WRITE</span> TEXT-E01.  <span class="tk-cmt">" 조회된 일정이 없습니다.</span>
+    <span class="tk-kw">RETURN</span>.
+  <span class="tk-kw">ENDIF</span>.
+
+  <span class="tk-cmt">" 계산한 뒤 기준을 넘는 줄만 GT_RESULT에 담기</span>
+  <span class="tk-kw">LOOP</span> <span class="tk-kw">AT</span> GT_ECO <span class="tk-kw">INTO</span> GS_ECO.
+    GS_ECO-SEATSFREE = GS_ECO-SEATSMAX - GS_ECO-SEATSOCC.
+
+    <span class="tk-kw">IF</span> GS_ECO-SEATSMAX &gt; <span class="tk-num">0</span>.
+      GS_ECO-RATE = <span class="tk-num">100</span> * GS_ECO-SEATSOCC / GS_ECO-SEATSMAX.
+    <span class="tk-kw">ENDIF</span>.
+
+    <span class="tk-kw">IF</span> GS_ECO-RATE <span class="tk-kw">GE</span> PA_PCT.
+      <span class="tk-kw">APPEND</span> GS_ECO <span class="tk-kw">TO</span> GT_RESULT.
+    <span class="tk-kw">ENDIF</span>.
+  <span class="tk-kw">ENDLOOP</span>.
+
+  <span class="tk-cmt">" 읽기는 했는데 담긴 줄이 없음 → 기준을 넘는 일정이 없음</span>
+  <span class="tk-kw">READ</span> <span class="tk-kw">TABLE</span> GT_RESULT <span class="tk-kw">INTO</span> GS_ECO <span class="tk-kw">INDEX</span> <span class="tk-num">1</span>.
+  <span class="tk-kw">IF</span> SY-SUBRC <span class="tk-kw">NE</span> <span class="tk-num">0</span>.
+    <span class="tk-kw">WRITE</span> TEXT-E02.  <span class="tk-cmt">" 기준을 넘는 일정이 없습니다.</span>
+    <span class="tk-kw">RETURN</span>.
+  <span class="tk-kw">ENDIF</span>.
+
+  <span class="tk-kw">SORT</span> GT_RESULT <span class="tk-kw">BY</span> RATE <span class="tk-kw">DESCENDING</span>.
+
+  <span class="tk-cmt">" 출력: 헤더는 복습 1과 같아서 생략</span>
+  <span class="tk-kw">LOOP</span> <span class="tk-kw">AT</span> GT_RESULT <span class="tk-kw">INTO</span> GS_ECO.
+    <span class="tk-kw">WRITE</span>: /(<span class="tk-num">10</span>) GS_ECO-CARRID     <span class="tk-kw">COLOR</span> COL_KEY <span class="tk-kw">CENTERED</span>,
+            (<span class="tk-num">10</span>) GS_ECO-CONNID     <span class="tk-kw">COLOR</span> COL_KEY <span class="tk-kw">CENTERED</span>,
+            (<span class="tk-num">14</span>) GS_ECO-FLDATE     <span class="tk-kw">COLOR</span> COL_KEY <span class="tk-kw">CENTERED</span>,
+            (<span class="tk-num">10</span>) GS_ECO-SEATSMAX   <span class="tk-kw">NO-SIGN</span> <span class="tk-kw">RIGHT-JUSTIFIED</span>,
+            (<span class="tk-num">10</span>) GS_ECO-SEATSOCC   <span class="tk-kw">NO-SIGN</span> <span class="tk-kw">RIGHT-JUSTIFIED</span>,
+            (<span class="tk-num">10</span>) GS_ECO-SEATSFREE  <span class="tk-kw">NO-SIGN</span> <span class="tk-kw">RIGHT-JUSTIFIED</span>,
+            (<span class="tk-num">10</span>) GS_ECO-RATE       <span class="tk-kw">NO-SIGN</span> <span class="tk-kw">RIGHT-JUSTIFIED</span>.
+  <span class="tk-kw">ENDLOOP</span>.</code></pre></div><p><b>생각해 볼 것</b> ① 이번에는 LOOP 안에 <code>MODIFY</code>가 없어요. 왜 없어도 될까요? (계산한 <code>GS_ECO</code>를 어디에 바로 넣고 있는지 보세요.) ② E01 검사(<code>IF SY-SUBRC NE 0</code>)를 <code>READ TABLE</code> 뒤로 옮기면 어떻게 될까요? 그 순간 <code>SY-SUBRC</code>가 누구의 결과인지 따라가 보세요.</p></div></details>
+</section>
+<section id="q3">
+<h2><span class="lv">복습 3</span> Dictionary와 Function Module로 옮기기 <span class="star">★★★</span></h2>
+<div class="req"><div class="req-h"><b>요청서</b><span>다른 팀 · 저희도 쓰고 싶어요</span></div><div class="req-b">HW-2C 좌석 조회를 저희 프로그램에서도 쓰고 싶어요. 그런데 쓸 때마다 15칸을 다시 선언하기는 싫어요. <b>공통으로 쓸 수 있게</b> 만들어 주세요. 노선 하나와 기간을 넣으면 클래스별 좌석 현황이 나오면 되고, 시작일을 종료일보다 늦게 넣으면 알려 주세요.</div></div>
+<ol class="road"><li><b>Task 1</b>Domain <code>YG<mark class="gno">##</mark>_MT_D_PCT</code>: Data Type DEC, 길이 5, 소수 2</li><li><b>Task 2</b>Data Element <code>YG<mark class="gno">##</mark>_MT_E_PCT</code>: Domain은 Task 1, Field Label “예약률”</li><li><b>Task 3</b>Structure <code>YG<mark class="gno">##</mark>_MT_S_SEAT</code>: 아래 표의 15칸</li><li><b>Task 4</b>Table Type <code>YG<mark class="gno">##</mark>_MT_TT_SEAT</code>: Line Type은 Task 3, Standard Table, Key CARRID · CONNID · FLDATE</li><li><b>Task 5</b>FM <code>Y_G<mark class="gno">##</mark>_MT_SEAT_GET</code> (Function Group <code>YG<mark class="gno">##</mark>_MT</code>)</li></ol>
+<div class="table-wrap"><table><tr><th>Component</th><th>Component Type</th><th>설명</th></tr>
+<tr><td>CARRID</td><td>S_CARR_ID</td><td>항공사ID</td></tr><tr><td>CONNID</td><td>S_CONN_ID</td><td>항공편NO</td></tr><tr><td>FLDATE</td><td>S_DATE</td><td>비행일자</td></tr><tr><td>SEATSMAX</td><td>S_SEATSMAX</td><td>최대 Economy</td></tr><tr><td>SEATSMAX_B</td><td>S_SMAX_B</td><td>최대 Business</td></tr><tr><td>SEATSMAX_F</td><td>S_SMAX_F</td><td>최대 First</td></tr><tr><td>SEATSOCC</td><td>S_SEATSOCC</td><td>예약 Economy</td></tr><tr><td>SEATSOCC_B</td><td>S_SOCC_B</td><td>예약 Business</td></tr><tr><td>SEATSOCC_F</td><td>S_SOCC_F</td><td>예약 First</td></tr><tr><td>SEATSFREE</td><td>S_SEATSOCC</td><td>잔여 Economy</td></tr><tr><td>SEATSFREE_B</td><td>S_SOCC_B</td><td>잔여 Business</td></tr><tr><td>SEATSFREE_F</td><td>S_SOCC_F</td><td>잔여 First</td></tr><tr><td>RATE</td><td>YG<mark class="gno">##</mark>_MT_E_PCT</td><td>예약률 Economy</td></tr><tr><td>RATE_B</td><td>YG<mark class="gno">##</mark>_MT_E_PCT</td><td>예약률 Business</td></tr><tr><td>RATE_F</td><td>YG<mark class="gno">##</mark>_MT_E_PCT</td><td>예약률 First</td></tr></table></div>
+<p class="muted small">Component Type은 SE11에서 SFLIGHT를 열어 각 칸의 Data Element를 확인하고 그대로 쓰세요. 칸 순서와 잔여좌석 타입(예약 좌석과 같은 타입)은 원본 강사님 코드와 같게 맞췄어요. Domain의 DEC 길이 5·소수 2는 원본의 <code>TY_RATE</code>(<code>P LENGTH 3 DECIMALS 2</code>)와 같은 크기예요.</p>
+<div class="make"><div class="make-t"><span class="make-k">Task 5 · FM 인터페이스</span></div><dl><dt>Import</dt><dd><code>IV_CARRID</code> (S_CARR_ID), <code>IV_CONNID</code> (S_CONN_ID), <code>IV_DATE_FROM</code>, <code>IV_DATE_TO</code> (S_DATE)</dd><dt>Export</dt><dd><code>ET_SEATS</code> TYPE <code>YG<mark class="gno">##</mark>_MT_TT_SEAT</code></dd><dt>Exception</dt><dd><code>NO_DATA</code>, <code>WRONG_PERIOD</code></dd></dl></div>
+<h4>힌트</h4>
+<details class="help"><summary>힌트 1</summary><div class="help-b"><p>Dictionary는 HW-1에서 만든 순서 그대로예요. <b>쓰이는 쪽부터</b> 만들어야 활성화돼요. Domain → Data Element → Structure → Table Type.</p></div></details><details class="help"><summary>힌트 2</summary><div class="help-b"><p>Structure를 활성화할 때 “Enhancement Category가 없다”는 경고가 떠요. 에러가 아니라 경고라서 활성화는 돼요. 없애고 싶으면 메뉴 <b>Extras → Enhancement Category</b>에서 하나 골라 저장하세요. 실습이라 어느 걸 골라도 괜찮아요.</p></div></details><details class="help"><summary>힌트 3</summary><div class="help-b"><p>FM 로직은 원본의 3~5번을 옮기면 돼요. 예약률은 PERFORM 대신 클래스마다 <code>IF … &gt; 0</code>으로 계산해요. 바뀌는 건 세 가지예요. SELECT-OPTIONS 대신 값 하나씩 받아서 WHERE는 <code>EQ</code>·<code>GE</code>·<code>LE</code>로, 결과는 <code>ET_SEATS</code>에, 한 줄 변수는 <code>LIKE LINE OF ET_SEATS</code>로. 날짜 검사는 SELECT보다 먼저 하세요.</p></div></details>
+<h4>확인할 것</h4>
+<ul class="check"><li><label><input type="checkbox"><span>Domain부터 Table Type까지 에러 없이 활성화됐나요?</span></label></li><li><label><input type="checkbox"><span>SE37 테스트에서 HW-2C와 같은 노선·기간을 넣으면 숫자가 같게 나오나요?</span></label></li><li><label><input type="checkbox"><span>시작일 &gt; 종료일로 넣으면 <code>WRONG_PERIOD</code>가 뜨나요?</span></label></li><li><label><input type="checkbox"><span>없는 노선(9999)을 넣으면 <code>NO_DATA</code>가 뜨나요?</span></label></li></ul>
+<details class="help ans"><summary>모범 답안 보기</summary><div class="help-b"><div class="code"><div class="cap">Task 5 · FM 소스</div><button class="copy" type="button">복사</button><pre><code><span class="tk-kw">FUNCTION</span> Y_G<mark class="gno">##</mark>_MT_SEAT_GET.
+
+  <span class="tk-kw">DATA</span> LS_SEAT <span class="tk-kw">LIKE</span> <span class="tk-kw">LINE</span> <span class="tk-kw">OF</span> ET_SEATS.
+
+  <span class="tk-cmt">" 1. 입력값 점검: 잘못된 기간이면 읽지 않고 바로 끝</span>
   <span class="tk-kw">IF</span> IV_DATE_FROM &gt; IV_DATE_TO.
     <span class="tk-kw">RAISE</span> WRONG_PERIOD.
   <span class="tk-kw">ENDIF</span>.
 
-  <span class="tk-cmt">" 2. 로직 처리</span>
+  <span class="tk-cmt">" 2. 조회: SELECT-OPTIONS 대신 값 하나씩 받아서 EQ / GE / LE</span>
   <span class="tk-kw">SELECT</span>
-    CARRID,
-    CONNID,
-    FLDATE,
-    SEATSMAX,
-    SEATSOCC
+      CARRID,
+      CONNID,
+      FLDATE,
+      SEATSMAX,
+      SEATSOCC,
+      SEATSMAX_B,
+      SEATSOCC_B,
+      SEATSMAX_F,
+      SEATSOCC_F
   <span class="tk-kw">FROM</span> SFLIGHT
-  <span class="tk-kw">INTO</span> <span class="tk-kw">TABLE</span> @ET_FLIGHTS
+  <span class="tk-kw">INTO</span> <span class="tk-kw">CORRESPONDING</span> <span class="tk-kw">FIELDS</span> <span class="tk-kw">OF</span> <span class="tk-kw">TABLE</span> @ET_SEATS
   <span class="tk-kw">WHERE</span> CARRID <span class="tk-kw">EQ</span> @IV_CARRID
+    <span class="tk-kw">AND</span> CONNID <span class="tk-kw">EQ</span> @IV_CONNID
     <span class="tk-kw">AND</span> FLDATE <span class="tk-kw">GE</span> @IV_DATE_FROM
     <span class="tk-kw">AND</span> FLDATE <span class="tk-kw">LE</span> @IV_DATE_TO.
 
@@ -915,236 +1203,59 @@ section h4 { color: var(--muted); }
     <span class="tk-kw">RAISE</span> NO_DATA.
   <span class="tk-kw">ENDIF</span>.
 
-  <span class="tk-kw">LOOP</span> <span class="tk-kw">AT</span> ET_FLIGHTS <span class="tk-kw">INTO</span> LS_FLIGHT.
-    LS_FLIGHT-PERCENTAGE = <span class="tk-num">100</span> * LS_FLIGHT-SEATSOCC / LS_FLIGHT-SEATSMAX.
-    <span class="tk-kw">MODIFY</span> ET_FLIGHTS <span class="tk-kw">FROM</span> LS_FLIGHT <span class="tk-kw">INDEX</span> SY-TABIX <span class="tk-kw">TRANSPORTING</span> PERCENTAGE.
-  <span class="tk-kw">ENDLOOP</span>.
+  <span class="tk-cmt">" 3. 계산: HW-2C의 4번 그대로</span>
+  <span class="tk-kw">LOOP</span> <span class="tk-kw">AT</span> ET_SEATS <span class="tk-kw">INTO</span> LS_SEAT.
+    LS_SEAT-SEATSFREE   = LS_SEAT-SEATSMAX   - LS_SEAT-SEATSOCC.
+    LS_SEAT-SEATSFREE_B = LS_SEAT-SEATSMAX_B - LS_SEAT-SEATSOCC_B.
+    LS_SEAT-SEATSFREE_F = LS_SEAT-SEATSMAX_F - LS_SEAT-SEATSOCC_F.
 
-  <span class="tk-cmt">" 3. 결과값 전달: 노선별, 날짜 순</span>
-  <span class="tk-kw">SORT</span> ET_FLIGHTS <span class="tk-kw">BY</span> CONNID FLDATE.
-
-<span class="tk-kw">ENDFUNCTION</span>.</code></pre></div><p><b>생각해 볼 것</b> 시작일과 종료일을 <b>같은 날</b>로 넣으면 그날 일정이 나오나요? <code>GE</code>, <code>LE</code> 대신 <code>GT</code>, <code>LT</code>를 쓰면 결과가 어떻게 달라질지도 생각해 보세요.</p></div></details>
-</section>
-<section id="q3">
-<h2><span class="lv">복습 3</span> 조건 골라서 노선 찾기 <span class="star">★★☆</span></h2>
-<div class="req"><div class="req-h"><b>요청서</b><span>여행사 · 상품 기획용</span></div><div class="req-b">항공사 <b>여러 개</b>와 <b>출발 도시</b>를 골라서 노선을 보고 싶어요. 아무것도 안 넣으면 전부 보여 주세요. 비행시간은 분 말고 <b>시간</b>(예: 1.5시간)으로 보여 주시고, <b>오래 걸리는 노선부터</b> 나오면 좋겠어요.</div></div>
-<div class="make"><div class="make-t"><span class="make-k">만들 것</span></div><dl><dt>Program</dt><dd>ZBC400_G<mark class="gno">##</mark>_CONN_SEARCH (Executable Program, SE38)</dd><dt>입력</dt><dd><code>SO_CAR</code> (항공사, SELECT-OPTIONS), <code>SO_CFR</code> (출발 도시, SELECT-OPTIONS)</dd><dt>변수</dt><dd>Local Structure Type <code>TS_CONN</code>, Table Type <code>TT_CONN</code>(Key: CARRID, CONNID), <code>GT_CONN</code>, <code>GS_CONN</code></dd><dt>출력</dt><dd>CARRID · CONNID · CITYFROM · CITYTO · 비행시간(시간)</dd><dt>메시지</dt><dd>조회 결과가 없으면 텍스트 기호 <code>E01</code>로 메시지 출력 후 종료</dd></dl></div>
-<h4>힌트</h4>
-<details class="help"><summary>힌트 1</summary><div class="help-b"><p>결과 한 줄에는 SPFLI에 없는 <b>비행시간(시간)</b> 칸이 하나 더 있어야 해요. HW-2C에서 잔여좌석·예약률 칸을 추가했던 것처럼 <code>TYPES: BEGIN OF … END OF</code>로 만들고, Table Type은 <code>TT_</code>로 시작하게 선언하세요.</p></div></details><details class="help"><summary>힌트 2</summary><div class="help-b"><p><code>SELECT-OPTIONS</code>는 <code>FOR</code> 뒤에 <b>변수</b>가 와야 해요. 그래서 Structure 변수를 먼저 선언하고 <code>FOR GS_CONN-CARRID</code>처럼 그 칸을 쓰세요. WHERE에서는 <code>=</code> 대신 <code>IN</code>으로 비교하고, 비워 두면 전체가 조회돼요.</p></div></details><details class="help"><summary>힌트 3</summary><div class="help-b"><p>결과 Structure는 칸 순서가 SELECT와 달라요(FLHOUR가 중간에 있음). 이름이 같은 칸끼리 맞춰 넣으려면 HW-2C처럼 <code>INTO CORRESPONDING FIELDS OF TABLE</code>을 쓰세요. 분을 시간으로 바꾸는 건 LOOP에서 <code>FLTIME / 60</code>.</p></div></details>
-<h4>확인할 것</h4>
-<ul class="check"><li><label><input type="checkbox"><span>아무것도 안 넣고 실행하면 SE16으로 본 SPFLI 전체 줄 수와 같나요?</span></label></li><li><label><input type="checkbox"><span>항공사에 AA, LH 두 개만 넣으면 그 두 항공사만 나오나요?</span></label></li><li><label><input type="checkbox"><span>출발 도시에 FRANKFURT를 넣으면 FRANKFURT 출발 노선만 나오나요?</span></label></li><li><label><input type="checkbox"><span>비행시간(시간)이 SE16의 FLTIME ÷ 60과 같고, 큰 값부터 나오나요?</span></label></li><li><label><input type="checkbox"><span>없는 도시(예: SEOUL)를 넣으면 E01 메시지가 나오나요?</span></label></li></ul>
-<details class="help ans"><summary>모범 답안 보기</summary><div class="help-b"><div class="code nocap"><button class="copy" type="button">복사</button><pre><code><span class="tk-kw">REPORT</span> ZBC400_G<mark class="gno">##</mark>_CONN_SEARCH.
-
-<span class="tk-cmt">" 1. 결과 한 줄 모양: SPFLI 칸 5개 + 직접 계산하는 칸 1개(FLHOUR)</span>
-<span class="tk-kw">TYPES</span>: <span class="tk-kw">BEGIN</span> <span class="tk-kw">OF</span> TS_CONN,
-         CARRID   <span class="tk-kw">TYPE</span> SPFLI-CARRID,
-         CONNID   <span class="tk-kw">TYPE</span> SPFLI-CONNID,
-         CITYFROM <span class="tk-kw">TYPE</span> SPFLI-CITYFROM,
-         CITYTO   <span class="tk-kw">TYPE</span> SPFLI-CITYTO,
-         FLHOUR   <span class="tk-kw">TYPE</span> P LENGTH <span class="tk-num">5</span> DECIMALS <span class="tk-num">1</span>,  <span class="tk-cmt">" 비행시간(시간)</span>
-         FLTIME   <span class="tk-kw">TYPE</span> SPFLI-FLTIME,           <span class="tk-cmt">" 비행시간(분)</span>
-       <span class="tk-kw">END</span> <span class="tk-kw">OF</span> TS_CONN.
-
-<span class="tk-kw">TYPES</span> TT_CONN <span class="tk-kw">TYPE</span> <span class="tk-kw">STANDARD</span> <span class="tk-kw">TABLE</span> <span class="tk-kw">OF</span> TS_CONN
-              WITH <span class="tk-kw">NON-UNIQUE</span> <span class="tk-kw">KEY</span> CARRID CONNID.
-
-<span class="tk-kw">DATA</span>: GT_CONN <span class="tk-kw">TYPE</span> TT_CONN,
-      GS_CONN <span class="tk-kw">TYPE</span> TS_CONN.
-
-<span class="tk-cmt">" 2. 입력 화면: FOR 뒤에는 변수(의 칸)가 와야 함</span>
-<span class="tk-kw">SELECT-OPTIONS</span>: SO_CAR <span class="tk-kw">FOR</span> GS_CONN-CARRID,
-                SO_CFR <span class="tk-kw">FOR</span> GS_CONN-CITYFROM.
-
-<span class="tk-cmt">" 3. 조회: FLHOUR 때문에 칸 순서가 달라서 이름으로 맞춰 넣음</span>
-<span class="tk-kw">SELECT</span>
-    CARRID,
-    CONNID,
-    CITYFROM,
-    CITYTO,
-    FLTIME
-<span class="tk-kw">FROM</span> SPFLI
-<span class="tk-kw">INTO</span> <span class="tk-kw">CORRESPONDING</span> <span class="tk-kw">FIELDS</span> <span class="tk-kw">OF</span> <span class="tk-kw">TABLE</span> @GT_CONN
-<span class="tk-kw">WHERE</span> CARRID <span class="tk-kw">IN</span> @SO_CAR
-  <span class="tk-kw">AND</span> CITYFROM <span class="tk-kw">IN</span> @SO_CFR.
-
-<span class="tk-kw">IF</span> SY-SUBRC <span class="tk-kw">NE</span> <span class="tk-num">0</span>.
-  <span class="tk-kw">WRITE</span> TEXT-E01. <span class="tk-cmt">" 조회된 노선이 없습니다.</span>
-  <span class="tk-kw">RETURN</span>.
-<span class="tk-kw">ENDIF</span>.
-
-<span class="tk-cmt">" 4. 분 → 시간</span>
-<span class="tk-kw">LOOP</span> <span class="tk-kw">AT</span> GT_CONN <span class="tk-kw">INTO</span> GS_CONN.
-  GS_CONN-FLHOUR = GS_CONN-FLTIME / <span class="tk-num">60</span>.
-  <span class="tk-kw">MODIFY</span> GT_CONN <span class="tk-kw">FROM</span> GS_CONN.
-<span class="tk-kw">ENDLOOP</span>.
-
-<span class="tk-kw">SORT</span> GT_CONN <span class="tk-kw">BY</span> FLHOUR <span class="tk-kw">DESCENDING</span>.
-
-<span class="tk-cmt">" 5. 출력</span>
-<span class="tk-kw">LOOP</span> <span class="tk-kw">AT</span> GT_CONN <span class="tk-kw">INTO</span> GS_CONN.
-  <span class="tk-kw">WRITE</span>: /(<span class="tk-num">6</span>)  GS_CONN-CARRID   <span class="tk-kw">COLOR</span> COL_KEY,
-          (<span class="tk-num">6</span>)  GS_CONN-CONNID   <span class="tk-kw">COLOR</span> COL_KEY,
-          (<span class="tk-num">20</span>) GS_CONN-CITYFROM,
-          (<span class="tk-num">20</span>) GS_CONN-CITYTO,
-          (<span class="tk-num">8</span>)  GS_CONN-FLHOUR.
-<span class="tk-kw">ENDLOOP</span>.</code></pre></div><p><b>생각해 볼 것</b> <code>INTO CORRESPONDING FIELDS OF TABLE</code>을 그냥 <code>INTO TABLE</code>로 바꾸면 어떻게 될까요? 다섯 번째 칸(FLTIME, 분)이 Structure의 다섯 번째 칸인 <b>FLHOUR</b>에 들어가요. 복습 5의 “순서대로 들어간다”와 같은 이야기예요. 디버거로 확인해 보세요.</p></div></details>
-</section>
-<section id="q4">
-<h2><span class="lv">복습 4</span> 만석 임박 항공편만 <span class="star">★★☆</span></h2>
-<div class="req"><div class="req-h"><b>요청서</b><span>운항관리팀 · 증편 검토용</span></div><div class="req-b">좌석이 거의 다 찬 일정만 보고 싶어요. 기준은 상황마다 다르니까 <b>몇 % 이상</b>인지는 제가 직접 넣을게요. 기준을 넘는 일정이 하나도 없으면, 노선 자체가 없는 거랑은 <b>구분해서</b> 알려 주세요.</div></div>
-<div class="make"><div class="make-t"><span class="make-k">만들 것</span></div><dl><dt>Function Module</dt><dd>Z_BC400_G<mark class="gno">##</mark>_FLIGHTLIST_FULL (Exercise 17의 <code>FLIGHTLIST_GET</code>을 복사해서 시작)</dd><dt>Import</dt><dd><code>IV_CARRID</code>, <code>IV_CONNID</code>, <code>IV_MIN_PERCENT</code> (<code>BC400_S_FLIGHT-PERCENTAGE</code>)</dd><dt>Export</dt><dd><code>ET_FLIGHTS</code> (그대로)</dd><dt>Exception</dt><dd><code>NO_DATA</code>, <code>NO_FULL_FLIGHT</code> (새로 추가)</dd></dl></div>
-<h4>힌트</h4>
-<details class="help"><summary>힌트 1</summary><div class="help-b"><p>Exercise 17의 SELECT 반복문은 한 줄씩 이용률을 계산하고 <code>APPEND</code> 해요. APPEND 앞에 <code>IF</code>를 하나 두면 기준을 넘는 줄만 담을 수 있어요.</p></div></details><details class="help"><summary>힌트 2</summary><div class="help-b"><p><code>ENDSELECT</code> 뒤의 <code>SY-SUBRC</code>는 “SFLIGHT에서 한 줄이라도 읽었는지”예요. 그래서 <code>NO_DATA</code> 판단에는 쓸 수 있지만, 기준을 넘는 줄이 있었는지는 알려 주지 않아요.</p></div></details><details class="help"><summary>힌트 3</summary><div class="help-b"><p><code>ET_FLIGHTS</code>에 담긴 줄이 있는지는 YG04_014에서 써 본 <code>READ TABLE … INDEX 1</code>로 확인할 수 있어요. 첫 줄을 못 읽으면 <code>SY-SUBRC</code>가 0이 아니에요.</p></div></details>
-<h4>확인할 것</h4>
-<ul class="check"><li><label><input type="checkbox"><span>기준을 0으로 넣으면 원본과 같은 줄 수가 나오나요?</span></label></li><li><label><input type="checkbox"><span>기준을 90으로 넣으면 90% 이상인 일정만 나오나요?</span></label></li><li><label><input type="checkbox"><span>기준을 100으로 넣으면 <code>NO_FULL_FLIGHT</code>가 뜨나요? (만석 일정이 없을 때)</span></label></li><li><label><input type="checkbox"><span>없는 노선(9999)을 넣으면 여전히 <code>NO_DATA</code>가 뜨나요?</span></label></li></ul>
-<details class="help ans"><summary>모범 답안 보기</summary><div class="help-b"><div class="code nocap"><button class="copy" type="button">복사</button><pre><code><span class="tk-kw">FUNCTION</span> Z_BC400_G<mark class="gno">##</mark>_FLIGHTLIST_FULL.
-
-  <span class="tk-kw">DATA</span> LS_FLIGHT <span class="tk-kw">LIKE</span> <span class="tk-kw">LINE</span> <span class="tk-kw">OF</span> ET_FLIGHTS.
-
-  <span class="tk-kw">CLEAR</span> ET_FLIGHTS[].
-
-  <span class="tk-cmt">" Exercise 17처럼 SELECT 반복문으로 한 줄씩 읽음</span>
-  <span class="tk-kw">SELECT</span>
-    CARRID,
-    CONNID,
-    FLDATE,
-    SEATSMAX,
-    SEATSOCC
-  <span class="tk-kw">FROM</span> SFLIGHT
-  <span class="tk-kw">INTO</span> @LS_FLIGHT
-  <span class="tk-kw">WHERE</span> CARRID <span class="tk-kw">EQ</span> @IV_CARRID
-    <span class="tk-kw">AND</span> CONNID <span class="tk-kw">EQ</span> @IV_CONNID.
-
-    LS_FLIGHT-PERCENTAGE = <span class="tk-num">100</span> * LS_FLIGHT-SEATSOCC / LS_FLIGHT-SEATSMAX.
-
-    <span class="tk-cmt">" 기준을 넘는 줄만 담기</span>
-    <span class="tk-kw">IF</span> LS_FLIGHT-PERCENTAGE <span class="tk-kw">GE</span> IV_MIN_PERCENT.
-      <span class="tk-kw">APPEND</span> LS_FLIGHT <span class="tk-kw">TO</span> ET_FLIGHTS.
+    <span class="tk-kw">IF</span> LS_SEAT-SEATSMAX &gt; <span class="tk-num">0</span>.
+      LS_SEAT-RATE = <span class="tk-num">100</span> * LS_SEAT-SEATSOCC / LS_SEAT-SEATSMAX.
+    <span class="tk-kw">ENDIF</span>.
+    <span class="tk-kw">IF</span> LS_SEAT-SEATSMAX_B &gt; <span class="tk-num">0</span>.
+      LS_SEAT-RATE_B = <span class="tk-num">100</span> * LS_SEAT-SEATSOCC_B / LS_SEAT-SEATSMAX_B.
+    <span class="tk-kw">ENDIF</span>.
+    <span class="tk-kw">IF</span> LS_SEAT-SEATSMAX_F &gt; <span class="tk-num">0</span>.
+      LS_SEAT-RATE_F = <span class="tk-num">100</span> * LS_SEAT-SEATSOCC_F / LS_SEAT-SEATSMAX_F.
     <span class="tk-kw">ENDIF</span>.
 
-  <span class="tk-kw">ENDSELECT</span>.
-
-  <span class="tk-cmt">" SFLIGHT에서 한 줄도 못 읽음 → 노선 자체가 없음</span>
-  <span class="tk-kw">IF</span> SY-SUBRC <span class="tk-kw">NE</span> <span class="tk-num">0</span>.
-    <span class="tk-kw">RAISE</span> NO_DATA.
-  <span class="tk-kw">ENDIF</span>.
-
-  <span class="tk-cmt">" 읽기는 했는데 담긴 줄이 없음 → 기준을 넘는 일정이 없음</span>
-  <span class="tk-kw">READ</span> <span class="tk-kw">TABLE</span> ET_FLIGHTS <span class="tk-kw">INTO</span> LS_FLIGHT <span class="tk-kw">INDEX</span> <span class="tk-num">1</span>.
-  <span class="tk-kw">IF</span> SY-SUBRC <span class="tk-kw">NE</span> <span class="tk-num">0</span>.
-    <span class="tk-kw">RAISE</span> NO_FULL_FLIGHT.
-  <span class="tk-kw">ENDIF</span>.
-
-  <span class="tk-kw">SORT</span> ET_FLIGHTS <span class="tk-kw">BY</span> PERCENTAGE <span class="tk-kw">DESCENDING</span>.
-
-<span class="tk-kw">ENDFUNCTION</span>.</code></pre></div><p><b>생각해 볼 것</b> <code>NO_DATA</code> 검사(<code>IF SY-SUBRC NE 0</code>)를 <code>READ TABLE</code> 뒤로 옮기면 어떻게 될까요? 그 순간 <code>SY-SUBRC</code>가 누구의 결과로 바뀌는지 따라가 보세요.</p></div></details>
-</section>
-<section id="q5">
-<h2><span class="lv">복습 5</span> 고장 난 Function Module 고치기 <span class="star">★★☆</span></h2>
-<div class="req"><div class="req-h"><b>요청서</b><span>운영 문의 · 현업 3건 접수</span></div><div class="req-b"><ol class='tickets'><li>“이용률이 <b>150%</b>로 나오는 일정이 있어요. 날짜를 바꾸면 가끔 <b>덤프</b>도 나요.”</li><li>“이용률 높은 순으로 보여 준다고 했는데 <b>순서가 뒤죽박죽</b>이에요.”</li><li>“없는 노선 번호를 넣었는데 <b>아무 메시지 없이</b> 빈 결과만 나와요.”</li></ol></div></div>
-<p>원본 FM을 <b>Z_BC400_G<mark class="gno">##</mark>_FLIGHTLIST_BUG</b>로 복사한 뒤 소스를 아래 코드로 바꿔 넣고, 문의 3건의 원인을 찾아 고치세요. <b>디버거로 원인을 확인한 다음에</b> 고치는 게 규칙이에요.</p>
-<div class="code"><div class="cap">고장 난 코드</div><button class="copy" type="button">복사</button><pre><code><span class="tk-kw">FUNCTION</span> Z_BC400_G<mark class="gno">##</mark>_FLIGHTLIST_BUG.
-
-  <span class="tk-kw">DATA</span> LS_FLIGHT <span class="tk-kw">LIKE</span> <span class="tk-kw">LINE</span> <span class="tk-kw">OF</span> ET_FLIGHTS.
-
-  <span class="tk-kw">SELECT</span>
-    CARRID,
-    CONNID,
-    FLDATE,
-    SEATSOCC,
-    SEATSMAX
-  <span class="tk-kw">FROM</span> SFLIGHT
-  <span class="tk-kw">INTO</span> <span class="tk-kw">TABLE</span> @ET_FLIGHTS
-  <span class="tk-kw">WHERE</span> CARRID <span class="tk-kw">EQ</span> @IV_CARRID
-    <span class="tk-kw">AND</span> CONNID <span class="tk-kw">EQ</span> @IV_CONNID.
-
-  <span class="tk-kw">SORT</span> ET_FLIGHTS <span class="tk-kw">BY</span> PERCENTAGE <span class="tk-kw">DESCENDING</span>.
-
-  <span class="tk-kw">LOOP</span> <span class="tk-kw">AT</span> ET_FLIGHTS <span class="tk-kw">INTO</span> LS_FLIGHT.
-    LS_FLIGHT-PERCENTAGE = <span class="tk-num">100</span> * LS_FLIGHT-SEATSOCC / LS_FLIGHT-SEATSMAX.
-    <span class="tk-kw">MODIFY</span> ET_FLIGHTS <span class="tk-kw">FROM</span> LS_FLIGHT <span class="tk-kw">INDEX</span> SY-TABIX <span class="tk-kw">TRANSPORTING</span> PERCENTAGE.
+    <span class="tk-kw">MODIFY</span> ET_SEATS <span class="tk-kw">FROM</span> LS_SEAT.
   <span class="tk-kw">ENDLOOP</span>.
 
-<span class="tk-kw">ENDFUNCTION</span>.</code></pre></div>
-<h4>힌트</h4>
-<details class="help"><summary>힌트 1</summary><div class="help-b"><p>문의 1: SELECT 바로 뒤에 Breakpoint를 걸고 <code>ET_FLIGHTS</code>의 첫 줄을 열어 보세요. SE16으로 본 SFLIGHT 같은 줄과 <code>SEATSMAX</code>, <code>SEATSOCC</code> 값이 같나요? <b>INTO TABLE은 이름이 아니라 순서</b>대로 들어가요. <code>CONNECTION_GET</code> 주석에 적어 둔 “N번째 필드에 넣는다”를 떠올려 보세요.</p></div></details><details class="help"><summary>힌트 2</summary><div class="help-b"><p>문의 2: <code>SORT</code>를 실행하는 순간 <code>PERCENTAGE</code> 칸에는 어떤 값이 들어 있을까요?</p></div></details><details class="help"><summary>힌트 3</summary><div class="help-b"><p>문의 3: 원본 코드와 나란히 놓고 비교해 보세요. 데이터가 없을 때 누가 <code>NO_DATA</code>를 일으켜야 하나요?</p></div></details>
-<details class="help ans"><summary>원인과 정답 보기</summary><div class="help-b"><div class="table-wrap"><table><tr><th>문의</th><th>원인</th><th>고치는 법</th></tr>
-<tr><td>1. 150%·덤프</td><td>SELECT의 칸 순서가 <code>SEATSOCC, SEATSMAX</code>로 바뀌어 있어서 두 값이 뒤바뀌어 들어감. 탑승 0명인 일정은 0으로 나누게 돼서 <code>CX_SY_ZERODIVIDE</code> 덤프</td><td>Structure 순서대로 <code>SEATSMAX, SEATSOCC</code></td></tr>
-<tr><td>2. 정렬 안 됨</td><td>이용률을 계산하기 전(모두 0일 때) SORT 해서 정렬한 효과가 없음</td><td><code>SORT</code>를 <code>ENDLOOP</code> 뒤로</td></tr>
-<tr><td>3. 메시지 없음</td><td>SELECT 뒤 <code>SY-SUBRC</code> 확인과 <code>RAISE NO_DATA</code>가 빠짐</td><td>SELECT 바로 뒤에 <code>IF SY-SUBRC NE 0. RAISE NO_DATA. ENDIF.</code></td></tr></table></div>
-<p>다 고치면 원본 모범 답안과 같은 코드가 돼요. 멘티에게는 <b>1번이 제일 위험한 버그</b>라는 걸 짚어 주세요. 덤프가 안 나는 날짜에서는 에러 없이 틀린 숫자만 조용히 나가니까요.</p></div></details>
+  <span class="tk-cmt">" 4. 노선이 하나라서 날짜 순으로</span>
+  <span class="tk-kw">SORT</span> ET_SEATS <span class="tk-kw">BY</span> FLDATE.
+
+<span class="tk-kw">ENDFUNCTION</span>.</code></pre></div><p><b>생각해 볼 것</b> ① HW-2C에서는 Structure를 프로그램 안에 <code>DATA BEGIN OF</code>로 만들었는데, FM의 Import/Export에는 왜 Dictionary 타입만 쓸 수 있을까요? (FM은 여러 프로그램이 같이 불러 쓰는 거라서, 모두가 볼 수 있는 곳에 타입이 있어야 해요.) ② 기간을 SELECT-OPTIONS처럼 범위로 받고 싶으면 RANGE 타입이 필요해요. 이건 나중에 배워요.</p></div></details>
 </section>
-<section id="ex">
-<h2><span class="lv">예시</span> 만든 FM 모아서 쓰기</h2>
-<p>문제는 아니고, 지금까지 만든 Function Module을 실무 프로그램처럼 묶어 쓰면 어떤 모양이 되는지 보여 주는 예시예요. 원본, 복습 2, 복습 4에서 만든 FM 세 개를 한 프로그램에서 불러서, 항공사·노선·기간·기준을 넣으면 세 가지 결과가 한 화면에 나와요.</p>
-<p>아직 안 배운 <code>PERFORM</code>/<code>FORM</code>, <code>OBLIGATORY</code>, <code>DEFAULT</code>, <code>ULINE</code>, <code>SKIP</code>도 들어 있어요. 실제 코드가 어떻게 생겼는지 미리 보는 거라 지금 다 이해하지 않아도 괜찮아요.</p>
-<div class="make"><div class="make-t"><span class="make-k">구성</span></div><dl><dt>Program</dt><dd>ZBC400_G<mark class="gno">##</mark>_FLIGHT_REPORT</dd><dt>입력</dt><dd><code>PA_CAR</code>, <code>PA_CON</code>, <code>PA_FROM</code>, <code>PA_TO</code>, <code>PA_PCT</code> (기본값 90)</dd><dt>① SHOW_ALL</dt><dd>원본 <code>FLIGHTLIST_GET_OPT</code> · 노선 전체 일정</dd><dt>② SHOW_PERIOD</dt><dd>복습 2 <code>FLIGHTLIST_PERIOD</code> · 기간 일정</dd><dt>③ SHOW_FULL</dt><dd>복습 4 <code>FLIGHTLIST_FULL</code> · 만석 임박 일정</dd><dt>공통</dt><dd><code>WRITE_TITLE</code> (블록 제목), <code>WRITE_LIST</code> (목록 출력)</dd></dl></div>
-<div class="code"><div class="cap">FM 세 개를 쓰는 프로그램</div><button class="copy" type="button">복사</button><pre><code><span class="tk-kw">REPORT</span> ZBC400_G<mark class="gno">##</mark>_FLIGHT_REPORT.
+<section id="q4">
+<h2><span class="lv">복습 4</span> 프로그램에서 FM 불러 쓰기 <span class="star">★☆☆</span></h2>
+<div class="req"><div class="req-h"><b>요청서</b><span>운항관리팀 · 조회 화면</span></div><div class="req-b">공통 FM이 생겼다고 들었어요. 그런데 저희는 SE37 테스트 화면 말고 <b>프로그램을 실행해서</b> 보고 싶어요. 노선과 기간을 넣으면 클래스별 잔여좌석과 예약률이 나오게 해 주시고, 잘못 넣으면 알려 주세요.</div></div>
+<div class="make"><div class="make-t"><span class="make-k">만들 것</span></div><dl><dt>Program</dt><dd>YG<mark class="gno">##</mark>_MT1_Q4</dd><dt>입력</dt><dd><code>PA_CAR</code>, <code>PA_CON</code>, <code>PA_FROM</code>, <code>PA_TO</code></dd><dt>사용할 FM</dt><dd>복습 3의 <code>Y_G<mark class="gno">##</mark>_MT_SEAT_GET</code></dd><dt>변수</dt><dd><code>GT_SEATS TYPE YG<mark class="gno">##</mark>_MT_TT_SEAT</code>, <code>GS_SEAT TYPE YG<mark class="gno">##</mark>_MT_S_SEAT</code></dd><dt>출력</dt><dd>FLDATE · 잔여/예약률 (Economy, Business, First)</dd></dl></div>
+<h4>힌트</h4>
+<details class="help"><summary>힌트 1</summary><div class="help-b"><p>CALL FUNCTION 문장은 <b>Pattern 버튼</b>으로 넣으세요. FM 이름만 적으면 인터페이스가 통째로 들어와요.</p></div></details><details class="help"><summary>힌트 2</summary><div class="help-b"><p>결과를 받을 변수는 복습 3에서 만든 Table Type 한 줄이면 돼요. HW-2C처럼 15칸을 다시 적을 필요가 없어요.</p></div></details><details class="help"><summary>힌트 3</summary><div class="help-b"><p><code>CASE SY-SUBRC</code>의 번호는 CALL FUNCTION의 <code>EXCEPTIONS</code>에 적은 번호와 같아요. <code>NO_DATA = 1</code>, <code>WRONG_PERIOD = 2</code>로 적었다면 <code>WHEN 1</code>, <code>WHEN 2</code>로 받아요.</p></div></details>
+<h4>확인할 것</h4>
+<ul class="check"><li><label><input type="checkbox"><span>HW-2C에서 같은 노선·기간으로 본 숫자와 같나요?</span></label></li><li><label><input type="checkbox"><span>시작일 &gt; 종료일로 넣으면 “시작일이 종료일보다 늦습니다”가 나오나요?</span></label></li><li><label><input type="checkbox"><span>없는 노선(9999)을 넣으면 “조회된 일정이 없습니다”가 나오나요?</span></label></li></ul>
+<details class="help ans"><summary>모범 답안 보기</summary><div class="help-b"><div class="code nocap"><button class="copy" type="button">복사</button><pre><code><span class="tk-kw">REPORT</span> YG<mark class="gno">##</mark>_MT1_Q4.
 
-<span class="tk-cmt">*----------------------------------------------------------------------*</span>
-<span class="tk-cmt">* 선택 화면</span>
-<span class="tk-cmt">*----------------------------------------------------------------------*</span>
-<span class="tk-kw">PARAMETERS</span>: PA_CAR  <span class="tk-kw">TYPE</span> BC400_S_FLIGHT-CARRID <span class="tk-kw">OBLIGATORY</span>,
-            PA_CON  <span class="tk-kw">TYPE</span> BC400_S_FLIGHT-CONNID <span class="tk-kw">OBLIGATORY</span>,
-            PA_FROM <span class="tk-kw">TYPE</span> BC400_S_FLIGHT-FLDATE <span class="tk-kw">OBLIGATORY</span>,
-            PA_TO   <span class="tk-kw">TYPE</span> BC400_S_FLIGHT-FLDATE <span class="tk-kw">OBLIGATORY</span>,
-            PA_PCT  <span class="tk-kw">TYPE</span> BC400_S_FLIGHT-PERCENTAGE <span class="tk-kw">DEFAULT</span> <span class="tk-num">90</span>.
+<span class="tk-kw">PARAMETERS</span>: PA_CAR  <span class="tk-kw">TYPE</span> S_CARR_ID,
+            PA_CON  <span class="tk-kw">TYPE</span> S_CONN_ID,
+            PA_FROM <span class="tk-kw">TYPE</span> S_DATE,
+            PA_TO   <span class="tk-kw">TYPE</span> S_DATE.
 
-<span class="tk-cmt">*----------------------------------------------------------------------*</span>
-<span class="tk-cmt">* 메인: 무슨 일을 하는지 세 줄로 보임</span>
-<span class="tk-cmt">*----------------------------------------------------------------------*</span>
+<span class="tk-cmt">" 복습 3에서 만든 Dictionary 타입: 15칸을 다시 적을 필요가 없음</span>
+<span class="tk-kw">DATA</span>: GT_SEATS <span class="tk-kw">TYPE</span> YG<mark class="gno">##</mark>_MT_TT_SEAT,
+      GS_SEAT  <span class="tk-kw">TYPE</span> YG<mark class="gno">##</mark>_MT_S_SEAT.
+
 <span class="tk-kw">START-OF-SELECTION</span>.
 
-  <span class="tk-kw">PERFORM</span> SHOW_ALL.
-  <span class="tk-kw">PERFORM</span> SHOW_PERIOD.
-  <span class="tk-kw">PERFORM</span> SHOW_FULL.
-
-<span class="tk-cmt">*----------------------------------------------------------------------*</span>
-<span class="tk-cmt">* ① 노선 전체 일정 (원본 FM)</span>
-<span class="tk-cmt">*----------------------------------------------------------------------*</span>
-<span class="tk-kw">FORM</span> SHOW_ALL.
-
-  <span class="tk-kw">DATA</span> LT_FLIGHTS <span class="tk-kw">TYPE</span> BC400_T_FLIGHTS.
-
-  <span class="tk-kw">PERFORM</span> WRITE_TITLE <span class="tk-kw">USING</span> <span class="tk-str">&#x27;① 노선 전체 일정&#x27;</span>.
-
-  <span class="tk-kw">CALL</span> <span class="tk-kw">FUNCTION</span> <span class="tk-str">&#x27;Z_BC400_G<mark class="gno">##</mark>_FLIGHTLIST_GET_OPT&#x27;</span>
-    <span class="tk-kw">EXPORTING</span>
-      IV_CARRID  = PA_CAR
-      IV_CONNID  = PA_CON
-    <span class="tk-kw">IMPORTING</span>
-      ET_FLIGHTS = LT_FLIGHTS
-    <span class="tk-kw">EXCEPTIONS</span>
-      NO_DATA    = <span class="tk-num">1</span>
-      <span class="tk-kw">OTHERS</span>     = <span class="tk-num">2</span>.
-
-  <span class="tk-kw">CASE</span> SY-SUBRC.
-    <span class="tk-kw">WHEN</span> <span class="tk-num">0</span>.
-      <span class="tk-kw">PERFORM</span> WRITE_LIST <span class="tk-kw">USING</span> LT_FLIGHTS.
-    <span class="tk-kw">WHEN</span> <span class="tk-num">1</span>.
-      <span class="tk-kw">WRITE</span> / <span class="tk-str">&#x27;조회된 데이터가 없습니다.&#x27;</span>.
-    <span class="tk-kw">WHEN</span> <span class="tk-kw">OTHERS</span>.
-      <span class="tk-kw">WRITE</span> / <span class="tk-str">&#x27;알 수 없는 오류가 발생했습니다.&#x27;</span>.
-  <span class="tk-kw">ENDCASE</span>.
-
-<span class="tk-kw">ENDFORM</span>.
-
-<span class="tk-cmt">*----------------------------------------------------------------------*</span>
-<span class="tk-cmt">* ② 기간 일정 (복습 2 FM) - 노선 번호는 넘기지 않음</span>
-<span class="tk-cmt">*----------------------------------------------------------------------*</span>
-<span class="tk-kw">FORM</span> SHOW_PERIOD.
-
-  <span class="tk-kw">DATA</span> LT_FLIGHTS <span class="tk-kw">TYPE</span> BC400_T_FLIGHTS.
-
-  <span class="tk-kw">PERFORM</span> WRITE_TITLE <span class="tk-kw">USING</span> <span class="tk-str">&#x27;② 기간 일정&#x27;</span>.
-
-  <span class="tk-kw">CALL</span> <span class="tk-kw">FUNCTION</span> <span class="tk-str">&#x27;Z_BC400_G<mark class="gno">##</mark>_FLIGHTLIST_PERIOD&#x27;</span>
+  <span class="tk-kw">CALL</span> <span class="tk-kw">FUNCTION</span> <span class="tk-str">&#x27;Y_G<mark class="gno">##</mark>_MT_SEAT_GET&#x27;</span>
     <span class="tk-kw">EXPORTING</span>
       IV_CARRID    = PA_CAR
+      IV_CONNID    = PA_CON
       IV_DATE_FROM = PA_FROM
       IV_DATE_TO   = PA_TO
     <span class="tk-kw">IMPORTING</span>
-      ET_FLIGHTS   = LT_FLIGHTS
+      ET_SEATS     = GT_SEATS
     <span class="tk-kw">EXCEPTIONS</span>
       NO_DATA      = <span class="tk-num">1</span>
       WRONG_PERIOD = <span class="tk-num">2</span>
@@ -1152,110 +1263,375 @@ section h4 { color: var(--muted); }
 
   <span class="tk-kw">CASE</span> SY-SUBRC.
     <span class="tk-kw">WHEN</span> <span class="tk-num">0</span>.
-      <span class="tk-kw">PERFORM</span> WRITE_LIST <span class="tk-kw">USING</span> LT_FLIGHTS.
+      <span class="tk-kw">LOOP</span> <span class="tk-kw">AT</span> GT_SEATS <span class="tk-kw">INTO</span> GS_SEAT.
+        <span class="tk-kw">WRITE</span>: /(<span class="tk-num">14</span>) GS_SEAT-FLDATE       <span class="tk-kw">COLOR</span> COL_KEY <span class="tk-kw">CENTERED</span>,
+                (<span class="tk-num">10</span>) GS_SEAT-SEATSFREE    <span class="tk-kw">NO-SIGN</span> <span class="tk-kw">RIGHT-JUSTIFIED</span>,
+                (<span class="tk-num">10</span>) GS_SEAT-RATE         <span class="tk-kw">NO-SIGN</span> <span class="tk-kw">RIGHT-JUSTIFIED</span>,
+                (<span class="tk-num">10</span>) GS_SEAT-SEATSFREE_B  <span class="tk-kw">NO-SIGN</span> <span class="tk-kw">RIGHT-JUSTIFIED</span>,
+                (<span class="tk-num">10</span>) GS_SEAT-RATE_B       <span class="tk-kw">NO-SIGN</span> <span class="tk-kw">RIGHT-JUSTIFIED</span>,
+                (<span class="tk-num">10</span>) GS_SEAT-SEATSFREE_F  <span class="tk-kw">NO-SIGN</span> <span class="tk-kw">RIGHT-JUSTIFIED</span>,
+                (<span class="tk-num">10</span>) GS_SEAT-RATE_F       <span class="tk-kw">NO-SIGN</span> <span class="tk-kw">RIGHT-JUSTIFIED</span>.
+      <span class="tk-kw">ENDLOOP</span>.
     <span class="tk-kw">WHEN</span> <span class="tk-num">1</span>.
-      <span class="tk-kw">WRITE</span> / <span class="tk-str">&#x27;조회된 데이터가 없습니다.&#x27;</span>.
+      <span class="tk-kw">WRITE</span> / <span class="tk-str">&#x27;조회된 일정이 없습니다.&#x27;</span>.
+    <span class="tk-kw">WHEN</span> <span class="tk-num">2</span>.
+      <span class="tk-kw">WRITE</span> / <span class="tk-str">&#x27;시작일이 종료일보다 늦습니다.&#x27;</span> <span class="tk-kw">COLOR</span> COL_NEGATIVE.
+    <span class="tk-kw">WHEN</span> <span class="tk-kw">OTHERS</span>.
+      <span class="tk-kw">WRITE</span> / <span class="tk-str">&#x27;알 수 없는 오류가 발생했습니다.&#x27;</span>.
+  <span class="tk-kw">ENDCASE</span>.</code></pre></div><p><b>생각해 볼 것</b> FM에서는 <code>IV_CARRID</code>가 <b>Import</b>인데, CALL FUNCTION에서는 <b>EXPORTING</b> 아래에 적어요. <code>ET_SEATS</code>는 반대로 IMPORTING 아래에 있고요. 왜 반대인지 “누가 보내고 누가 받는지”로 짝지어 보세요.</p></div></details>
+</section>
+<section id="q5">
+<h2><span class="lv">복습 5</span> 고장 난 좌석 조회 고치기 <span class="star">★★☆</span></h2>
+<div class="req"><div class="req-h"><b>요청서</b><span>운영 문의 · 현업 3건 접수</span></div><div class="req-b"><ol class="tickets"><li>“이코노미는 맞는데 <b>비즈니스 칸에 이상한 숫자</b>가 나오고, <b>퍼스트는 전부 0</b>이에요.”</li><li>“잔여좌석 많은 순이라고 했는데 <b>적은 것부터</b> 나와요.”</li><li>“비행일자를 넣었는데 <b>다른 날짜까지 전부</b> 나와요.”</li></ol></div></div>
+<p>아래 코드로 프로그램 <b>YG<mark class="gno">##</mark>_MT1_Q5</b>를 만들고, 문의 3건의 원인을 찾아 고치세요. 텍스트 기호 E01도 만들어 두세요. <b>디버거로 원인을 확인한 다음에</b> 고치는 게 규칙이에요.</p>
+<div class="code"><div class="cap">고장 난 코드</div><button class="copy" type="button">복사</button><pre><code><span class="tk-kw">REPORT</span> YG<mark class="gno">##</mark>_MT1_Q5.
+
+<span class="tk-kw">PARAMETERS</span> PA_CAR <span class="tk-kw">TYPE</span> SDYN_BOOK-CARRID.
+
+<span class="tk-kw">DATA</span> GS_BOOK <span class="tk-kw">TYPE</span> SDYN_BOOK.
+
+<span class="tk-kw">SELECT-OPTIONS</span>: SO_CON <span class="tk-kw">FOR</span> GS_BOOK-CONNID,
+                SO_FLD <span class="tk-kw">FOR</span> GS_BOOK-FLDATE.
+
+<span class="tk-cmt">" 예약률 타입 (원본과 같게)</span>
+<span class="tk-kw">TYPES</span> TY_RATE <span class="tk-kw">TYPE</span> P <span class="tk-kw">LENGTH</span> <span class="tk-num">3</span> <span class="tk-kw">DECIMALS</span> <span class="tk-num">2</span>.
+
+<span class="tk-kw">DATA</span>: <span class="tk-kw">BEGIN</span> <span class="tk-kw">OF</span> GS_FLIGHT,
+        CARRID       <span class="tk-kw">TYPE</span> SFLIGHT-CARRID,
+        CONNID       <span class="tk-kw">TYPE</span> SFLIGHT-CONNID,
+        FLDATE       <span class="tk-kw">TYPE</span> SFLIGHT-FLDATE,
+        SEATSMAX     <span class="tk-kw">TYPE</span> SFLIGHT-SEATSMAX,
+        SEATSOCC     <span class="tk-kw">TYPE</span> SFLIGHT-SEATSOCC,
+        SEATSFREE    <span class="tk-kw">TYPE</span> SFLIGHT-SEATSMAX,
+        RATE         <span class="tk-kw">TYPE</span> TY_RATE,
+        SEATSMAX_B   <span class="tk-kw">TYPE</span> SFLIGHT-SEATSMAX_B,
+        SEATSOCC_B   <span class="tk-kw">TYPE</span> SFLIGHT-SEATSOCC_B,
+        SEATSFREE_B  <span class="tk-kw">TYPE</span> SFLIGHT-SEATSMAX_B,
+        RATE_B       <span class="tk-kw">TYPE</span> TY_RATE,
+        SEATSMAX_F   <span class="tk-kw">TYPE</span> SFLIGHT-SEATSMAX_F,
+        SEATSOCC_F   <span class="tk-kw">TYPE</span> SFLIGHT-SEATSOCC_F,
+        SEATSFREE_F  <span class="tk-kw">TYPE</span> SFLIGHT-SEATSMAX_F,
+        RATE_F       <span class="tk-kw">TYPE</span> TY_RATE,
+      <span class="tk-kw">END</span> <span class="tk-kw">OF</span> GS_FLIGHT.
+
+<span class="tk-kw">DATA</span> GT_FLIGHT <span class="tk-kw">LIKE</span> <span class="tk-kw">STANDARD</span> <span class="tk-kw">TABLE</span> <span class="tk-kw">OF</span> GS_FLIGHT
+               <span class="tk-kw">WITH</span> <span class="tk-kw">NON-UNIQUE</span> <span class="tk-kw">KEY</span> CARRID CONNID FLDATE.
+
+<span class="tk-kw">START-OF-SELECTION</span>.
+
+  <span class="tk-kw">SELECT</span>
+      CARRID,
+      CONNID,
+      FLDATE,
+      SEATSMAX,
+      SEATSOCC,
+      SEATSMAX_B,
+      SEATSOCC_B,
+      SEATSMAX_F,
+      SEATSOCC_F
+  <span class="tk-kw">FROM</span> SFLIGHT
+  <span class="tk-kw">INTO</span> <span class="tk-kw">TABLE</span> @GT_FLIGHT
+  <span class="tk-kw">WHERE</span> CARRID = @PA_CAR
+    <span class="tk-kw">AND</span> CONNID <span class="tk-kw">IN</span> @SO_CON.
+
+  <span class="tk-kw">IF</span> SY-SUBRC <span class="tk-kw">NE</span> <span class="tk-num">0</span>.
+    <span class="tk-kw">WRITE</span> TEXT-E01.
+    <span class="tk-kw">RETURN</span>.
+  <span class="tk-kw">ENDIF</span>.
+
+  <span class="tk-kw">LOOP</span> <span class="tk-kw">AT</span> GT_FLIGHT <span class="tk-kw">INTO</span> GS_FLIGHT.
+    GS_FLIGHT-SEATSFREE   = GS_FLIGHT-SEATSMAX   - GS_FLIGHT-SEATSOCC.
+    GS_FLIGHT-SEATSFREE_B = GS_FLIGHT-SEATSMAX_B - GS_FLIGHT-SEATSOCC_B.
+    GS_FLIGHT-SEATSFREE_F = GS_FLIGHT-SEATSMAX_F - GS_FLIGHT-SEATSOCC_F.
+
+    <span class="tk-kw">IF</span> GS_FLIGHT-SEATSMAX &gt; <span class="tk-num">0</span>.
+      GS_FLIGHT-RATE = <span class="tk-num">100</span> * GS_FLIGHT-SEATSOCC / GS_FLIGHT-SEATSMAX.
+    <span class="tk-kw">ENDIF</span>.
+    <span class="tk-kw">IF</span> GS_FLIGHT-SEATSMAX_B &gt; <span class="tk-num">0</span>.
+      GS_FLIGHT-RATE_B = <span class="tk-num">100</span> * GS_FLIGHT-SEATSOCC_B / GS_FLIGHT-SEATSMAX_B.
+    <span class="tk-kw">ENDIF</span>.
+    <span class="tk-kw">IF</span> GS_FLIGHT-SEATSMAX_F &gt; <span class="tk-num">0</span>.
+      GS_FLIGHT-RATE_F = <span class="tk-num">100</span> * GS_FLIGHT-SEATSOCC_F / GS_FLIGHT-SEATSMAX_F.
+    <span class="tk-kw">ENDIF</span>.
+
+    <span class="tk-kw">MODIFY</span> GT_FLIGHT <span class="tk-kw">FROM</span> GS_FLIGHT.
+  <span class="tk-kw">ENDLOOP</span>.
+
+  <span class="tk-kw">SORT</span> GT_FLIGHT <span class="tk-kw">BY</span> SEATSFREE SEATSFREE_B SEATSFREE_F <span class="tk-kw">DESCENDING</span>.
+
+  <span class="tk-kw">LOOP</span> <span class="tk-kw">AT</span> GT_FLIGHT <span class="tk-kw">INTO</span> GS_FLIGHT.
+    <span class="tk-kw">WRITE</span>: /(<span class="tk-num">10</span>) GS_FLIGHT-CARRID       <span class="tk-kw">COLOR</span> COL_KEY <span class="tk-kw">CENTERED</span>,
+            (<span class="tk-num">10</span>) GS_FLIGHT-CONNID       <span class="tk-kw">COLOR</span> COL_KEY <span class="tk-kw">CENTERED</span>,
+            (<span class="tk-num">14</span>) GS_FLIGHT-FLDATE       <span class="tk-kw">COLOR</span> COL_KEY <span class="tk-kw">CENTERED</span>,
+            (<span class="tk-num">10</span>) GS_FLIGHT-SEATSFREE    <span class="tk-kw">NO-SIGN</span> <span class="tk-kw">RIGHT-JUSTIFIED</span>,
+            (<span class="tk-num">10</span>) GS_FLIGHT-RATE         <span class="tk-kw">NO-SIGN</span> <span class="tk-kw">RIGHT-JUSTIFIED</span>,
+            (<span class="tk-num">10</span>) GS_FLIGHT-SEATSFREE_B  <span class="tk-kw">NO-SIGN</span> <span class="tk-kw">RIGHT-JUSTIFIED</span>,
+            (<span class="tk-num">10</span>) GS_FLIGHT-RATE_B       <span class="tk-kw">NO-SIGN</span> <span class="tk-kw">RIGHT-JUSTIFIED</span>,
+            (<span class="tk-num">10</span>) GS_FLIGHT-SEATSFREE_F  <span class="tk-kw">NO-SIGN</span> <span class="tk-kw">RIGHT-JUSTIFIED</span>,
+            (<span class="tk-num">10</span>) GS_FLIGHT-RATE_F       <span class="tk-kw">NO-SIGN</span> <span class="tk-kw">RIGHT-JUSTIFIED</span>.
+  <span class="tk-kw">ENDLOOP</span>.</code></pre></div>
+<h4>힌트</h4>
+<details class="help"><summary>힌트 1</summary><div class="help-b"><p>문의 1: SELECT 바로 뒤에 Breakpoint를 걸고 <code>GT_FLIGHT</code>의 첫 줄을 열어 보세요. SE16으로 본 SFLIGHT 같은 줄과 <code>SEATSMAX_B</code> 값이 같나요? HW-2A와 HW-2C에서 한 번씩 겪었던 문제예요.</p></div></details><details class="help"><summary>힌트 2</summary><div class="help-b"><p>문의 2: <code>DESCENDING</code>은 어느 칸에 붙어 있나요? 앞의 두 칸은 어떤 순서로 정렬될까요?</p></div></details><details class="help"><summary>힌트 3</summary><div class="help-b"><p>문의 3: WHERE 조건에 입력값 세 개(<code>PA_CAR</code>, <code>SO_CON</code>, <code>SO_FLD</code>)가 다 쓰였나요?</p></div></details>
+<details class="help ans"><summary>원인과 정답 보기</summary><div class="help-b"><div class="table-wrap"><table><tr><th>문의</th><th>원인</th><th>고치는 법</th></tr>
+<tr><td>1. 비즈니스·퍼스트 이상</td><td><code>INTO TABLE</code>은 이름이 아니라 <b>순서</b>대로 넣어요. Structure는 클래스별로 묶여 있어서 <code>SEATSMAX_B</code>가 <code>SEATSFREE</code> 자리에, <code>SEATSMAX_F</code>가 <code>SEATSMAX_B</code> 자리에 들어가고 퍼스트 칸은 비어요. 이코노미는 LOOP에서 다시 계산돼서 맞게 보여요.</td><td><code>INTO CORRESPONDING FIELDS OF TABLE</code></td></tr><tr><td>2. 정렬 반대</td><td><code>DESCENDING</code>이 마지막 칸(<code>SEATSFREE_F</code>)에만 붙어서, 앞의 두 칸은 오름차순</td><td>칸마다 <code>DESCENDING</code> 붙이기</td></tr><tr><td>3. 날짜 조건 무시</td><td>WHERE에 <code>SO_FLD</code> 조건이 빠짐</td><td><code>AND FLDATE IN @SO_FLD</code> 추가</td></tr></table></div><p>다 고치면 원본과 같은 결과가 나와요. 원본 강사님 코드는 Structure 칸 순서를 SELECT와 같게 둬서 <code>INTO TABLE</code>로도 됐지만, 이 코드는 클래스별로 묶어서 순서가 달라요. 멘티에게는 <b>1번이 제일 위험한 버그</b>라는 걸 짚어 주세요. 에러 없이 틀린 숫자만 조용히 나가니까요.</p></div></details>
+</section>
+<section id="ex">
+<h2><span class="lv">예시</span> 실무처럼 정리하면</h2>
+<p>문제는 아니고, 오늘 만든 Dictionary 타입과 FM을 실무 프로그램처럼 쓰면 어떤 모양이 되는지 보여 주는 예시예요. FM으로 한 번 읽고, 같은 출력 코드를 클래스만 바꿔서 세 번 써요.</p>
+<p>아직 안 배운 <code>PERFORM</code>/<code>FORM</code>, <code>OBLIGATORY</code>, <code>SKIP</code>도 들어 있어요. 실제 코드가 어떻게 생겼는지 미리 보는 거라 지금 다 이해하지 않아도 괜찮아요.</p>
+<div class="make"><div class="make-t"><span class="make-k">구성</span></div><dl><dt>Program</dt><dd>YG<mark class="gno">##</mark>_MT1_EX</dd><dt>입력</dt><dd><code>PA_CAR</code>, <code>PA_CON</code>, <code>PA_FROM</code>, <code>PA_TO</code> (모두 필수 입력)</dd><dt>조회</dt><dd>복습 3의 <code>Y_G<mark class="gno">##</mark>_MT_SEAT_GET</code></dd><dt>출력</dt><dd><code>SHOW_CLASS</code> 하나로 Economy · Business · First 세 블록</dd></dl></div>
+<div class="code"><div class="cap">FM과 Dictionary 타입을 쓰는 프로그램</div><button class="copy" type="button">복사</button><pre><code><span class="tk-kw">REPORT</span> YG<mark class="gno">##</mark>_MT1_EX.
+
+<span class="tk-cmt">*----------------------------------------------------------------------*</span>
+<span class="tk-cmt">* 선택 화면</span>
+<span class="tk-cmt">*----------------------------------------------------------------------*</span>
+<span class="tk-kw">PARAMETERS</span>: PA_CAR  <span class="tk-kw">TYPE</span> S_CARR_ID <span class="tk-kw">OBLIGATORY</span>,
+            PA_CON  <span class="tk-kw">TYPE</span> S_CONN_ID <span class="tk-kw">OBLIGATORY</span>,
+            PA_FROM <span class="tk-kw">TYPE</span> S_DATE    <span class="tk-kw">OBLIGATORY</span>,
+            PA_TO   <span class="tk-kw">TYPE</span> S_DATE    <span class="tk-kw">OBLIGATORY</span>.
+
+<span class="tk-kw">DATA</span> GT_SEATS <span class="tk-kw">TYPE</span> YG<mark class="gno">##</mark>_MT_TT_SEAT.
+
+<span class="tk-cmt">*----------------------------------------------------------------------*</span>
+<span class="tk-cmt">* 메인: FM으로 읽고, 클래스별로 세 블록 출력</span>
+<span class="tk-cmt">*----------------------------------------------------------------------*</span>
+<span class="tk-kw">START-OF-SELECTION</span>.
+
+  <span class="tk-kw">CALL</span> <span class="tk-kw">FUNCTION</span> <span class="tk-str">&#x27;Y_G<mark class="gno">##</mark>_MT_SEAT_GET&#x27;</span>
+    <span class="tk-kw">EXPORTING</span>
+      IV_CARRID    = PA_CAR
+      IV_CONNID    = PA_CON
+      IV_DATE_FROM = PA_FROM
+      IV_DATE_TO   = PA_TO
+    <span class="tk-kw">IMPORTING</span>
+      ET_SEATS     = GT_SEATS
+    <span class="tk-kw">EXCEPTIONS</span>
+      NO_DATA      = <span class="tk-num">1</span>
+      WRONG_PERIOD = <span class="tk-num">2</span>
+      <span class="tk-kw">OTHERS</span>       = <span class="tk-num">3</span>.
+
+  <span class="tk-kw">CASE</span> SY-SUBRC.
+    <span class="tk-kw">WHEN</span> <span class="tk-num">0</span>.
+      <span class="tk-kw">PERFORM</span> SHOW_CLASS <span class="tk-kw">USING</span> <span class="tk-str">&#x27;E&#x27;</span> <span class="tk-str">&#x27;Economy&#x27;</span>.
+      <span class="tk-kw">PERFORM</span> SHOW_CLASS <span class="tk-kw">USING</span> <span class="tk-str">&#x27;B&#x27;</span> <span class="tk-str">&#x27;Business&#x27;</span>.
+      <span class="tk-kw">PERFORM</span> SHOW_CLASS <span class="tk-kw">USING</span> <span class="tk-str">&#x27;F&#x27;</span> <span class="tk-str">&#x27;First&#x27;</span>.
+    <span class="tk-kw">WHEN</span> <span class="tk-num">1</span>.
+      <span class="tk-kw">WRITE</span> / <span class="tk-str">&#x27;조회된 일정이 없습니다.&#x27;</span>.
     <span class="tk-kw">WHEN</span> <span class="tk-num">2</span>.
       <span class="tk-kw">WRITE</span> / <span class="tk-str">&#x27;시작일이 종료일보다 늦습니다.&#x27;</span> <span class="tk-kw">COLOR</span> COL_NEGATIVE.
     <span class="tk-kw">WHEN</span> <span class="tk-kw">OTHERS</span>.
       <span class="tk-kw">WRITE</span> / <span class="tk-str">&#x27;알 수 없는 오류가 발생했습니다.&#x27;</span>.
   <span class="tk-kw">ENDCASE</span>.
 
-<span class="tk-kw">ENDFORM</span>.
-
 <span class="tk-cmt">*----------------------------------------------------------------------*</span>
-<span class="tk-cmt">* ③ 만석 임박 일정 (복습 4 FM)</span>
+<span class="tk-cmt">* 공통: 클래스 하나 출력 (E/B/F 중 어떤 칸을 쓸지 USING으로 받음)</span>
 <span class="tk-cmt">*----------------------------------------------------------------------*</span>
-<span class="tk-kw">FORM</span> SHOW_FULL.
+<span class="tk-kw">FORM</span> SHOW_CLASS <span class="tk-kw">USING</span> PV_CLASS <span class="tk-kw">TYPE</span> C
+                      PV_TITLE <span class="tk-kw">TYPE</span> CSEQUENCE.
 
-  <span class="tk-kw">DATA</span> LT_FLIGHTS <span class="tk-kw">TYPE</span> BC400_T_FLIGHTS.
-
-  <span class="tk-kw">PERFORM</span> WRITE_TITLE <span class="tk-kw">USING</span> <span class="tk-str">&#x27;③ 만석 임박 일정&#x27;</span>.
-
-  <span class="tk-kw">CALL</span> <span class="tk-kw">FUNCTION</span> <span class="tk-str">&#x27;Z_BC400_G<mark class="gno">##</mark>_FLIGHTLIST_FULL&#x27;</span>
-    <span class="tk-kw">EXPORTING</span>
-      IV_CARRID      = PA_CAR
-      IV_CONNID      = PA_CON
-      IV_MIN_PERCENT = PA_PCT
-    <span class="tk-kw">IMPORTING</span>
-      ET_FLIGHTS     = LT_FLIGHTS
-    <span class="tk-kw">EXCEPTIONS</span>
-      NO_DATA        = <span class="tk-num">1</span>
-      NO_FULL_FLIGHT = <span class="tk-num">2</span>
-      <span class="tk-kw">OTHERS</span>         = <span class="tk-num">3</span>.
-
-  <span class="tk-kw">CASE</span> SY-SUBRC.
-    <span class="tk-kw">WHEN</span> <span class="tk-num">0</span>.
-      <span class="tk-kw">PERFORM</span> WRITE_LIST <span class="tk-kw">USING</span> LT_FLIGHTS.
-    <span class="tk-kw">WHEN</span> <span class="tk-num">1</span>.
-      <span class="tk-kw">WRITE</span> / <span class="tk-str">&#x27;조회된 데이터가 없습니다.&#x27;</span>.
-    <span class="tk-kw">WHEN</span> <span class="tk-num">2</span>.
-      <span class="tk-kw">WRITE</span> / <span class="tk-str">&#x27;기준을 넘는 일정이 없습니다.&#x27;</span>.
-    <span class="tk-kw">WHEN</span> <span class="tk-kw">OTHERS</span>.
-      <span class="tk-kw">WRITE</span> / <span class="tk-str">&#x27;알 수 없는 오류가 발생했습니다.&#x27;</span>.
-  <span class="tk-kw">ENDCASE</span>.
-
-<span class="tk-kw">ENDFORM</span>.
-
-<span class="tk-cmt">*----------------------------------------------------------------------*</span>
-<span class="tk-cmt">* 공통: 블록 제목</span>
-<span class="tk-cmt">*----------------------------------------------------------------------*</span>
-<span class="tk-kw">FORM</span> WRITE_TITLE <span class="tk-kw">USING</span> PV_TITLE <span class="tk-kw">TYPE</span> CSEQUENCE.
+  <span class="tk-kw">DATA</span>: LS_SEAT <span class="tk-kw">TYPE</span> YG<mark class="gno">##</mark>_MT_S_SEAT,
+        LV_MAX  <span class="tk-kw">TYPE</span> S_SEATSMAX,
+        LV_OCC  <span class="tk-kw">TYPE</span> S_SEATSOCC,
+        LV_FREE <span class="tk-kw">TYPE</span> S_SEATSMAX,
+        LV_PCT  <span class="tk-kw">TYPE</span> YG<mark class="gno">##</mark>_MT_E_PCT.
 
   <span class="tk-kw">SKIP</span>.
   <span class="tk-kw">WRITE</span> / PV_TITLE <span class="tk-kw">COLOR</span> COL_HEADING.
   <span class="tk-kw">ULINE</span>.
 
-<span class="tk-kw">ENDFORM</span>.
+  <span class="tk-kw">LOOP</span> <span class="tk-kw">AT</span> GT_SEATS <span class="tk-kw">INTO</span> LS_SEAT.
+    <span class="tk-kw">CASE</span> PV_CLASS.
+      <span class="tk-kw">WHEN</span> <span class="tk-str">&#x27;E&#x27;</span>.
+        LV_MAX  = LS_SEAT-SEATSMAX.
+        LV_OCC  = LS_SEAT-SEATSOCC.
+        LV_FREE = LS_SEAT-SEATSFREE.
+        LV_PCT  = LS_SEAT-RATE.
+      <span class="tk-kw">WHEN</span> <span class="tk-str">&#x27;B&#x27;</span>.
+        LV_MAX  = LS_SEAT-SEATSMAX_B.
+        LV_OCC  = LS_SEAT-SEATSOCC_B.
+        LV_FREE = LS_SEAT-SEATSFREE_B.
+        LV_PCT  = LS_SEAT-RATE_B.
+      <span class="tk-kw">WHEN</span> <span class="tk-str">&#x27;F&#x27;</span>.
+        LV_MAX  = LS_SEAT-SEATSMAX_F.
+        LV_OCC  = LS_SEAT-SEATSOCC_F.
+        LV_FREE = LS_SEAT-SEATSFREE_F.
+        LV_PCT  = LS_SEAT-RATE_F.
+    <span class="tk-kw">ENDCASE</span>.
 
-<span class="tk-cmt">*----------------------------------------------------------------------*</span>
-<span class="tk-cmt">* 공통: 일정 목록 출력 (세 블록이 같이 씀)</span>
-<span class="tk-cmt">*----------------------------------------------------------------------*</span>
-<span class="tk-kw">FORM</span> WRITE_LIST <span class="tk-kw">USING</span> PT_FLIGHTS <span class="tk-kw">TYPE</span> BC400_T_FLIGHTS.
-
-  <span class="tk-kw">DATA</span> LS_FLIGHT <span class="tk-kw">LIKE</span> <span class="tk-kw">LINE</span> <span class="tk-kw">OF</span> PT_FLIGHTS.
-
-  <span class="tk-kw">WRITE</span>: /(<span class="tk-num">6</span>)  <span class="tk-str">&#x27;항공사&#x27;</span> <span class="tk-kw">COLOR</span> COL_KEY,
-          (<span class="tk-num">6</span>)  <span class="tk-str">&#x27;노선&#x27;</span>   <span class="tk-kw">COLOR</span> COL_KEY,
-          (<span class="tk-num">10</span>) <span class="tk-str">&#x27;날짜&#x27;</span>   <span class="tk-kw">COLOR</span> COL_KEY,
-          (<span class="tk-num">8</span>)  <span class="tk-str">&#x27;좌석&#x27;</span>   <span class="tk-kw">COLOR</span> COL_KEY,
-          (<span class="tk-num">8</span>)  <span class="tk-str">&#x27;예약&#x27;</span>   <span class="tk-kw">COLOR</span> COL_KEY,
-          (<span class="tk-num">8</span>)  <span class="tk-str">&#x27;이용률&#x27;</span> <span class="tk-kw">COLOR</span> COL_KEY.
-
-  <span class="tk-kw">LOOP</span> <span class="tk-kw">AT</span> PT_FLIGHTS <span class="tk-kw">INTO</span> LS_FLIGHT.
-    <span class="tk-kw">WRITE</span>: /(<span class="tk-num">6</span>)  LS_FLIGHT-CARRID,
-            (<span class="tk-num">6</span>)  LS_FLIGHT-CONNID,
-            (<span class="tk-num">10</span>) LS_FLIGHT-FLDATE,
-            (<span class="tk-num">8</span>)  LS_FLIGHT-SEATSMAX,
-            (<span class="tk-num">8</span>)  LS_FLIGHT-SEATSOCC,
-            (<span class="tk-num">8</span>)  LS_FLIGHT-PERCENTAGE.
+    <span class="tk-kw">WRITE</span>: /(<span class="tk-num">14</span>) LS_SEAT-FLDATE <span class="tk-kw">COLOR</span> COL_KEY <span class="tk-kw">CENTERED</span>,
+            (<span class="tk-num">10</span>) LV_MAX  <span class="tk-kw">NO-SIGN</span> <span class="tk-kw">RIGHT-JUSTIFIED</span>,
+            (<span class="tk-num">10</span>) LV_OCC  <span class="tk-kw">NO-SIGN</span> <span class="tk-kw">RIGHT-JUSTIFIED</span>,
+            (<span class="tk-num">10</span>) LV_FREE <span class="tk-kw">NO-SIGN</span> <span class="tk-kw">RIGHT-JUSTIFIED</span>,
+            (<span class="tk-num">10</span>) LV_PCT  <span class="tk-kw">NO-SIGN</span> <span class="tk-kw">RIGHT-JUSTIFIED</span>.
   <span class="tk-kw">ENDLOOP</span>.
 
 <span class="tk-kw">ENDFORM</span>.</code></pre></div>
-<h4>코드에서 볼 것</h4>
-<ul>
-<li><b><code>PERFORM</code>은 이 프로그램 안에서 쓰는 작은 FM이라고 보면 돼요.</b> 코드 묶음에 이름(<code>FORM … ENDFORM</code>)을 붙여 두고 <code>PERFORM 이름</code>으로 불러요. 그래서 <code>START-OF-SELECTION</code>은 세 줄만 읽어도 프로그램이 뭘 하는지 보여요.</li>
-<li><b>같은 코드는 한 번만 써요.</b> 목록 출력은 세 블록이 똑같아서 <code>WRITE_LIST</code> 하나로 만들고, 결과 테이블을 <code>USING</code>으로 넘겨요. 출력 칸을 바꾸고 싶으면 여기 한 곳만 고치면 돼요.</li>
-<li><b>FM마다 넘기는 값이 달라요.</b> ②는 노선 번호를 받지 않고 날짜 두 개를 받아요. 그래서 없는 노선(9999)을 넣어도 ②에는 그 항공사의 기간 일정이 나와요.</li>
-<li><b>예외는 CALL FUNCTION마다 바로 뒤에서 확인해요.</b> 같은 <code>SY-SUBRC = 2</code>라도 ②에서는 <code>WRONG_PERIOD</code>, ③에서는 <code>NO_FULL_FLIGHT</code>예요. 번호의 뜻은 그 CALL FUNCTION의 <code>EXCEPTIONS</code>에 적은 대로 정해져요.</li>
-<li><b>블록마다 FORM이 따로라서 서로 영향을 주지 않아요.</b> 결과 테이블 <code>LT_FLIGHTS</code>는 FORM 안에서 선언한 <b>지역 변수</b>라 FORM이 끝나면 사라지고, 다음 FORM에서는 새로 비어 있는 상태로 시작해요. ①에서 예외가 나도 ②, ③은 그대로 실행돼요.</li>
-<li><b>변수 이름 앞글자로 어디서 쓰는 변수인지 알 수 있어요.</b> <code>PA_</code> 선택 화면, <code>LT_</code>·<code>LS_</code> FORM 안 지역 변수, <code>PT_</code>·<code>PV_</code> FORM이 받는 값. 지금까지 쓴 <code>GT_</code>·<code>GS_</code>는 프로그램 전체에서 쓰는 변수예요.</li>
+<h4>코드에서 볼 것</h4><ul>
+<li><b><code>PERFORM</code>은 이 프로그램 안에서 쓰는 작은 FM이라고 보면 돼요.</b> 코드 묶음에 이름(<code>FORM … ENDFORM</code>)을 붙여 두고 <code>PERFORM 이름</code>으로 불러요.</li>
+<li><b>같은 코드는 한 번만 써요.</b> 세 클래스의 출력 모양이 같아서 <code>SHOW_CLASS</code> 하나로 만들고, 어떤 클래스인지(<code>'E'</code>, <code>'B'</code>, <code>'F'</code>)만 <code>USING</code>으로 넘겨요. 안에서는 수업에서 쓴 <code>CASE</code>로 칸을 골라요.</li>
+<li><b>Dictionary 타입은 어디서든 같은 이름으로 써요.</b> FM의 <code>ET_SEATS</code>, 프로그램의 <code>GT_SEATS</code>, FORM 안의 <code>LS_SEAT</code>·<code>LV_PCT</code>가 모두 복습 3에서 만든 <code>YG<mark class="gno">##</mark>_MT_…</code> 타입이에요. 칸을 하나 바꾸고 싶으면 SE11에서 한 번만 고치면 돼요.</li>
+<li><b>변수 이름 앞글자로 어디서 쓰는 변수인지 알 수 있어요.</b> <code>PA_</code> 선택 화면, <code>GT_</code>·<code>GS_</code> 프로그램 전체, <code>LS_</code>·<code>LV_</code> FORM 안 지역 변수, <code>PV_</code> FORM이 받는 값.</li>
+</ul>
+</section>
+<section id="alv">
+<h2><span class="lv">참고</span> ALV로 보여 주기 (2주차 미리보기)</h2>
+<p><b>이번 주에는 하지 않아요.</b> 이번 주 수업에서 배운 Screen·Container·ALV를 오늘 만든 FM과 Structure에 붙이면 어떻게 되는지, 시간 날 때 참고로 보세요. 다음 주 멘토링에서 이어서 직접 만들어 봐요.</p>
+<p>구조는 수업의 Exercise 26(<code>SAPMZBC400_G<mark class="gno">##</mark>_EX26_D</code>)과 같아요. 다른 점은 두 가지예요. FM은 복습 3의 <code>Y_G<mark class="gno">##</mark>_MT_SEAT_GET</code>을 쓰고, ALV의 <code>I_STRUCTURE_NAME</code>에는 복습 3에서 만든 <code>YG<mark class="gno">##</mark>_MT_S_SEAT</code>를 넘겨요.</p>
+<ol class="road"><li><b>준비 1</b>Module Pool <code>SAPMYG<mark class="gno">##</mark>_MT1</code> (TOP Include <code>MYG<mark class="gno">##</mark>_MT1TOP</code>와 함께, Local Object)</li><li><b>준비 2</b>Screen 100: 입력 필드 4개(Layout의 Dictionary/Program Fields에서 <code>GV_CARRID</code>, <code>GV_CONNID</code>, <code>GV_FROM</code>, <code>GV_TO</code> 가져오기, 항공사·노선은 필수 입력), 버튼 “조회”(Function Code <code>GO</code>), Element List 맨 아래 OK 필드 <code>OK_CODE</code></li><li><b>준비 3</b>Screen 200: Custom Control <code>CC_ALV</code>를 화면 가득 그리기, OK 필드 <code>OK_CODE</code></li><li><b>준비 4</b>GUI Status <code>S100</code>, <code>S200</code>: Function Key에 <code>BACK</code>(F3), <code>EXIT</code>(Shift+F3)</li><li><b>준비 5</b>Transaction Code <code>YG<mark class="gno">##</mark>_MT1</code> (시작 화면 100)로 실행</li></ol>
+<div class="code"><div class="cap">SAPMYG<mark class="gno">##</mark>_MT1 · 메인</div><button class="copy" type="button">복사</button><pre><code><span class="tk-cmt">*&amp;---------------------------------------------------------------------*</span>
+<span class="tk-cmt">*&amp; Module Pool      SAPMYG<mark class="gno">##</mark>_MT1</span>
+<span class="tk-cmt">*&amp;---------------------------------------------------------------------*</span>
+<span class="tk-cmt">*&amp; 1주차 참고: 좌석 현황을 ALV로 보여 주기</span>
+<span class="tk-cmt">*&amp;---------------------------------------------------------------------*</span>
+
+<span class="tk-kw">INCLUDE</span> MYG<mark class="gno">##</mark>_MT1TOP.  <span class="tk-cmt">" Global Data</span>
+<span class="tk-kw">INCLUDE</span> MYG<mark class="gno">##</mark>_MT1O01.  <span class="tk-cmt">" PBO-Modules</span>
+<span class="tk-kw">INCLUDE</span> MYG<mark class="gno">##</mark>_MT1I01.  <span class="tk-cmt">" PAI-Modules for Screen 0100</span>
+<span class="tk-kw">INCLUDE</span> MYG<mark class="gno">##</mark>_MT1I02.  <span class="tk-cmt">" PAI-Modules for Screen 0200</span></code></pre></div>
+<div class="code"><div class="cap">MYG<mark class="gno">##</mark>_MT1TOP · 전역 변수</div><button class="copy" type="button">복사</button><pre><code><span class="tk-kw">PROGRAM</span> SAPMYG<mark class="gno">##</mark>_MT1.
+
+<span class="tk-cmt">" 화면변수 OK_CODE와 이름이 같아서, 누른 버튼의 Function Code를 받는다.</span>
+<span class="tk-kw">DATA</span> OK_CODE <span class="tk-kw">TYPE</span> SY-UCOMM.
+
+<span class="tk-cmt">" OK_CODE를 옮겨 담아 두는 변수 (OK_CODE는 바로 지우기 위해)</span>
+<span class="tk-kw">DATA</span> GV_SAVE_OK <span class="tk-kw">TYPE</span> SY-UCOMM.
+
+<span class="tk-cmt">" 100번 화면 입력 필드와 이름이 같아서, 입력한 값을 자동으로 받는다.</span>
+<span class="tk-kw">DATA</span>: GV_CARRID <span class="tk-kw">TYPE</span> S_CARR_ID,
+      GV_CONNID <span class="tk-kw">TYPE</span> S_CONN_ID,
+      GV_FROM   <span class="tk-kw">TYPE</span> S_DATE,
+      GV_TO     <span class="tk-kw">TYPE</span> S_DATE.
+
+<span class="tk-cmt">" FM 결과 = 200번 화면 ALV에 출력할 데이터 (복습 3에서 만든 Table Type)</span>
+<span class="tk-kw">DATA</span> GT_SEATS <span class="tk-kw">TYPE</span> YG<mark class="gno">##</mark>_MT_TT_SEAT.
+
+<span class="tk-cmt">" 화면에 ALV를 출력하기 위한 참조변수 2개</span>
+<span class="tk-kw">DATA</span> GO_CONTAINER <span class="tk-kw">TYPE</span> <span class="tk-kw">REF</span> <span class="tk-kw">TO</span> CL_GUI_CUSTOM_CONTAINER.
+<span class="tk-kw">DATA</span> GO_ALV_GRID  <span class="tk-kw">TYPE</span> <span class="tk-kw">REF</span> <span class="tk-kw">TO</span> CL_GUI_ALV_GRID.</code></pre></div>
+<div class="code"><div class="cap">Screen 100 / 200 · Flow Logic</div><button class="copy" type="button">복사</button><pre><code><span class="tk-cmt">" ---- 100번 화면 Flow Logic ----</span>
+<span class="tk-kw">PROCESS</span> <span class="tk-kw">BEFORE</span> <span class="tk-kw">OUTPUT</span>.
+  <span class="tk-kw">MODULE</span> STATUS_0100.
+
+<span class="tk-kw">PROCESS</span> <span class="tk-kw">AFTER</span> <span class="tk-kw">INPUT</span>.
+  <span class="tk-kw">MODULE</span> USER_COMMAND_0100.
+
+<span class="tk-cmt">" ---- 200번 화면 Flow Logic ----</span>
+<span class="tk-kw">PROCESS</span> <span class="tk-kw">BEFORE</span> <span class="tk-kw">OUTPUT</span>.
+  <span class="tk-kw">MODULE</span> STATUS_0200.
+  <span class="tk-kw">MODULE</span> INIT_CONTROL_PROCESSING_0200.
+
+<span class="tk-kw">PROCESS</span> <span class="tk-kw">AFTER</span> <span class="tk-kw">INPUT</span>.
+  <span class="tk-kw">MODULE</span> USER_COMMAND_0200.</code></pre></div>
+<div class="code"><div class="cap">MYG<mark class="gno">##</mark>_MT1O01 · PBO</div><button class="copy" type="button">복사</button><pre><code><span class="tk-kw">MODULE</span> STATUS_0100 <span class="tk-kw">OUTPUT</span>.
+  <span class="tk-kw">SET</span> <span class="tk-kw">PF-STATUS</span> <span class="tk-str">&#x27;S100&#x27;</span>.
+<span class="tk-kw">ENDMODULE</span>.
+
+<span class="tk-kw">MODULE</span> STATUS_0200 <span class="tk-kw">OUTPUT</span>.
+  <span class="tk-kw">SET</span> <span class="tk-kw">PF-STATUS</span> <span class="tk-str">&#x27;S200&#x27;</span>.
+<span class="tk-kw">ENDMODULE</span>.
+
+<span class="tk-kw">MODULE</span> INIT_CONTROL_PROCESSING_0200 <span class="tk-kw">OUTPUT</span>.
+
+  <span class="tk-cmt">" 처음 한 번만 객체를 만들고, 다음부터는 새로고침만 한다.</span>
+  <span class="tk-kw">IF</span> GO_CONTAINER <span class="tk-kw">IS</span> <span class="tk-kw">INITIAL</span>.
+
+    <span class="tk-kw">CREATE</span> <span class="tk-kw">OBJECT</span> GO_CONTAINER
+      <span class="tk-kw">EXPORTING</span>
+        CONTAINER_NAME = <span class="tk-str">&#x27;CC_ALV&#x27;</span>  <span class="tk-cmt">" 200번 화면에서 만든 Custom Control 이름</span>
+      <span class="tk-kw">EXCEPTIONS</span>
+        <span class="tk-kw">OTHERS</span>         = <span class="tk-num">1</span>.
+
+    <span class="tk-kw">CREATE</span> <span class="tk-kw">OBJECT</span> GO_ALV_GRID
+      <span class="tk-kw">EXPORTING</span>
+        I_PARENT = GO_CONTAINER
+      <span class="tk-kw">EXCEPTIONS</span>
+        <span class="tk-kw">OTHERS</span>   = <span class="tk-num">1</span>.
+
+    <span class="tk-cmt">" 칸 정보는 Dictionary Structure 이름만 넘기면 자동으로 잡힌다.</span>
+    <span class="tk-kw">CALL</span> <span class="tk-kw">METHOD</span> GO_ALV_GRID-&gt;SET_TABLE_FOR_FIRST_DISPLAY
+      <span class="tk-kw">EXPORTING</span>
+        I_STRUCTURE_NAME = <span class="tk-str">&#x27;YG<mark class="gno">##</mark>_MT_S_SEAT&#x27;</span>
+      <span class="tk-kw">CHANGING</span>
+        IT_OUTTAB        = GT_SEATS
+      <span class="tk-kw">EXCEPTIONS</span>
+        <span class="tk-kw">OTHERS</span>           = <span class="tk-num">1</span>.
+
+  <span class="tk-kw">ELSE</span>.
+    <span class="tk-kw">CALL</span> <span class="tk-kw">METHOD</span> GO_ALV_GRID-&gt;REFRESH_TABLE_DISPLAY.
+  <span class="tk-kw">ENDIF</span>.
+
+<span class="tk-kw">ENDMODULE</span>.</code></pre></div>
+<div class="code"><div class="cap">MYG<mark class="gno">##</mark>_MT1I01 · Screen 100 PAI</div><button class="copy" type="button">복사</button><pre><code><span class="tk-kw">MODULE</span> USER_COMMAND_0100 <span class="tk-kw">INPUT</span>.
+
+  <span class="tk-cmt">" OK_CODE는 옮겨 담고 바로 지운다.</span>
+  <span class="tk-cmt">" 안 지우면 200번에서 돌아온 뒤 엔터만 쳐도 'GO'가 다시 실행될 수 있다.</span>
+  GV_SAVE_OK = OK_CODE.
+  <span class="tk-kw">CLEAR</span> OK_CODE.
+
+  <span class="tk-kw">CASE</span> GV_SAVE_OK.
+    <span class="tk-kw">WHEN</span> <span class="tk-str">&#x27;GO&#x27;</span>.
+      <span class="tk-kw">CALL</span> <span class="tk-kw">FUNCTION</span> <span class="tk-str">&#x27;Y_G<mark class="gno">##</mark>_MT_SEAT_GET&#x27;</span>
+        <span class="tk-kw">EXPORTING</span>
+          IV_CARRID    = GV_CARRID
+          IV_CONNID    = GV_CONNID
+          IV_DATE_FROM = GV_FROM
+          IV_DATE_TO   = GV_TO
+        <span class="tk-kw">IMPORTING</span>
+          ET_SEATS     = GT_SEATS
+        <span class="tk-kw">EXCEPTIONS</span>
+          NO_DATA      = <span class="tk-num">1</span>
+          WRONG_PERIOD = <span class="tk-num">2</span>
+          <span class="tk-kw">OTHERS</span>       = <span class="tk-num">3</span>.
+
+      <span class="tk-kw">CASE</span> SY-SUBRC.
+        <span class="tk-kw">WHEN</span> <span class="tk-num">0</span>.
+          <span class="tk-kw">CALL</span> <span class="tk-kw">SCREEN</span> <span class="tk-num">0200</span>.
+        <span class="tk-kw">WHEN</span> <span class="tk-num">1</span>.
+          <span class="tk-kw">MESSAGE</span> <span class="tk-str">&#x27;조회된 일정이 없습니다.&#x27;</span> <span class="tk-kw">TYPE</span> <span class="tk-str">&#x27;I&#x27;</span>.
+        <span class="tk-kw">WHEN</span> <span class="tk-num">2</span>.
+          <span class="tk-kw">MESSAGE</span> <span class="tk-str">&#x27;시작일이 종료일보다 늦습니다.&#x27;</span> <span class="tk-kw">TYPE</span> <span class="tk-str">&#x27;I&#x27;</span>.
+        <span class="tk-kw">WHEN</span> <span class="tk-kw">OTHERS</span>.
+          <span class="tk-kw">MESSAGE</span> <span class="tk-str">&#x27;알 수 없는 오류가 발생했습니다.&#x27;</span> <span class="tk-kw">TYPE</span> <span class="tk-str">&#x27;I&#x27;</span>.
+      <span class="tk-kw">ENDCASE</span>.
+
+    <span class="tk-kw">WHEN</span> <span class="tk-str">&#x27;BACK&#x27;</span> <span class="tk-kw">OR</span> <span class="tk-str">&#x27;EXIT&#x27;</span>.
+      <span class="tk-kw">LEAVE</span> <span class="tk-kw">PROGRAM</span>.
+  <span class="tk-kw">ENDCASE</span>.
+
+<span class="tk-kw">ENDMODULE</span>.</code></pre></div>
+<div class="code"><div class="cap">MYG<mark class="gno">##</mark>_MT1I02 · Screen 200 PAI</div><button class="copy" type="button">복사</button><pre><code><span class="tk-kw">MODULE</span> USER_COMMAND_0200 <span class="tk-kw">INPUT</span>.
+
+  GV_SAVE_OK = OK_CODE.
+  <span class="tk-kw">CLEAR</span> OK_CODE.
+
+  <span class="tk-kw">CASE</span> GV_SAVE_OK.
+    <span class="tk-kw">WHEN</span> <span class="tk-str">&#x27;BACK&#x27;</span> <span class="tk-kw">OR</span> <span class="tk-str">&#x27;EXIT&#x27;</span>.
+      <span class="tk-cmt">" 200번을 부른 곳(100번 PAI의 CALL SCREEN 다음 줄)으로 돌아간다.</span>
+      <span class="tk-kw">SET</span> <span class="tk-kw">SCREEN</span> <span class="tk-num">0</span>.
+  <span class="tk-kw">ENDCASE</span>.
+
+<span class="tk-kw">ENDMODULE</span>.</code></pre></div>
+<h4>코드에서 볼 것</h4><ul>
+<li><b>Screen Processing 순서대로 읽어 보세요.</b> 100번 PBO(<code>STATUS_0100</code>) → 화면 표시 → 조회 버튼 → 화면 값이 이름이 같은 <code>GV_</code> 변수와 <code>OK_CODE</code>로 넘어옴 → PAI(<code>USER_COMMAND_0100</code>) → <code>CALL SCREEN 0200</code> → 200번 PBO에서 ALV 생성.</li>
+<li><b><code>OK_CODE</code>는 옮겨 담고 바로 지워요.</b> 안 지우면 200번에서 돌아온 뒤 엔터만 쳐도 이전 값(<code>GO</code>)이 다시 실행될 수 있어요. 실무에서 거의 항상 이렇게 써요.</li>
+<li><b>객체는 한 번만 만들어요.</b> <code>IF GO_CONTAINER IS INITIAL</code>로 처음에만 Container와 ALV를 만들고, 다시 조회했을 때는 <code>REFRESH_TABLE_DISPLAY</code>로 새 데이터만 다시 읽어요. 수업 코드와 같은 흐름이에요.</li>
+<li><b>Dictionary에 만들어 둔 덕을 여기서 봐요.</b> <code>I_STRUCTURE_NAME = 'YG<mark class="gno">##</mark>_MT_S_SEAT'</code> 한 줄로 15칸이 자동으로 잡히고, 예약률 칸 머리글에는 복습 3에서 Data Element에 넣은 Field Label “예약률”이 나와요. 반대로 잔여좌석 칸은 예약 좌석의 Data Element를 빌려 써서 머리글도 “예약…”으로 나와요. 잔여좌석용 Data Element를 따로 만들면 고칠 수 있어요.</li>
+<li><b><code>SET SCREEN 0</code></b>은 200번을 부른 곳, 즉 100번 PAI의 <code>CALL SCREEN 0200</code> 다음 줄로 돌아가요. 그래서 다시 100번 화면이 보여요.</li>
 </ul>
 </section>
 <section id="mentor">
-<h2>멘토용 메모</h2>
-<ul>
-<li><b>1시간일 때</b> 원본 복습(10분) → 복습 1 같이 풀기(15분) → 복습 2 각자(20분) → 복습 5 다 같이 디버거 띄워 놓고(15분). 복습 3·4는 숙제.</li>
-<li><b>2시간일 때</b> 위 순서에 복습 3(30분, SELECT-OPTIONS·변수 선언 복습)과 리뷰(20분)를 더하고, 복습 4만 숙제로.</li>
-<li><b>마무리 (5분)</b> 마지막에 <a href="#ex">예시</a> 화면을 띄워 놓고 “오늘 만든 FM이 실제로는 이렇게 쓰여요” 정도로만 보여 주세요. 직접 따라 치게 할 필요는 없고, PERFORM은 “나중에 배울 거고 이 프로그램 안의 작은 FM”이라고만 짚어 주세요. 입력을 9999, 시작일 &gt; 종료일, 기준 100으로 바꿔 가며 블록마다 다른 메시지가 나오는 걸 보여 주면 좋아요.</li>
+<h2>멘토용 메모</h2><ul>
+<li><b>시작할 때</b> 이름 규칙 표를 같이 읽고, 다 같이 Function Group <code>YG<mark class="gno">##</mark>_MT</code>부터 만들고 시작하세요. (5분)</li>
+<li><b>1시간일 때</b> 이름 규칙·Function Group(5분) → 원본 HW-2C 훑기(5분) → 복습 1 같이 풀기(15분) → 복습 5 다 같이 디버거 띄워 놓고(15분) → 복습 3의 Task 1~4 Dictionary만 같이(20분). 복습 2, 복습 3의 FM, 복습 4는 숙제.</li>
+<li><b>2시간일 때</b> 위 순서에 복습 3 FM 마무리(20분), 복습 4(15분), 리뷰(15분), 예시 보여 주기(5분)를 더하고, 복습 2만 숙제로.</li>
+<li><b>예시 보여 줄 때</b> 따라 치게 할 필요는 없고, PERFORM은 “나중에 배울 거고 이 프로그램 안의 작은 FM”이라고만 짚어 주세요. 기간을 시작일 &gt; 종료일로 넣어 메시지가 나오는 것까지 보여 주면 좋아요.</li>
+<li><b>참고 · ALV</b> 멘토링 때는 진행하지 않아요. “이번 주 화면 수업 내용은 다음 주에 오늘 만든 FM으로 이어서 해요”라고만 안내하고, 궁금한 사람은 미리 보게 하세요.</li>
 <li><b>리뷰 때 물어볼 것</b> “이 줄 빼면 어떻게 돼?”, “SORT를 여기 두면?”, “SY-SUBRC는 지금 어떤 문장의 결과야?” 같은 질문 하나면 충분해요.</li>
-<li><b>빨리 끝낸 멘티에게</b> 같은 코드에 조건을 하나만 더하세요. 예: 복습 1에 “이용률 90% 이상인 줄은 앞에 <code>ICON_RED_LIGHT AS ICON</code>”, 복습 2에 “마지막 줄에 전체 일정 수 출력(LOOP 안에서 변수에 1씩 더하기)”.</li>
-<li><b>테스트 값</b> SE16으로 SFLIGHT를 열어 실제로 있는 항공사·노선을 고르게 하세요. 항공사 코드는 대문자, 노선 번호는 네 자리(0400)로.</li>
-</ul>
-</section>
-
+<li><b>빨리 끝낸 멘티에게</b> 같은 코드에 조건을 하나만 더하세요. 예: 복습 1에 “잔여좌석이 0인 줄은 <code>COLOR COL_NEGATIVE</code>”, 복습 2에 “마지막 줄에 담긴 일정 수 출력(LOOP 안에서 변수에 1씩 더하기)”.</li>
+<li><b>테스트 값</b> SE16으로 SFLIGHT를 열어 실제로 있는 항공사·노선·날짜를 고르게 하세요. 항공사 코드는 대문자, 노선 번호는 네 자리(0400)로.</li>
+</ul></section>
 </main>
-<footer class="foot"><p>원본: SAP BC400 Exercise 13~18 / SAP CODE 과제 HW-2. 복습 문제와 코드는 멘토링용으로 새로 만든 예시예요. 실제 시스템의 Structure 이름·칸 순서에 맞춰 바꿔 쓰세요.</p></footer>
+<footer class="foot"><p>원본: SAP CODE 과제 HW-2C, HW-1(Dictionary), BC400 Function Module 실습. 복습 문제와 코드는 멘토링용으로 새로 만든 예시예요. 실제 시스템의 Data Element 이름·칸 순서에 맞춰 바꿔 쓰세요.</p></footer>
 </div>
 <script>
 (function(){
