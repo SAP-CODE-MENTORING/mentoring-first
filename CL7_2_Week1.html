@@ -1019,16 +1019,16 @@ section h4 { color: var(--muted); }
 
   <span class="tk-cmt">" 3. 조회: Economy 칸만</span>
   <span class="tk-kw">SELECT</span>
-      CARRID,
-      CONNID,
-      FLDATE,
-      SEATSMAX,
+      CARRID
+      CONNID
+      FLDATE
+      SEATSMAX
       SEATSOCC
   <span class="tk-kw">FROM</span> SFLIGHT
-  <span class="tk-kw">INTO</span> <span class="tk-kw">CORRESPONDING</span> <span class="tk-kw">FIELDS</span> <span class="tk-kw">OF</span> <span class="tk-kw">TABLE</span> @GT_ECO
-  <span class="tk-kw">WHERE</span> CARRID = @PA_CAR
-    <span class="tk-kw">AND</span> CONNID <span class="tk-kw">IN</span> @SO_CON
-    <span class="tk-kw">AND</span> FLDATE <span class="tk-kw">IN</span> @SO_FLD.
+  <span class="tk-kw">INTO</span> <span class="tk-kw">CORRESPONDING</span> <span class="tk-kw">FIELDS</span> <span class="tk-kw">OF</span> <span class="tk-kw">TABLE</span> GT_ECO
+  <span class="tk-kw">WHERE</span> CARRID = PA_CAR
+    <span class="tk-kw">AND</span> CONNID <span class="tk-kw">IN</span> SO_CON
+    <span class="tk-kw">AND</span> FLDATE <span class="tk-kw">IN</span> SO_FLD.
 
   <span class="tk-kw">IF</span> SY-SUBRC <span class="tk-kw">NE</span> <span class="tk-num">0</span>.
     <span class="tk-kw">WRITE</span> TEXT-E01.  <span class="tk-cmt">" 조회된 일정이 없습니다.</span>
@@ -1111,16 +1111,16 @@ section h4 { color: var(--muted); }
 <span class="tk-kw">START-OF-SELECTION</span>.
 
   <span class="tk-kw">SELECT</span>
-      CARRID,
-      CONNID,
-      FLDATE,
-      SEATSMAX,
+      CARRID
+      CONNID
+      FLDATE
+      SEATSMAX
       SEATSOCC
   <span class="tk-kw">FROM</span> SFLIGHT
-  <span class="tk-kw">INTO</span> <span class="tk-kw">CORRESPONDING</span> <span class="tk-kw">FIELDS</span> <span class="tk-kw">OF</span> <span class="tk-kw">TABLE</span> @GT_ECO
-  <span class="tk-kw">WHERE</span> CARRID = @PA_CAR
-    <span class="tk-kw">AND</span> CONNID <span class="tk-kw">IN</span> @SO_CON
-    <span class="tk-kw">AND</span> FLDATE <span class="tk-kw">IN</span> @SO_FLD.
+  <span class="tk-kw">INTO</span> <span class="tk-kw">CORRESPONDING</span> <span class="tk-kw">FIELDS</span> <span class="tk-kw">OF</span> <span class="tk-kw">TABLE</span> GT_ECO
+  <span class="tk-kw">WHERE</span> CARRID = PA_CAR
+    <span class="tk-kw">AND</span> CONNID <span class="tk-kw">IN</span> SO_CON
+    <span class="tk-kw">AND</span> FLDATE <span class="tk-kw">IN</span> SO_FLD.
 
   <span class="tk-cmt">" 일정 자체가 없음</span>
   <span class="tk-kw">IF</span> SY-SUBRC <span class="tk-kw">NE</span> <span class="tk-num">0</span>.
@@ -1184,21 +1184,21 @@ section h4 { color: var(--muted); }
 
   <span class="tk-cmt">" 2. 조회: SELECT-OPTIONS 대신 값 하나씩 받아서 EQ / GE / LE</span>
   <span class="tk-kw">SELECT</span>
-      CARRID,
-      CONNID,
-      FLDATE,
-      SEATSMAX,
-      SEATSOCC,
-      SEATSMAX_B,
-      SEATSOCC_B,
-      SEATSMAX_F,
+      CARRID
+      CONNID
+      FLDATE
+      SEATSMAX
+      SEATSOCC
+      SEATSMAX_B
+      SEATSOCC_B
+      SEATSMAX_F
       SEATSOCC_F
   <span class="tk-kw">FROM</span> SFLIGHT
-  <span class="tk-kw">INTO</span> <span class="tk-kw">CORRESPONDING</span> <span class="tk-kw">FIELDS</span> <span class="tk-kw">OF</span> <span class="tk-kw">TABLE</span> @ET_SEATS
-  <span class="tk-kw">WHERE</span> CARRID <span class="tk-kw">EQ</span> @IV_CARRID
-    <span class="tk-kw">AND</span> CONNID <span class="tk-kw">EQ</span> @IV_CONNID
-    <span class="tk-kw">AND</span> FLDATE <span class="tk-kw">GE</span> @IV_DATE_FROM
-    <span class="tk-kw">AND</span> FLDATE <span class="tk-kw">LE</span> @IV_DATE_TO.
+  <span class="tk-kw">INTO</span> <span class="tk-kw">CORRESPONDING</span> <span class="tk-kw">FIELDS</span> <span class="tk-kw">OF</span> <span class="tk-kw">TABLE</span> ET_SEATS
+  <span class="tk-kw">WHERE</span> CARRID <span class="tk-kw">EQ</span> IV_CARRID
+    <span class="tk-kw">AND</span> CONNID <span class="tk-kw">EQ</span> IV_CONNID
+    <span class="tk-kw">AND</span> FLDATE <span class="tk-kw">GE</span> IV_DATE_FROM
+    <span class="tk-kw">AND</span> FLDATE <span class="tk-kw">LE</span> IV_DATE_TO.
 
   <span class="tk-kw">IF</span> SY-SUBRC <span class="tk-kw">NE</span> <span class="tk-num">0</span>.
     <span class="tk-kw">RAISE</span> NO_DATA.
@@ -1321,19 +1321,19 @@ section h4 { color: var(--muted); }
 <span class="tk-kw">START-OF-SELECTION</span>.
 
   <span class="tk-kw">SELECT</span>
-      CARRID,
-      CONNID,
-      FLDATE,
-      SEATSMAX,
-      SEATSOCC,
-      SEATSMAX_B,
-      SEATSOCC_B,
-      SEATSMAX_F,
+      CARRID
+      CONNID
+      FLDATE
+      SEATSMAX
+      SEATSOCC
+      SEATSMAX_B
+      SEATSOCC_B
+      SEATSMAX_F
       SEATSOCC_F
   <span class="tk-kw">FROM</span> SFLIGHT
-  <span class="tk-kw">INTO</span> <span class="tk-kw">TABLE</span> @GT_FLIGHT
-  <span class="tk-kw">WHERE</span> CARRID = @PA_CAR
-    <span class="tk-kw">AND</span> CONNID <span class="tk-kw">IN</span> @SO_CON.
+  <span class="tk-kw">INTO</span> <span class="tk-kw">TABLE</span> GT_FLIGHT
+  <span class="tk-kw">WHERE</span> CARRID = PA_CAR
+    <span class="tk-kw">AND</span> CONNID <span class="tk-kw">IN</span> SO_CON.
 
   <span class="tk-kw">IF</span> SY-SUBRC <span class="tk-kw">NE</span> <span class="tk-num">0</span>.
     <span class="tk-kw">WRITE</span> TEXT-E01.
@@ -1374,7 +1374,7 @@ section h4 { color: var(--muted); }
 <h4>힌트</h4>
 <details class="help"><summary>힌트 1</summary><div class="help-b"><p>문의 1: SELECT 바로 뒤에 Breakpoint를 걸고 <code>GT_FLIGHT</code>의 첫 줄을 열어 보세요. SE16으로 본 SFLIGHT 같은 줄과 <code>SEATSMAX_B</code> 값이 같나요? INTO TABLE은 칸 이름이 아니라 <b>순서대로</b> 넣는다는 걸 떠올려 보세요.</p></div></details><details class="help"><summary>힌트 2</summary><div class="help-b"><p>문의 2: <code>DESCENDING</code>은 어느 칸에 붙어 있나요? 앞의 두 칸은 어떤 순서로 정렬될까요?</p></div></details><details class="help"><summary>힌트 3</summary><div class="help-b"><p>문의 3: WHERE 조건에 입력값 세 개(<code>PA_CAR</code>, <code>SO_CON</code>, <code>SO_FLD</code>)가 다 쓰였나요?</p></div></details>
 <details class="help ans"><summary>원인과 정답 보기</summary><div class="help-b"><div class="table-wrap"><table><tr><th>문의</th><th>원인</th><th>고치는 법</th></tr>
-<tr><td>1. 비즈니스·퍼스트 이상</td><td><code>INTO TABLE</code>은 이름이 아니라 <b>순서</b>대로 넣어요. Structure는 클래스별로 묶여 있어서 <code>SEATSMAX_B</code>가 <code>SEATSFREE</code> 자리에, <code>SEATSMAX_F</code>가 <code>SEATSMAX_B</code> 자리에 들어가고 퍼스트 칸은 비어요. 이코노미는 LOOP에서 다시 계산돼서 맞게 보여요.</td><td><code>INTO CORRESPONDING FIELDS OF TABLE</code></td></tr><tr><td>2. 정렬 반대</td><td><code>DESCENDING</code>이 마지막 칸(<code>SEATSFREE_F</code>)에만 붙어서, 앞의 두 칸은 오름차순</td><td>칸마다 <code>DESCENDING</code> 붙이기</td></tr><tr><td>3. 날짜 조건 무시</td><td>WHERE에 <code>SO_FLD</code> 조건이 빠짐</td><td><code>AND FLDATE IN @SO_FLD</code> 추가</td></tr></table></div><p>다 고치면 원본과 같은 결과가 나와요. 원본 강사님 코드는 Structure 칸 순서를 SELECT와 같게 둬서 <code>INTO TABLE</code>로도 됐지만, 이 코드는 클래스별로 묶어서 순서가 달라요. 세 가지 중 <b>1번이 제일 위험한 버그</b>예요. 덤프나 에러 없이 틀린 숫자만 조용히 나가서, 누가 숫자를 직접 확인하기 전까지는 아무도 모르거든요.</p></div></details>
+<tr><td>1. 비즈니스·퍼스트 이상</td><td><code>INTO TABLE</code>은 이름이 아니라 <b>순서</b>대로 넣어요. Structure는 클래스별로 묶여 있어서 <code>SEATSMAX_B</code>가 <code>SEATSFREE</code> 자리에, <code>SEATSMAX_F</code>가 <code>SEATSMAX_B</code> 자리에 들어가고 퍼스트 칸은 비어요. 이코노미는 LOOP에서 다시 계산돼서 맞게 보여요.</td><td><code>INTO CORRESPONDING FIELDS OF TABLE</code></td></tr><tr><td>2. 정렬 반대</td><td><code>DESCENDING</code>이 마지막 칸(<code>SEATSFREE_F</code>)에만 붙어서, 앞의 두 칸은 오름차순</td><td>칸마다 <code>DESCENDING</code> 붙이기</td></tr><tr><td>3. 날짜 조건 무시</td><td>WHERE에 <code>SO_FLD</code> 조건이 빠짐</td><td><code>AND FLDATE IN SO_FLD</code> 추가</td></tr></table></div><p>다 고치면 원본과 같은 결과가 나와요. 원본 강사님 코드는 Structure 칸 순서를 SELECT와 같게 둬서 <code>INTO TABLE</code>로도 됐지만, 이 코드는 클래스별로 묶어서 순서가 달라요. 세 가지 중 <b>1번이 제일 위험한 버그</b>예요. 덤프나 에러 없이 틀린 숫자만 조용히 나가서, 누가 숫자를 직접 확인하기 전까지는 아무도 모르거든요.</p></div></details>
 </section>
 <section id="ex">
 <h2><span class="lv">예시</span> 실무처럼 정리하면</h2>
