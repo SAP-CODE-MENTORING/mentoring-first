@@ -69,7 +69,16 @@ body {
   padding-block: 2rem 4rem;
 }
 main { min-width: 0; display: grid; gap: 2.25rem; }
-main > * { min-width: 0; } /* 긴 코드 줄이 칸을 밀어내지 않고 코드 상자 안에서 가로 스크롤되게 */
+main > * { min-width: 0; } /* 긴 코드 줄이 칸을 밀어내지 않고 코드 상자 안에서 가로 스크롤되게 */
+/* 문제별 목적 상자 */
+.goal { margin: 0.2rem 0 1.1rem; padding: 0.7rem 0.95rem; border-radius: 10px; background: color-mix(in srgb, var(--accent) 7%, var(--paper)); border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent); display: grid; gap: 0.35rem; font-size: 0.94rem; line-height: 1.6; }
+.goal > div { display: flex; gap: 0.6rem; align-items: baseline; }
+.goal-k { flex: none; font-family: var(--font-head); font-size: 0.75rem; font-weight: 700; color: var(--accent); border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent); border-radius: 999px; padding: 0.05rem 0.5rem; }
+/* 복습 5 단계 */
+h3.step { margin: 1.6rem 0 0.6rem; font-size: 1.05rem; }
+.gate { display: flex; align-items: center; gap: 0.6rem; margin: 1.2rem 0; padding: 0.8rem 1rem; border: 2px dashed color-mix(in srgb, var(--accent) 45%, transparent); border-radius: 10px; background: var(--paper); cursor: pointer; font-size: 0.95rem; }
+.gate input { width: 1.15rem; height: 1.15rem; accent-color: var(--accent); flex: none; }
+.gate:has(input:checked) { border-style: solid; background: color-mix(in srgb, var(--accent) 7%, var(--paper)); }
 
 /* 목차 */
 nav.toc { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 1.5rem); align-self: start; font-size: 0.875rem; line-height: 1.5; }
@@ -979,6 +988,7 @@ section h4 { color: var(--muted); }
 </section>
 <section id="q1">
 <h2><span class="lv">복습 1</span> 이코노미만, 곧 마감되는 순서로 <span class="star">★☆☆</span></h2>
+<div class="goal"><div><span class="goal-k">목적</span><span><b>필요한 칸만 골라 선언·조회하고, 정렬 바꾸기</b></span></div><div><span class="goal-k">연습</span><span><code>TYPES</code>로 TS_/TT_ 선언 · SELECT 칸 줄이기 · <code>SORT</code> 오름차순</span></div></div>
 <div class="req"><div class="req-h"><b>요청서</b><span>영업팀 · 이코노미 마감 임박</span></div><div class="req-b">HW-2C 화면이 너무 넓어요. 저희는 <b>이코노미만</b> 보면 돼요. 비즈니스, 퍼스트 칸은 빼 주시고, <b>남은 좌석이 적은 일정부터</b> 보여 주세요. 곧 마감되는 걸 먼저 봐야 하거든요.</div></div>
 <div class="make"><div class="make-t"><span class="make-k">만들 것</span></div><dl><dt>Program</dt><dd>YG<mark class="gno">##</mark>_MT1_Q1 (HW-2C를 복사해서 시작)</dd><dt>입력</dt><dd>HW-2C 그대로</dd><dt>변수</dt><dd><code>TY_RATE</code>(원본과 같음), <code>TS_ECO</code>(7칸), <code>TT_ECO</code>(Key: CARRID, CONNID, FLDATE), <code>GT_ECO</code>, <code>GS_ECO</code></dd><dt>출력</dt><dd>CARRID · CONNID · FLDATE · 최대 · 예약 · 잔여 · 예약률</dd><dt>정렬</dt><dd>잔여좌석 <b>적은</b> 순</dd></dl></div>
 <h4>힌트</h4>
@@ -1071,6 +1081,7 @@ section h4 { color: var(--muted); }
 </section>
 <section id="q2">
 <h2><span class="lv">복습 2</span> 예약률이 기준 이상인 일정만 <span class="star">★★☆</span></h2>
+<div class="goal"><div><span class="goal-k">목적</span><span><b>조건에 맞는 것만 골라 담기 (필터링)</b></span></div><div><span class="goal-k">연습</span><span>LOOP 안 <code>IF</code> + <code>APPEND</code>로 새 테이블에 담기 · <code>READ TABLE … INDEX 1</code>로 비었는지 확인 · “일정 없음”과 “기준 넘는 일정 없음” 구분</span></div></div>
 <div class="req"><div class="req-h"><b>요청서</b><span>운항관리팀 · 증편 검토용</span></div><div class="req-b">이코노미 <b>예약률이 기준 이상</b>인 일정만 보고 싶어요. 기준은 상황마다 달라서 몇 % 이상인지는 제가 직접 넣을게요. 기준을 넘는 일정이 하나도 없으면, <b>일정 자체가 없는 거랑 구분해서</b> 알려 주세요.</div></div>
 <div class="make"><div class="make-t"><span class="make-k">만들 것</span></div><dl><dt>Program</dt><dd>YG<mark class="gno">##</mark>_MT1_Q2 (복습 1을 복사해서 시작)</dd><dt>입력</dt><dd>복습 1 + <code>PA_PCT</code> (기준 예약률, <code>TYPE I</code>)</dd><dt>변수</dt><dd><code>GT_ECO</code> (읽은 전체), <code>GT_RESULT</code> (기준 이상만, 같은 <code>TT_ECO</code> 타입)</dd><dt>메시지</dt><dd>일정이 없으면 E01, 기준을 넘는 일정이 없으면 E02</dd><dt>정렬</dt><dd>예약률 높은 순</dd></dl></div>
 <h4>힌트</h4>
@@ -1163,6 +1174,7 @@ section h4 { color: var(--muted); }
 </section>
 <section id="q3">
 <h2><span class="lv">복습 3</span> Dictionary와 Function Module로 옮기기 <span class="star">★★★</span></h2>
+<div class="goal"><div><span class="goal-k">목적</span><span><b>조회부터 계산까지 통째로 FM으로 옮기기 + Dictionary 타입 만들기</b></span></div><div><span class="goal-k">연습</span><span>Domain → Data Element → Structure → Table Type · FM의 Import/Export/Exception · <code>RAISE</code></span></div></div>
 <div class="req"><div class="req-h"><b>요청서</b><span>다른 팀 · 저희도 쓰고 싶어요</span></div><div class="req-b">HW-2C 좌석 조회를 저희 프로그램에서도 쓰고 싶어요. 그런데 쓸 때마다 15칸을 다시 선언하기는 싫어요. <b>공통으로 쓸 수 있게</b> 만들어 주세요. 노선 하나와 기간을 넣으면 클래스별 좌석 현황이 나오면 되고, 시작일을 종료일보다 늦게 넣으면 알려 주세요.</div></div>
 <ol class="road"><li><b>Task 1</b>Domain <code>YG<mark class="gno">##</mark>_MT_D_PCT</code>: Data Type DEC, 길이 5, 소수 2</li><li><b>Task 2</b>Data Element <code>YG<mark class="gno">##</mark>_MT_E_PCT</code>: Domain은 Task 1, Field Label “예약률”</li><li><b>Task 3</b>Structure <code>YG<mark class="gno">##</mark>_MT_S_SEAT</code>: 아래 표의 15칸</li><li><b>Task 4</b>Table Type <code>YG<mark class="gno">##</mark>_MT_TT_SEAT</code>: Line Type은 Task 3, Standard Table, Key CARRID · CONNID · FLDATE</li><li><b>Task 5</b>FM <code>Y_G<mark class="gno">##</mark>_MT_SEAT_GET</code> (Function Group <code>YG<mark class="gno">##</mark>_MT</code>)</li></ol>
 <div class="table-wrap"><table><tr><th>Component</th><th>Component Type</th><th>설명</th></tr>
@@ -1230,6 +1242,7 @@ section h4 { color: var(--muted); }
 </section>
 <section id="q4">
 <h2><span class="lv">복습 4</span> 프로그램에서 FM 불러 쓰기 <span class="star">★☆☆</span></h2>
+<div class="goal"><div><span class="goal-k">목적</span><span><b>FM을 프로그램으로 불러와서 써 보기</b></span></div><div><span class="goal-k">연습</span><span>Pattern으로 <code>CALL FUNCTION</code> · <code>CASE SY-SUBRC</code>로 예외 처리 · Dictionary 타입으로 변수 한 줄 선언</span></div></div>
 <div class="req"><div class="req-h"><b>요청서</b><span>운항관리팀 · 조회 화면</span></div><div class="req-b">공통 FM이 생겼다고 들었어요. 그런데 저희는 SE37 테스트 화면 말고 <b>프로그램을 실행해서</b> 보고 싶어요. 노선과 기간을 넣으면 클래스별 잔여좌석과 예약률이 나오게 해 주시고, 잘못 넣으면 알려 주세요.</div></div>
 <div class="make"><div class="make-t"><span class="make-k">만들 것</span></div><dl><dt>Program</dt><dd>YG<mark class="gno">##</mark>_MT1_Q4</dd><dt>입력</dt><dd><code>PA_CAR</code>, <code>PA_CON</code>, <code>PA_FROM</code>, <code>PA_TO</code></dd><dt>사용할 FM</dt><dd>복습 3의 <code>Y_G<mark class="gno">##</mark>_MT_SEAT_GET</code></dd><dt>변수</dt><dd><code>GT_SEATS TYPE YG<mark class="gno">##</mark>_MT_TT_SEAT</code>, <code>GS_SEAT TYPE YG<mark class="gno">##</mark>_MT_S_SEAT</code></dd><dt>출력</dt><dd>FLDATE · 잔여/예약률 (Economy, Business, First)</dd></dl></div>
 <h4>힌트</h4>
@@ -1282,9 +1295,11 @@ section h4 { color: var(--muted); }
   <span class="tk-kw">ENDCASE</span>.</code></pre></div><p><b>생각해 볼 것</b> FM에서는 <code>IV_CARRID</code>가 <b>Import</b>인데, CALL FUNCTION에서는 <b>EXPORTING</b> 아래에 적어요. <code>ET_SEATS</code>는 반대로 IMPORTING 아래에 있고요. 왜 반대인지 “누가 보내고 누가 받는지”로 짝지어 보세요.</p></div></details>
 </section>
 <section id="q5">
-<h2><span class="lv">복습 5</span> 고장 난 좌석 조회 고치기 <span class="star">★★☆</span></h2>
-<div class="req"><div class="req-h"><b>요청서</b><span>운영 문의 · 현업 3건 접수</span></div><div class="req-b"><ol class="tickets"><li>“이코노미는 맞는데 <b>비즈니스 칸에 이상한 숫자</b>가 나오고, <b>퍼스트는 전부 0</b>이에요.”</li><li>“잔여좌석 많은 순이라고 했는데 <b>적은 것부터</b> 나와요.”</li><li>“비행일자를 넣었는데 <b>다른 날짜까지 전부</b> 나와요.”</li></ol></div></div>
-<p>아래 코드로 프로그램 <b>YG<mark class="gno">##</mark>_MT1_Q5</b>를 만들고, 문의 3건의 원인을 찾아 고치세요. 텍스트 기호 E01도 만들어 두세요. <b>디버거로 원인을 확인한 다음에</b> 고치는 게 규칙이에요.</p>
+<h2><span class="lv">복습 5</span> 고장 난 좌석 조회 고치기 <span class="star">★★★</span></h2>
+<div class="goal"><div><span class="goal-k">목적</span><span><b>남의 코드에서 버그 찾아 고치기 (디버거로 원인 확인)</b></span></div><div><span class="goal-k">연습</span><span>1단계: 오류 메시지 읽고 타입 선언 고치기 (선언 순서, <code>STANDARD TABLE OF</code>) · 2단계: <code>INTO TABLE</code>과 <code>INTO CORRESPONDING</code>의 차이 · <code>DESCENDING</code> 위치 · WHERE 조건 누락</span></div></div>
+<h3 class="step">1단계 · 일단 돌아가게 하기</h3>
+<div class="req"><div class="req-h"><b>요청서</b><span>개발팀 · 인수인계 받은 프로그램</span></div><div class="req-b">전임자가 만들다 만 좌석 조회 프로그램을 받았는데, <b>활성화가 안 돼서 화면이 아예 안 나와요.</b> 일단 실행만 되게 해 주세요.</div></div>
+<p>아래 코드로 프로그램 <b>YG<mark class="gno">##</mark>_MT1_Q5</b>를 만들고 활성화해 보세요. 텍스트 기호 E01도 만들어 두세요. 오류가 나면 메시지를 끝까지 읽고, 몇 번째 줄에서 무엇이 문제라는지 확인한 다음 고치세요.</p>
 <div class="code"><div class="cap">고장 난 코드</div><button class="copy" type="button">복사</button><pre><code><span class="tk-kw">REPORT</span> YG<mark class="gno">##</mark>_MT1_Q5.
 
 <span class="tk-kw">PARAMETERS</span> PA_CAR <span class="tk-kw">TYPE</span> SDYN_BOOK-CARRID.
@@ -1294,29 +1309,31 @@ section h4 { color: var(--muted); }
 <span class="tk-kw">SELECT-OPTIONS</span>: SO_CON <span class="tk-kw">FOR</span> GS_BOOK-CONNID,
                 SO_FLD <span class="tk-kw">FOR</span> GS_BOOK-FLDATE.
 
-<span class="tk-cmt">" 예약률 타입 (원본과 같게)</span>
+<span class="tk-kw">TYPES</span>: <span class="tk-kw">BEGIN</span> <span class="tk-kw">OF</span> TS_FLIGHT,
+         CARRID       <span class="tk-kw">TYPE</span> SFLIGHT-CARRID,
+         CONNID       <span class="tk-kw">TYPE</span> SFLIGHT-CONNID,
+         FLDATE       <span class="tk-kw">TYPE</span> SFLIGHT-FLDATE,
+         SEATSMAX     <span class="tk-kw">TYPE</span> SFLIGHT-SEATSMAX,
+         SEATSOCC     <span class="tk-kw">TYPE</span> SFLIGHT-SEATSOCC,
+         SEATSFREE    <span class="tk-kw">TYPE</span> SFLIGHT-SEATSMAX,
+         RATE         <span class="tk-kw">TYPE</span> TY_RATE,
+         SEATSMAX_B   <span class="tk-kw">TYPE</span> SFLIGHT-SEATSMAX_B,
+         SEATSOCC_B   <span class="tk-kw">TYPE</span> SFLIGHT-SEATSOCC_B,
+         SEATSFREE_B  <span class="tk-kw">TYPE</span> SFLIGHT-SEATSMAX_B,
+         RATE_B       <span class="tk-kw">TYPE</span> TY_RATE,
+         SEATSMAX_F   <span class="tk-kw">TYPE</span> SFLIGHT-SEATSMAX_F,
+         SEATSOCC_F   <span class="tk-kw">TYPE</span> SFLIGHT-SEATSOCC_F,
+         SEATSFREE_F  <span class="tk-kw">TYPE</span> SFLIGHT-SEATSMAX_F,
+         RATE_F       <span class="tk-kw">TYPE</span> TY_RATE,
+       <span class="tk-kw">END</span> <span class="tk-kw">OF</span> TS_FLIGHT.
+
+<span class="tk-cmt">" 예약률 타입</span>
 <span class="tk-kw">TYPES</span> TY_RATE <span class="tk-kw">TYPE</span> P <span class="tk-kw">LENGTH</span> <span class="tk-num">3</span> <span class="tk-kw">DECIMALS</span> <span class="tk-num">2</span>.
 
-<span class="tk-kw">DATA</span>: <span class="tk-kw">BEGIN</span> <span class="tk-kw">OF</span> GS_FLIGHT,
-        CARRID       <span class="tk-kw">TYPE</span> SFLIGHT-CARRID,
-        CONNID       <span class="tk-kw">TYPE</span> SFLIGHT-CONNID,
-        FLDATE       <span class="tk-kw">TYPE</span> SFLIGHT-FLDATE,
-        SEATSMAX     <span class="tk-kw">TYPE</span> SFLIGHT-SEATSMAX,
-        SEATSOCC     <span class="tk-kw">TYPE</span> SFLIGHT-SEATSOCC,
-        SEATSFREE    <span class="tk-kw">TYPE</span> SFLIGHT-SEATSMAX,
-        RATE         <span class="tk-kw">TYPE</span> TY_RATE,
-        SEATSMAX_B   <span class="tk-kw">TYPE</span> SFLIGHT-SEATSMAX_B,
-        SEATSOCC_B   <span class="tk-kw">TYPE</span> SFLIGHT-SEATSOCC_B,
-        SEATSFREE_B  <span class="tk-kw">TYPE</span> SFLIGHT-SEATSMAX_B,
-        RATE_B       <span class="tk-kw">TYPE</span> TY_RATE,
-        SEATSMAX_F   <span class="tk-kw">TYPE</span> SFLIGHT-SEATSMAX_F,
-        SEATSOCC_F   <span class="tk-kw">TYPE</span> SFLIGHT-SEATSOCC_F,
-        SEATSFREE_F  <span class="tk-kw">TYPE</span> SFLIGHT-SEATSMAX_F,
-        RATE_F       <span class="tk-kw">TYPE</span> TY_RATE,
-      <span class="tk-kw">END</span> <span class="tk-kw">OF</span> GS_FLIGHT.
+<span class="tk-kw">TYPES</span> TT_FLIGHT <span class="tk-kw">TYPE</span> TS_FLIGHT.
 
-<span class="tk-kw">DATA</span> GT_FLIGHT <span class="tk-kw">LIKE</span> <span class="tk-kw">STANDARD</span> <span class="tk-kw">TABLE</span> <span class="tk-kw">OF</span> GS_FLIGHT
-               <span class="tk-kw">WITH</span> <span class="tk-kw">NON-UNIQUE</span> <span class="tk-kw">KEY</span> CARRID CONNID FLDATE.
+<span class="tk-kw">DATA</span>: GT_FLIGHT <span class="tk-kw">TYPE</span> TT_FLIGHT,
+      GS_FLIGHT <span class="tk-kw">TYPE</span> TS_FLIGHT.
 
 <span class="tk-kw">START-OF-SELECTION</span>.
 
@@ -1372,9 +1389,30 @@ section h4 { color: var(--muted); }
             (<span class="tk-num">10</span>) GS_FLIGHT-RATE_F       <span class="tk-kw">NO-SIGN</span> <span class="tk-kw">RIGHT-JUSTIFIED</span>.
   <span class="tk-kw">ENDLOOP</span>.</code></pre></div>
 <h4>힌트</h4>
-<details class="help"><summary>힌트 1</summary><div class="help-b"><p>문의 1: SELECT 바로 뒤에 Breakpoint를 걸고 <code>GT_FLIGHT</code>의 첫 줄을 열어 보세요. SE16으로 본 SFLIGHT 같은 줄과 <code>SEATSMAX_B</code> 값이 같나요? INTO TABLE은 칸 이름이 아니라 <b>순서대로</b> 넣는다는 걸 떠올려 보세요.</p></div></details><details class="help"><summary>힌트 2</summary><div class="help-b"><p>문의 2: <code>DESCENDING</code>은 어느 칸에 붙어 있나요? 앞의 두 칸은 어떤 순서로 정렬될까요?</p></div></details><details class="help"><summary>힌트 3</summary><div class="help-b"><p>문의 3: WHERE 조건에 입력값 세 개(<code>PA_CAR</code>, <code>SO_CON</code>, <code>SO_FLD</code>)가 다 쓰였나요?</p></div></details>
-<details class="help ans"><summary>원인과 정답 보기</summary><div class="help-b"><div class="table-wrap"><table><tr><th>문의</th><th>원인</th><th>고치는 법</th></tr>
-<tr><td>1. 비즈니스·퍼스트 이상</td><td><code>INTO TABLE</code>은 이름이 아니라 <b>순서</b>대로 넣어요. Structure는 클래스별로 묶여 있어서 <code>SEATSMAX_B</code>가 <code>SEATSFREE</code> 자리에, <code>SEATSMAX_F</code>가 <code>SEATSMAX_B</code> 자리에 들어가고 퍼스트 칸은 비어요. 이코노미는 LOOP에서 다시 계산돼서 맞게 보여요.</td><td><code>INTO CORRESPONDING FIELDS OF TABLE</code></td></tr><tr><td>2. 정렬 반대</td><td><code>DESCENDING</code>이 마지막 칸(<code>SEATSFREE_F</code>)에만 붙어서, 앞의 두 칸은 오름차순</td><td>칸마다 <code>DESCENDING</code> 붙이기</td></tr><tr><td>3. 날짜 조건 무시</td><td>WHERE에 <code>SO_FLD</code> 조건이 빠짐</td><td><code>AND FLDATE IN SO_FLD</code> 추가</td></tr></table></div><p>다 고치면 원본과 같은 결과가 나와요. 원본 강사님 코드는 Structure 칸 순서를 SELECT와 같게 둬서 <code>INTO TABLE</code>로도 됐지만, 이 코드는 클래스별로 묶어서 순서가 달라요. 세 가지 중 <b>1번이 제일 위험한 버그</b>예요. 덤프나 에러 없이 틀린 숫자만 조용히 나가서, 누가 숫자를 직접 확인하기 전까지는 아무도 모르거든요.</p></div></details>
+<details class="help"><summary>힌트 1</summary><div class="help-b"><p>활성화 오류는 한 번에 하나씩 나와요. 메시지에 나온 줄로 가서 그 줄의 이름(타입·변수)이 <b>어디에서 선언됐는지</b> 찾아보세요.</p></div></details><details class="help"><summary>힌트 2</summary><div class="help-b"><p>ABAP은 위에서부터 읽어요. 어떤 타입을 쓰는 줄보다 그 타입을 <b>선언한 줄이 먼저</b> 있어야 해요.</p></div></details><details class="help"><summary>힌트 3</summary><div class="help-b"><p><code>TT_FLIGHT</code>가 정말 “테이블” 모양인가요? 원본이나 복습 1의 <code>TT_ECO</code> 선언과 비교해 보세요. 테이블이 아니면 <code>INTO TABLE</code>, <code>LOOP AT</code>를 쓸 수 없어요.</p></div></details>
+<details class="help ans"><summary>1단계 정답 보기</summary><div class="help-b"><div class="table-wrap"><table><tr><th>오류</th><th>원인</th><th>고치는 법</th></tr>
+<tr><td><code>TY_RATE</code>를 모른다</td><td>Structure 안에서 <code>TY_RATE</code>를 쓰는데, 선언은 Structure <b>아래</b>에 있어요.</td><td><code>TYPES TY_RATE …</code>를 <code>TS_FLIGHT</code> 위로 올리기</td></tr><tr><td><code>GT_FLIGHT</code>가 Internal Table이 아니다</td><td><code>TYPES TT_FLIGHT TYPE TS_FLIGHT.</code>는 한 줄짜리 <b>Structure</b> 타입이에요. 그래서 <code>GT_FLIGHT</code>도 테이블이 아니라 Work Area가 돼요.</td><td><code>TYPE STANDARD TABLE OF TS_FLIGHT WITH NON-UNIQUE KEY …</code></td></tr></table></div><div class="code"><div class="cap">1단계 고친 선언 부분</div><button class="copy" type="button">복사</button><pre><code><span class="tk-cmt">" 1. 쓰기 전에 먼저 선언: TY_RATE를 Structure 위로 올린다</span>
+<span class="tk-kw">TYPES</span> TY_RATE <span class="tk-kw">TYPE</span> P <span class="tk-kw">LENGTH</span> <span class="tk-num">3</span> <span class="tk-kw">DECIMALS</span> <span class="tk-num">2</span>.
+
+<span class="tk-kw">TYPES</span>: <span class="tk-kw">BEGIN</span> <span class="tk-kw">OF</span> TS_FLIGHT,
+         ...
+         RATE         <span class="tk-kw">TYPE</span> TY_RATE,
+         ...
+       <span class="tk-kw">END</span> <span class="tk-kw">OF</span> TS_FLIGHT.
+
+<span class="tk-cmt">" 2. 테이블 타입은 STANDARD TABLE OF로 (없으면 한 줄짜리 Structure 타입)</span>
+<span class="tk-kw">TYPES</span> TT_FLIGHT <span class="tk-kw">TYPE</span> <span class="tk-kw">STANDARD</span> <span class="tk-kw">TABLE</span> <span class="tk-kw">OF</span> TS_FLIGHT
+                <span class="tk-kw">WITH</span> <span class="tk-kw">NON-UNIQUE</span> <span class="tk-kw">KEY</span> CARRID CONNID FLDATE.</code></pre></div></div></details>
+<label class="gate"><input type="checkbox" id="q5-gate"><span><b>1단계 해결</b> · 활성화되고 실행하면 결과 화면이 나와요</span></label>
+<div id="q5-step2" hidden>
+<h3 class="step">2단계 · 숫자가 맞게 나오게 하기</h3>
+<div class="req"><div class="req-h"><b>요청서</b><span>운영 문의 · 현업 3건 접수</span></div><div class="req-b">이제 화면은 나오는데, 써 보니까 이상한 데가 있어요.<ol class="tickets"><li>“이코노미는 맞는데 <b>비즈니스 칸에 이상한 숫자</b>가 나오고, <b>퍼스트는 전부 0</b>이에요.”</li><li>“잔여좌석 많은 순이라고 했는데 <b>적은 것부터</b> 나와요.”</li><li>“비행일자를 넣었는데 <b>다른 날짜까지 전부</b> 나와요.”</li></ol></div></div>
+<p><b>1단계에서 고친 코드 그대로</b> 이어서 하세요. 이번에는 <b>디버거로 원인을 확인한 다음에</b> 고치는 게 규칙이에요.</p>
+<h4>힌트</h4>
+<details class="help"><summary>힌트 4</summary><div class="help-b"><p>문의 1: SELECT 바로 뒤에 Breakpoint를 걸고 <code>GT_FLIGHT</code>의 첫 줄을 열어 보세요. SE16으로 본 SFLIGHT 같은 줄과 <code>SEATSMAX_B</code> 값이 같나요? INTO TABLE은 칸 이름이 아니라 <b>순서대로</b> 넣는다는 걸 떠올려 보세요.</p></div></details><details class="help"><summary>힌트 5</summary><div class="help-b"><p>문의 2: <code>DESCENDING</code>은 어느 칸에 붙어 있나요? 앞의 두 칸은 어떤 순서로 정렬될까요?</p></div></details><details class="help"><summary>힌트 6</summary><div class="help-b"><p>문의 3: WHERE 조건에 입력값 세 개(<code>PA_CAR</code>, <code>SO_CON</code>, <code>SO_FLD</code>)가 다 쓰였나요?</p></div></details>
+<details class="help ans"><summary>2단계 원인과 정답 보기</summary><div class="help-b"><div class="table-wrap"><table><tr><th>문의</th><th>원인</th><th>고치는 법</th></tr>
+<tr><td>1. 비즈니스·퍼스트 이상</td><td><code>INTO TABLE</code>은 이름이 아니라 <b>순서</b>대로 넣어요. Structure는 클래스별로 묶여 있어서 <code>SEATSMAX_B</code>가 <code>SEATSFREE</code> 자리에, <code>SEATSMAX_F</code>가 <code>SEATSMAX_B</code> 자리에 들어가고 퍼스트 칸은 비어요. 이코노미는 LOOP에서 다시 계산돼서 맞게 보여요.</td><td><code>INTO CORRESPONDING FIELDS OF TABLE</code></td></tr><tr><td>2. 정렬 반대</td><td><code>DESCENDING</code>이 마지막 칸(<code>SEATSFREE_F</code>)에만 붙어서, 앞의 두 칸은 오름차순</td><td>칸마다 <code>DESCENDING</code> 붙이기</td></tr><tr><td>3. 날짜 조건 무시</td><td>WHERE에 <code>SO_FLD</code> 조건이 빠짐</td><td><code>AND FLDATE IN SO_FLD</code> 추가</td></tr></table></div><p>다 고치면 원본과 같은 결과가 나와요. 원본 강사님 코드는 Structure 칸 순서를 SELECT와 같게 둬서 <code>INTO TABLE</code>로도 됐지만, 이 코드는 클래스별로 묶어서 순서가 달라요. 1단계 오류는 활성화할 때 바로 알려 주지만, 2단계 1번은 <b>덤프나 에러 없이 틀린 숫자만 조용히 나가서</b> 누가 숫자를 직접 확인하기 전까지는 아무도 몰라요. 그래서 제일 위험한 버그예요.</p></div></details>
+</div>
 </section>
 <section id="ex">
 <h2><span class="lv">예시</span> 실무처럼 정리하면</h2>
@@ -1627,6 +1665,7 @@ section h4 { color: var(--muted); }
 <li><b>2시간일 때</b> 위 순서에 복습 3 FM 마무리(20분), 복습 4(15분), 리뷰(15분), 예시 보여 주기(5분)를 더하고, 복습 2만 숙제로.</li>
 <li><b>예시 보여 줄 때</b> 따라 치게 할 필요는 없고, PERFORM은 강사님 HW-2C 리뷰 코드의 <code>CALCULATE_RATE</code>와 같은 서브루틴이라고 연결해 주세요. 기간을 시작일 &gt; 종료일로 넣어 메시지가 나오는 것까지 보여 주면 좋아요.</li>
 <li><b>참고 · ALV</b> 멘토링 때는 진행하지 않아요. “이번 주 화면 수업 내용은 다음 주에 오늘 만든 FM으로 이어서 해요”라고만 안내하고, 궁금한 사람은 미리 보게 하세요.</li>
+<li><b>복습 5 진행</b> 1단계(활성화 오류)를 고치고 체크박스를 눌러야 2단계 요청서가 나와요. 다 같이 1단계를 끝낸 다음 동시에 체크하게 하면 흐름이 맞아요.</li>
 <li><b>복습 5 마무리</b> 1번(칸 밀림)이 제일 위험한 버그라는 걸 꼭 짚어 주세요. 에러 없이 틀린 숫자만 나가서 실무에서는 한참 뒤에 발견되는 경우가 많아요.</li>
 <li><b>리뷰 때 물어볼 것</b> “이 줄 빼면 어떻게 돼?”, “SORT를 여기 두면?”, “SY-SUBRC는 지금 어떤 문장의 결과야?” 같은 질문 하나면 충분해요.</li>
 <li><b>빨리 끝낸 멘티에게</b> 같은 코드에 조건을 하나만 더하세요. 예: 복습 1에 “잔여좌석이 0인 줄은 <code>COLOR COL_NEGATIVE</code>”, 복습 2에 “마지막 줄에 담긴 일정 수 출력(LOOP 안에서 변수에 1씩 더하기)”.</li>
@@ -1649,6 +1688,11 @@ section h4 { color: var(--muted); }
   }
   try{inp.value=localStorage.getItem('bc400-gno')||'';}catch(e){}
   inp.addEventListener('input',apply); apply();
+  var gate=document.getElementById('q5-gate'), step2=document.getElementById('q5-step2');
+  if(gate&&step2){
+    gate.addEventListener('change',function(){ step2.hidden=!gate.checked; if(gate.checked) step2.scrollIntoView({behavior:'smooth',block:'start'}); });
+    window.addEventListener('beforeprint',function(){ step2.hidden=false; });
+  }
   var fold=document.querySelector('#orig > details.fold');
   function openOrig(){ if(location.hash==='#orig') fold.open=true; }
   openOrig(); window.addEventListener('hashchange',openOrig);
